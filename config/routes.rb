@@ -14,9 +14,10 @@ Rails.application.routes.draw do
     root to: 'homes#top'
     get 'about', to: 'homes#about'
 
-    # confirmとwithdrawはcustomerブロックの外側に。退会処理に特定のIDは必要ない。内側だとURLに会員IDが含まれて特定の会員の退会処理になる。
+    # confirmとwithdrawはcustomerブロックの外側に。退会処理に特定のIDは必要ないため。
     get "customers/confirm" => "customers#confirm"
     patch "customers/withdraw" => "customers#withdraw"
+    
     resources :customers, only: [:index, :show, :edit, :update] do
       resource :relationships, only: [:create, :destroy]
       get 'followings' => 'relationships#followings', as: 'followings'
