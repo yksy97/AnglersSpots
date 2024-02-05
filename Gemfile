@@ -61,6 +61,7 @@ group :production do
 end
 
 gem "devise"
+gem "ransack"
 
 gem "net-smtp"
 gem "net-pop"
