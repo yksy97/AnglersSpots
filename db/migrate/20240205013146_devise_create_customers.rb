@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class DeviseCreateCustomers < ActiveRecord::Migration[6.1]
   def change
     create_table :customers do |t|
@@ -9,12 +7,12 @@ class DeviseCreateCustomers < ActiveRecord::Migration[6.1]
       t.string :encrypted_password, null: false, default: ""
       t.boolean :is_deleted, null: false, default: "true"
 
-      ## Recoverable
-      #t.string   :reset_password_token
-      #t.datetime :reset_password_sent_at
+      # Recoverable
+      t.string   :reset_password_token
+      t.datetime :reset_password_sent_at
 
-      ## Rememberable
-      #t.datetime :remember_created_at
+      # Rememberable
+      t.datetime :remember_created_at
 
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false
