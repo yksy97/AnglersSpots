@@ -6,11 +6,10 @@
           <h2 class="text-center">ログイン</h2>
         </div>
         <div class="card-body">
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'needs-validation', novalidate: '' }) do |f| %>
-
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'needs-validation', id: 'login-form', novalidate: '' }) do |f| %>
             <div class="form-group mb-3">
               <%= f.label :email, I18n.t('devise.sessions.new.email'), class: 'form-label' %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: true, id: 'validationCustomEmail' %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: true %>
               <div class="invalid-feedback">
                 <%= I18n.t('errors.messages.invalid_email') %>
               </div>
@@ -18,7 +17,7 @@
 
             <div class="form-group mb-3">
               <%= f.label :password, I18n.t('devise.sessions.new.password'), class: 'form-label' %>
-              <%= f.password_field :password, autocomplete: "current-password", class: 'form-control', required: true, id: 'validationCustomPassword' %>
+              <%= f.password_field :password, autocomplete: "current-password", class: 'form-control', required: true %>
               <div class="invalid-feedback">
                 <%= I18n.t('errors.messages.invalid_password') %>
               </div>
@@ -40,5 +39,6 @@
     </div>
   </div>
 </div>
-<!--app/javascript/packsから参照しました-->
+<!--app/javasctipt/packsから参照しました-->
 <%= javascript_pack_tag 'validations' %>
+<%= javascript_pack_tag 'login' %>

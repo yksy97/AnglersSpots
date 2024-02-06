@@ -10,8 +10,18 @@ ja:
         remember_me: "ログイン状態を維持する"
     failure:
       not_found_in_database: "メールアドレスまたはパスワードが違います"
+    registrations:
+      new:
+        name: "名前"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード(確認)"
   errors:
     messages:
       invalid: "が無効です"
       invalid_email: "正しいメールアドレスを入力してください"
       invalid_password: "正しいパスワードを入力してください"
+      invalid_name: "名前を入力してください"
+      invalid_password_confirmation: "パスワードが一致しません"
+
+
