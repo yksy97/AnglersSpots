@@ -6,20 +6,27 @@
           <h2 class="text-center">ログイン</h2>
         </div>
         <div class="card-body">
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
-            <div class="form-group">
-              <%= f.label :email, class: 'control-label' %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'needs-validation', novalidate: '' }) do |f| %>
+
+            <div class="form-group mb-3">
+              <%= f.label :email, class: 'form-label' %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: true, id: 'validationCustomEmail' %>
+              <div class="invalid-feedback">
+                正しいメールアドレスを入力してください。
+              </div>
             </div>
 
-            <div class="form-group">
-              <%= f.label :password, class: 'control-label' %>
-              <%= f.password_field :password, autocomplete: "current-password", class: 'form-control' %>
+            <div class="form-group mb-3">
+              <%= f.label :password, class: 'form-label' %>
+              <%= f.password_field :password, autocomplete: "current-password", class: 'form-control', required: true, id: 'validationCustomPassword' %>
+              <div class="invalid-feedback">
+                正しいパスワードを入力してください。
+              </div>
             </div>
 
             <% if devise_mapping.rememberable? %>
-              <div class="form-group form-check">
-                <%= f.check_box :remember_me, class: 'form-check-input' %>
+              <div class="form-group form-check mb-3">
+                <%= f.check_box :remember_me, class: 'form-check-input', id: 'invalidCheck' %>
                 <%= f.label :remember_me, class: 'form-check-label' %>
               </div>
             <% end %>
@@ -28,10 +35,28 @@
               <%= f.submit "ログイン", class: 'btn btn-primary btn-block' %>
             </div>
           <% end %>
-
-          <%= render "public/shared/links" %>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+(function() {
+  'use strict';
+
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>

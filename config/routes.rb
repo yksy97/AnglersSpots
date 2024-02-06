@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     get "customers/confirm" => "customers#confirm"
     patch "customers/withdraw" => "customers#withdraw"
     
-    resources :customers, only: [:index, :show, :edit, :update] do
+    resources :customers, only: [:show, :edit, :update] do
       resource :relationships, only: [:create, :destroy]
       get 'followings' => 'relationships#followings', as: 'followings'
       get 'followers' => 'relationships#followers', as: 'followers'
