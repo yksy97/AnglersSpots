@@ -1,0 +1,8 @@
+<% books.each do |book| %>
+  <div class="card mb-1">
+    <div class="card-body">
+        <p class="card-text"><%= book.title %></p>
+        <p class="card-text"><small><%= simple_format book.body %></small></p>
+    </div>
+  </div>
+<% end %>
