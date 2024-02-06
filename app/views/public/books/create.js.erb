@@ -1,4 +1,4 @@
 $("textarea").val("");
 $("input").val("");
-$('#exampleModal').modal('hide')
-$('.recipes').html("<%= escape_javascript(render 'books', recipes: @books) %>")
+$('#exampleModal').modal('hide');
+$('.books').html("<%= j(render 'books', books: @books) %>");

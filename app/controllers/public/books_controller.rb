@@ -12,17 +12,23 @@ class Public::BooksController < ApplicationController
     @books = @q.result(distinct: true)
     @book = Book.new
   end
+  
 
-  def create
-    @book = Book.new(book_params)
-    @book.customer_id = current_customer.id
-    if @book.save
-      redirect_to book_path(@book), notice: "You have created book successfully."
-    else
-      @books = Book.all
-      render 'index'
+   def create
+    @book = current_customer.books.new(book_params)
+    respond_to do |format|
+      if @book.save
+        format.html { redirect_to books_path, notice: "投稿が成功しました。" }
+        format.js
+      else
+        @books = Book.all
+        format.html { render 'index' }
+        format.js { render 'errors' } # エラー処理用のJSビューを追加
+      end
     end
   end
+
+
 
   def edit
   end
