@@ -33,9 +33,17 @@
       </div>
     </nav>
   </header>
+
+<!--DEVISE日本語対応-->
+  <% flash.each do |key, value| %>
+    <div class="alert <%= 'alert-success' if key == 'notice' %>
+      <%= 'alert-danger' if key == 'alert' %>">
+      <%= value %>
+    </div>
+  <% end %>
+
   <%= yield %>
 
-  <!-- JavaScript -->
   <%= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.slim.min.js' %>
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' %>
   <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' %>

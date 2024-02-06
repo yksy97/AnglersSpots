@@ -1,0 +1,17 @@
+# このファイルはDEVISEを部分的に日本語で表示するために作りました
+
+# ログイン画面
+ja:
+  devise:
+    sessions:
+      new:
+        email: "メールアドレス"
+        password: "パスワード"
+        remember_me: "ログイン状態を維持する"
+    failure:
+      not_found_in_database: "メールアドレスまたはパスワードが違います"
+  errors:
+    messages:
+      invalid: "が無効です"
+      invalid_email: "正しいメールアドレスを入力してください"
+      invalid_password: "正しいパスワードを入力してください"
