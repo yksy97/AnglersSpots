@@ -12,10 +12,10 @@
       <!-- 感想を登録するフォーム -->
       <%= form_for [@book, BookComment.new] do |f| %>
         <div class="form-group">
-          <%= f.label :comment, "感想を登録" %>
+          「<%= @book.title %>」 の <%= f.label :comment, "感想" %>
           <%= f.text_area :comment, class: 'form-control', rows: 3 %>
         </div>
-        <%= f.submit "登録する", class: "btn btn-primary" %>
+        <%= f.submit "投稿する", class: "btn btn-primary" %>
       <% end %>
 
       <hr>
@@ -36,7 +36,7 @@
                 <%= comment.comment %>
                   <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
                   <!--「format: :custom_long」は詳細な日時を表示するフォーマット-->
-                <p class="text-muted"><%= l comment.created_at, format: :custom_long %></p>
+                <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
               </div>
             </div>
           <% end %>
