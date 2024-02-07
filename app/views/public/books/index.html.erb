@@ -1,14 +1,14 @@
 <div class="container mt-5">
-  <!-- 新規投稿ボタンをコンテナの最初に移動 -->
+  <!-- 新規登録ボタン -->
   <div class="row mb-3">
     <div class="col">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        新規投稿
+        新規登録
       </button>
     </div>
   </div>
 
-  <!-- 投稿一覧 -->
+  <!-- 本の一覧 -->
   <div class="row">
     <div class="col-md-9 sidebar books">
       <%= render 'books', books: @books %>
@@ -16,40 +16,39 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- 新規登録モーダル -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">投稿</h5>
+        <h5 class="modal-title" id="exampleModalLabel">新規登録</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <%= form_for @book, url: books_path, remote: true, html: { class: "modal-body needs-validation", novalidate: '' } do |f| %>
         <div class="form-group">
-          <%= f.label :title, "タイトル" %>
+          <%= f.label :title, "本のタイトル" %>
           <%= f.text_field :title, class: "form-control", required: true %>
           <div class="invalid-feedback">
-            タイトルを入力してください
+            本のタイトルを入力してください
           </div>
         </div>
         <div class="form-group">
-          <%= f.label :body, "感想" %>
+          <%= f.label :body, "本の説明" %>
           <%= f.text_area :body, class: "form-control", required: true %>
           <div class="invalid-feedback">
-            感想を入力してください
+            本の説明を入力してください
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-          <%= f.submit "投稿する", class: "btn btn-primary" %>
+          <%= f.submit "登録する", class: "btn btn-primary" %>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
 <!--modalはBootstrap4.3.1対応-->
 <!--app/javascript/packsから参照しました-->
 <%= javascript_pack_tag 'validations' %>

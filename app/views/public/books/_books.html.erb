@@ -6,9 +6,9 @@
         <h5 class="card-title"><%= book.title %></h5>
       <% end %>
       <p class="card-text"><%= truncate(book.body, length: 500) %></p>
-        <!--日時の表示方法はconfig/locales/devise.ja.ymlで変更可能-->
       <div class="text-muted">
         <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
+        <!--「format: :custom_short」は簡易な日時を表示するフォーマット-->
         <%= l book.created_at, format: :custom_short %>
         <!--Rails「time_ago_in_words」ヘルパーでSNSのX時間前のような表示にする-->
         (<%= time_ago_in_words(book.created_at) %>前)

@@ -4,23 +4,74 @@
       <h2><%= @book.title %></h2>
     </div>
     <div class="card-body">
-      <p><strong>あなたの感想:</strong></p>
       <p><%= @book.body %></p>
-      <% if @book.customer == current_customer %>
-        <%= link_to '編集', edit_book_path(@book), class: 'btn btn-primary' %>
+          <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
+          <!--「format: :custom_long」は詳細な日時を表示するフォーマット-->
+      <p class="text-muted">登録日時: <%= l @book.created_at, format: :custom_long %></p>
+
+      <!-- 感想を登録するフォーム -->
+      <%= form_for [@book, BookComment.new] do |f| %>
+        <div class="form-group">
+          <%= f.label :comment, "感想を登録" %>
+          <%= f.text_area :comment, class: 'form-control', rows: 3 %>
+        </div>
+        <%= f.submit "登録する", class: "btn btn-primary" %>
       <% end %>
 
       <hr>
 
-      <h3>他のユーザーの感想:</h3>
-      <% @book.book_comments.each do |comment| %>
-        <div class="media mt-3">
-          <div class="media-body">
-            <h5 class="mt-0"><%= comment.customer.name %></h5>
-            <%= comment.comment %>
-          </div>
+      <!-- 折りたたみ可能な自分の感想セクション -->
+      <div id="yourCommentSection">
+        <h3>
+          あなたの感想
+          <a href="#yourComment" data-toggle="collapse" aria-expanded="false" aria-controls="yourComment">
+            <!-- FontAwesome6使用 -->
+            <i class="fas fa-circle-arrow-down" id="yourCommentToggleIcon"></i>
+          </a>
+        </h3>
+        <div class="collapse" id="yourComment">
+          <% @book.book_comments.where(customer: current_customer).each do |comment| %>
+            <div class="media mt-3">
+              <div class="media-body">
+                <%= comment.comment %>
+                  <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
+                  <!--「format: :custom_long」は詳細な日時を表示するフォーマット-->
+                <p class="text-muted"><%= l comment.created_at, format: :custom_long %></p>
+              </div>
+            </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
+
+      <hr>
+
+      <!-- 折りたたみ可能な他のユーザーの感想セクション -->
+      <div id="userCommentsSection">
+        <h3>
+          他のユーザーの感想
+          <a href="#userComments" data-toggle="collapse" aria-expanded="false" aria-controls="userComments">
+            <!-- FontAwesome6使用 -->
+            <i class="fas fa-circle-arrow-down" id="userCommentsToggleIcon"></i>
+          </a>
+        </h3>
+        <div class="collapse" id="userComments">
+          <% @book.book_comments.where.not(customer: current_customer).each do |comment| %>
+            <div class="media mt-3">
+              <div class="media-body">
+                <h5 class="mt-0"><%= comment.customer.name %></h5>
+                <%= comment.comment %>
+                  <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
+                  <!--「format: :custom_long」は詳細な日時を表示するフォーマット-->
+                <p class="text-muted"><%= l comment.created_at, format: :custom_long %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+
+<!--app/javascript/packs参照-->
+<%= javascript_pack_tag 'toggle_switch' %>
