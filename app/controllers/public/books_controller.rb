@@ -16,6 +16,9 @@ class Public::BooksController < ApplicationController
 def create
   @book = Book.new(book_params)
   @book.customer_id = current_customer.id
+  # respond_toブロックといえば、formatメゾット
+  # formatメゾットで特定のリクエスト形式（htmlやjs、json）に対する具体的な処理を記述する
+  # respond_toブロックはformatメゾットによって異なるリクエスト形式に対する応答を処理する
   respond_to do |format|
     if @book.save
       format.html { redirect_to books_path, notice: "投稿が完了しました" }

@@ -24,4 +24,8 @@ ja:
       invalid_name: "名前を入力してください"
       invalid_password_confirmation: "パスワードが一致しません"
 
-
+  # 投稿日時
+  time:
+    formats:
+      custom_short: "%-m月%-d日"
+      custom_long: "%Y年%-m月%-d日%H時%M分"

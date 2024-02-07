@@ -1,8 +1,18 @@
+<!--投稿された本の感想-->
 <% books.each do |book| %>
-  <div class="card mb-1">
-    <div class="card-body">
-        <p class="card-text"><%= book.title %></p>
-        <p class="card-text"><small><%= simple_format book.body %></small></p>
+  <div class="card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-body text-dark">
+      <%= link_to book_path(book) do %>
+        <h5 class="card-title"><%= book.title %></h5>
+      <% end %>
+      <p class="card-text"><%= truncate(book.body, length: 500) %></p>
+        <!--日時の表示方法はconfig/locales/devise.ja.ymlで変更可能-->
+      <div class="text-muted">
+        <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
+        <%= l book.created_at, format: :custom_short %>
+        <!--Rails「time_ago_in_words」ヘルパーでSNSのX時間前のような表示にする-->
+        (<%= time_ago_in_words(book.created_at) %>前)
+      </div>
     </div>
   </div>
 <% end %>

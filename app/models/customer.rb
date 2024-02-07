@@ -4,7 +4,8 @@ class Customer < ApplicationRecord
          
   has_many :books
   has_many :book_comments, dependent: :destroy
-  has_many :favorites, dependent: :destroy       
+  has_many :favorites, dependent: :destroy
+  has_one_attached :image
   
   # フォロー
   has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy

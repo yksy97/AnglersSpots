@@ -1,15 +1,20 @@
 <div class="container mt-5">
+  <!-- 新規投稿ボタンをコンテナの最初に移動 -->
+  <div class="row mb-3">
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        新規投稿
+      </button>
+    </div>
+  </div>
+
+  <!-- 投稿一覧 -->
   <div class="row">
     <div class="col-md-9 sidebar books">
       <%= render 'books', books: @books %>
     </div>
   </div>
 </div>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  新規投稿
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -44,6 +49,7 @@
     </div>
   </div>
 </div>
+
 <!--modalはBootstrap4.3.1対応-->
 <!--app/javascript/packsから参照しました-->
 <%= javascript_pack_tag 'validations' %>

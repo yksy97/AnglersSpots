@@ -1,2 +1,26 @@
-<h1>Public::Books#show</h1>
-<p>Find me in app/views/public/books/show.html.erb</p>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2><%= @book.title %></h2>
+    </div>
+    <div class="card-body">
+      <p><strong>あなたの感想:</strong></p>
+      <p><%= @book.body %></p>
+      <% if @book.customer == current_customer %>
+        <%= link_to '編集', edit_book_path(@book), class: 'btn btn-primary' %>
+      <% end %>
+
+      <hr>
+
+      <h3>他のユーザーの感想:</h3>
+      <% @book.book_comments.each do |comment| %>
+        <div class="media mt-3">
+          <div class="media-body">
+            <h5 class="mt-0"><%= comment.customer.name %></h5>
+            <%= comment.comment %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
