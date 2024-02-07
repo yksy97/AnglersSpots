@@ -13,21 +13,19 @@ class Public::BooksController < ApplicationController
     @book = Book.new
   end
   
-
-   def create
-    @book = current_customer.books.new(book_params)
-    respond_to do |format|
-      if @book.save
-        format.html { redirect_to books_path, notice: "投稿が成功しました。" }
-        format.js
-      else
-        @books = Book.all
-        format.html { render 'index' }
-        format.js { render 'errors' } # エラー処理用のJSビューを追加
-      end
+def create
+  @book = Book.new(book_params)
+  @book.customer_id = current_customer.id
+  respond_to do |format|
+    if @book.save
+      format.html { redirect_to books_path, notice: "投稿が完了しました" }
+      format.js { @books = Book.all }
+    else
+      format.html { redirect_to books_path, alert: "投稿に失敗しました" }
+      format.js { @books = Book.all }
     end
   end
-
+end
 
 
   def edit
