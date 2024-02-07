@@ -13,19 +13,30 @@ class Public::BookCommentsController < ApplicationController
     @comment = current_customer.book_comments.new(book_comment_params)
     @comment.book_id = @book.id
     if @comment.save
-      redirect_to book_path(@book), notice: 'Comment was successfully created.'
+      redirect_to book_path(@book), notice: '感想の投稿が完了しました'
     else
       @book_comments = @book.book_comments
       render 'public/books/show'
+    end
+  end
+  
+  def edit
+  end
+
+  def update
+    if @book_comment.update(book_comment_params)
+      redirect_to book_path(@book_comment.book), notice: '感想の更新が完了しました'
+    else
+      render :edit
     end
   end
 
   def destroy
     @comment = BookComment.find_by(id: params[:id], book_id: params[:book_id])
     if @comment.destroy
-      redirect_to book_path(params[:book_id]), notice: 'Comment was successfully destroyed.'
+      redirect_to book_path(params[:book_id]), notice: '感想の削除に完了しました'
     else
-      redirect_to book_path(params[:book_id]), alert: 'Failed to destroy the comment.'
+      redirect_to book_path(params[:book_id]), alert: '感想の削除に完了しました'
     end
   end
 

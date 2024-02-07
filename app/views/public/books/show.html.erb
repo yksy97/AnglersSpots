@@ -11,6 +11,8 @@
       <p><%= @book.body %></p>
       
       <!-- 感想フォーム -->
+      <!--ネスト関係のformヘルパーは[ ]で囲う-->
+      <!--この場合、@bookはすでに存在している特定の本で、BookComment.newは新しい感想の２つ-->
       <%= form_for [@book, BookComment.new] do |f| %>
         <div class="form-group">
           <%= f.label :comment, "「#{ @book.title }」 の感想" %>
@@ -41,6 +43,10 @@
               <div class="media-body">
                 <%= comment.comment %>
                 <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
+                <% if comment.customer == current_customer %>
+                  <%= link_to '編集', edit_book_book_comment_path(@book, comment), class: 'btn btn-sm btn-primary' %>
+                  <%= link_to '削除', book_book_comment_path(@book, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-danger' %>
+                <% end %>
               </div>
             </div>
           <% end %>
