@@ -18,10 +18,11 @@
         </div>
         <%= f.submit "投稿する", class: "btn btn-primary" %>
       <% end %>
-
+      
+      <!--水平方向の仕切り板-->
       <hr>
 
-      <!-- タブメニュー -->
+      <!-- Bootstrap4.3.1対応「.nav-tabs」のタブ参照 -->
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="home-tab" data-toggle="tab" href="#myComment" role="tab" aria-controls="home" aria-selected="true">あなたの感想</a>
@@ -31,10 +32,10 @@
         </li>
       </ul>
 
-      <!-- タブコンテンツ -->
+      <!-- タブの詳細 -->
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
-          <!-- 自分の感想一覧 -->
+          <!-- 自分の感想 -->
           <% @book.book_comments.where(customer: current_customer).each do |comment| %>
             <div class="media mt-3">
               <div class="media-body">
@@ -45,7 +46,7 @@
           <% end %>
         </div>
         <div class="tab-pane fade" id="othersComments" role="tabpanel" aria-labelledby="profile-tab">
-          <!-- 他のユーザーの感想一覧 -->
+          <!-- 他のユーザーの感想 -->
           <% @book.book_comments.where.not(customer: current_customer).each do |comment| %>
             <div class="media mt-3">
               <div class="media-body">
@@ -60,10 +61,3 @@
     </div>
   </div>
 </div>
-
-<button class="back-to-top btn btn-primary" style="position: fixed; bottom: 20px; right: 20px; display: none;">
-  <i class="fas fa-arrow-up"></i>
-</button>
-
-<!--app/javascript/packs参照-->
-<%= javascript_pack_tag 'toggle_switch' %>
