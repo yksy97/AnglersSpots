@@ -34,9 +34,9 @@ class Public::BookCommentsController < ApplicationController
   def destroy
     @comment = BookComment.find_by(id: params[:id], book_id: params[:book_id])
     if @comment.destroy
-      redirect_to book_path(params[:book_id]), notice: '感想の削除に完了しました'
+      redirect_to book_path(params[:book_id]), notice: '感想の削除が完了しました'
     else
-      redirect_to book_path(params[:book_id]), alert: '感想の削除に完了しました'
+      redirect_to book_path(params[:book_id]), alert: '感想の削除に失敗しました'
     end
   end
 
