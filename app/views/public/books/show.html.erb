@@ -11,8 +11,8 @@
       <p><%= @book.body %></p>
       
       <!-- 感想フォーム -->
-      <!--ネスト関係のformヘルパーは[ ]で囲う-->
-      <!--この場合、@bookはすでに存在している特定の本で、BookComment.newは新しい感想の２つ-->
+      <!--ネスト関係のformヘルパーは[ ]を使う-->
+      <!--この場合、「@bookはすでに存在している特定の本」で、「BookComment.newは新しい感想」の２つ-->
       <%= form_for [@book, BookComment.new] do |f| %>
         <div class="form-group">
           <%= f.label :comment, "「#{ @book.title }」 の感想" %>
@@ -37,19 +37,31 @@
       <!-- タブの詳細 -->
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
+         
           <!-- 自分の感想 -->
-          <% @book.book_comments.where(customer: current_customer).each do |comment| %>
-            <div class="media mt-3">
-              <div class="media-body">
-                <%= comment.comment %>
-                <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
-                <% if comment.customer == current_customer %>
-                  <%= link_to '編集', edit_book_book_comment_path(@book, comment), class: 'btn btn-sm btn-primary' %>
-                  <%= link_to '削除', book_book_comment_path(@book, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-danger' %>
-                <% end %>
-              </div>
+          <!--感想の編集を同一画面で行いたいと思い調べた結果、JSのインライン編集とHOTWIREのTurboFramesという実装方法がありました-->
+          <!--使用しているRailsはv6なので、HOTWIREを使った実装にはGemが必要(Rails7はデフォルト機能)とわかり、今回はJSのインライン編集で実装しました-->
+        <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
+        <% @book.book_comments.where(customer: current_customer).each do |comment| %>
+          <div class="media mt-3" id="comment-<%= comment.id %>">
+            <div class="media-body">
+              <p><%= comment.comment %></p>
+              <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
+              <%= link_to '編集', '#', class: 'btn btn-sm btn-primary edit-comment-link', data: { comment_id: comment.id } %>
             </div>
-          <% end %>
+          </div>
+          <!--インライン編集が作動したとき編集ボタンが更新ボタンに変わる-->
+          <!--remote tureの非同期通信は、books/update.js.erbにJS書く-->
+          <div id="edit-comment-<%= comment.id %>" class="edit-comment-form" style="display: none;">
+            <%= form_for [comment.book, comment], remote: true do |f| %>
+              <div class="form-group">
+                <%= f.text_area :comment, class: 'form-control', rows: 3 %>
+              </div>
+              <%= f.submit "更新", class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        <% end %>
+        </div>
         </div>
         <div class="tab-pane fade" id="othersComments" role="tabpanel" aria-labelledby="profile-tab">
           <!-- 他のユーザーの感想 -->
