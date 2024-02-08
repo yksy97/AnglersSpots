@@ -2,9 +2,9 @@
 var commentsList = document.getElementById("comments-list");
 var commentContent = "<%= j(@comment.comment) %>";
 var commentCreatedAt = "<%= l(@comment.created_at, format: :custom_long) %>";
-var newCommentHtml = '<div class="media mt-3"><div class="media-body"><p>' + commentContent + '</p><p class="text-muted">投稿日時: ' + commentCreatedAt + '</p></div></div>';
-
-<!--「afterbegin」を「beforeend」に変えると新しい感想は最後に表示-->
+var commentId = "<%= @comment.id %>";
+var bookId = "<%= @comment.book_id %>";
+var newCommentHtml = '<div class="media mt-3" id="comment-' + commentId + '"><div class="media-body"><p>' + commentContent + '</p><p class="text-muted">投稿日時: ' + commentCreatedAt + '</p></div></div>';
 commentsList.insertAdjacentHTML('afterbegin', newCommentHtml);
 
 <!--フォームをリセット-->

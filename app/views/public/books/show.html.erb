@@ -33,7 +33,7 @@
         <!-- 自分の感想 -->
         <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
           <div id="comments-list">
-            <% @book.book_comments.where(customer: current_customer).each do |comment| %>
+            <% @book.book_comments.order(created_at: :desc).where(customer: current_customer).each do |comment| %>
               <div class="media mt-3">
                 <div class="media-body" id="comment-<%= comment.id %>">
                   <p><%= comment.comment %></p>
@@ -42,7 +42,7 @@
                   <%= link_to '削除', book_book_comment_path(@book, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-danger', remote: true %>
                 </div>
               </div>
-              <!-- インライン編集用のフォーム、初期状態では非表示 -->
+              <!-- インライン編集フォーム、通常は非表示 -->
               <div id="edit-comment-<%= comment.id %>" class="edit-comment-form" style="display: none;">
                 <%= form_for [comment.book, comment], remote: true do |f| %>
                   <div class="form-group">
@@ -57,12 +57,12 @@
 
         <!-- 他のユーザーの感想 -->
         <div class="tab-pane fade" id="othersComments" role="tabpanel" aria-labelledby="profile-tab">
-          <% @book.book_comments.where.not(customer: current_customer).each do |comment| %>
+          <% @book.book_comments.order(created_at: :desc).where.not(customer: current_customer).each do |comment| %>
             <div class="media mt-3">
               <div class="media-body">
                 <h5 class="mt-0"><%= comment.customer.name %></h5>
                 <%= comment.comment %>
-                <p class="text-muted"><%= l comment.created_at, format: :custom_long %></p>
+                <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
               </div>
             </div>
           <% end %>
