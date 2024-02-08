@@ -1,24 +1,10 @@
-<!--books/index.html.erbで使用(remote ture)-->
-<% if @book.errors.any? %>
-  var errorMessages = '<div class="alert alert-danger"><ul>';
-  <% @book.errors.full_messages.each do |message| %>
-    errorMessages += '<li><%= j(message) %></li>';
-  <% end %>
-  errorMessages += '</ul></div>';
 
-  $('.modal-body').prepend(errorMessages);
-<% else %>
-  <!--エラーがない場合、フォームをリセットする-->
-  $("textarea").val("");
-  $("input[type='text']").val("");
 
+$("textarea").val("");
+$("input").val("");
+$('#exampleModal').modal('hide')
+$('.books').html("<%= escape_javascript('books', books: @books) %>")
+
+ <!--エラーがない場合、フォームをリセットし、モーダルを閉じる-->
+  $('#exampleModal').find('textarea, input[type="text"]').val('');
   $('#exampleModal').modal('hide');
-
-  <!--モーダルを閉じた後に、「.modal-backdrop 」を除去する-->
-  $('#exampleModal').on('hidden.bs.modal', function () {
-    $('.modal-backdrop').remove(); // .modal-backdrop を除去
-  });
-
-  <!--投稿一覧を更新-->
-  $('.books').html("<%= j(render 'books', books: @books) %>");
-<% end %>

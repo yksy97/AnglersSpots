@@ -1,29 +1,33 @@
 class Public::BookCommentsController < ApplicationController
   before_action :set_book, only: [:create, :update, :destroy]
 
-  def create
+def create
   @comment = current_customer.book_comments.new(book_comment_params.merge(book_id: @book.id))
-  if @comment.save
-    respond_to do |format|
-      format.js
+  respond_to do |format|
+    if @comment.save
+      format.js { flash.now[:notice] = '感想が投稿されました' }
+    else
+      format.js { flash.now[:alert] = '感想の投稿に失敗しました' }
     end
   end
 end
 
 def update
   @comment = @book.book_comments.find(params[:id])
-  if @comment.update(book_comment_params)
-    respond_to do |format|
-      format.js
+  respond_to do |format|
+    if @comment.update(book_comment_params)
+      format.js { flash.now[:notice] = '感想が更新されました' }
+    else
+      format.js { flash.now[:alert] = '感想の更新に失敗しました' }
     end
   end
 end
 
 def destroy
   @comment = @book.book_comments.find(params[:id])
+  respond_to do |format|
   if @comment.destroy
-    respond_to do |format|
-      format.js
+     format.js
     end
   end
 end

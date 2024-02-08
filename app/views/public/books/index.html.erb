@@ -2,7 +2,7 @@
   <!-- 新規登録ボタン -->
   <div class="row mb-3">
     <div class="col">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewBookModal">
         新規登録
       </button>
     </div>
@@ -17,18 +17,28 @@
 </div>
 
 <!-- 新規登録モーダル -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="NewBookModal" tabindex="-1" role="dialog" aria-labelledby="NewBookModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">新規登録</h5>
+        <h5 class="modal-title" id="NewBookModalLabel">新規登録</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <!--「needs-validation」クラスは、フォームをJavaScriptによってカスタムできる-->
+      <!--「novalidate」属性は、ブラウザが提供する既存のバリデーションメッセージを無効化し、
+      JavaScriptを使用したカスタムバリデーションを適用する-->
+      <!--下部のpacks/validation.jsと連携してJSを通じたフォームのカスタムを行う-->
+      
+      <!--「remote: to」オプションは、「form_forヘルパー」に指定することで、フォームを非同期的に送信(Ajaxリクエスト)する
+      この際、コントローラの当該アクションも通常のHTMLリクエストと別にAjaxリクエストに対応する必要がある。
+      そのためには、「respond_to」ブロックを使い、「アクション.js.erb」ファイルを使用して動的な変更を行う-->
       <%= form_for @book, url: books_path, remote: true, html: { class: "modal-body needs-validation", novalidate: '' } do |f| %>
         <div class="form-group">
           <%= f.label :title, "本のタイトル" %>
+          
+          
           <%= f.text_field :title, class: "form-control", required: true %>
           <div class="invalid-feedback">
             本のタイトルを入力してください
@@ -49,6 +59,7 @@
     </div>
   </div>
 </div>
+
 <!--modalはBootstrap4.3.1対応-->
 <!--app/javascript/packsから参照しました-->
 <%= javascript_pack_tag 'validations' %>

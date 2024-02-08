@@ -8,11 +8,12 @@ class Public::BooksController < ApplicationController
     @book_comments = @book.book_comments.order(created_at: :desc)
   end
 
-  def index
-    @q = Book.ransack(params[:q])
-    @books = @q.result(distinct: true)
-    @book = Book.new
-  end
+ def index
+  @q = Book.ransack(params[:q])
+  @books = @q.result(distinct: true).order(created_at: :desc)
+  @book = Book.new
+end
+
   
 def create
   @book = Book.new(book_params)
@@ -40,18 +41,25 @@ end
     @books = genre.books
   end
 
-  def update
+def update
+  respond_to do |format|
     if @book.update(book_params)
-      redirect_to book_path(@book), notice: "You have updated book successfully."
+      format.html { redirect_to book_path(@book), notice: "You have updated book successfully." }
+      format.js   # update.js.erb を呼び出す
     else
-      render "edit"
+      format.html { render "edit" }
+      format.js   # errors.js.erb を呼び出してエラーメッセージを表示する
     end
   end
+end
 
-  def destroy
-    @book.destroy
-    redirect_to books_path
+def destroy
+  @book.destroy
+  respond_to do |format|
+    format.html { redirect_to books_path, notice: "Book was successfully destroyed." }
+    format.js   # destroy.js.erb を呼び出す
   end
+end
 
   private
 

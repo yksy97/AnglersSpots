@@ -9,3 +9,19 @@ commentsList.insertAdjacentHTML('afterbegin', newCommentHtml);
 
 <!--フォームをリセット-->
 document.getElementById("new_book_comment").reset();
+
+<!--エラーメッセージ-->
+var flashMessages = document.getElementById('flash-messages');
+
+<!--成功-->
+var successMessage = "<div class='alert alert-success' role='alert'><%= j flash.now[:notice] %><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+
+<!--失敗-->
+var alertMessage = "<div class='alert alert-warning' role='alert'><%= j flash.now[:alert] %><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+
+<!--表記方法-->
+if ("<%= flash.now[:notice] %>") {
+    flashMessages.innerHTML = successMessage;
+} else if ("<%= flash.now[:alert] %>") {
+    flashMessages.innerHTML = alertMessage;
+}

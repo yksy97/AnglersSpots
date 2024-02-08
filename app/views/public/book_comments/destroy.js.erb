@@ -1,7 +1,8 @@
-<!--削除されたコメントの要素を取得して削除する-->
+<!--感想を削除する-->
 var commentId = '<%= @comment.id %>';
 var element = document.getElementById("comment-" + commentId);
 element.parentNode.removeChild(element);
 
-<!--必要に応じて削除完了の通知を表示する-->
-alert('コメントが削除されました。');
+<!--メッセージ-->
+alert('感想が削除されました');
+

@@ -11,6 +11,8 @@
       <%= form_for [@book, BookComment.new], remote: true do |f| %>
         <div class="form-group">
           <%= f.label :comment, "「#{ @book.title }」 の感想" %>
+          <!--メッセージ-->
+          <div id="flash-messages"></div>
           <%= f.text_area :comment, class: 'form-control', rows: 3 %>
         </div>
         <%= f.submit "投稿", class: "btn btn-primary" %>
