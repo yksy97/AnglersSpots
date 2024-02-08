@@ -51,7 +51,7 @@ document.addEventListener('turbolinks:load', function() {
       
       Rails.ajax({
         url: action,
-        type: 'POST', // または 'PATCH'、フォームのメソッドに応じて設定
+        type: 'POST',
         data: formData,
         dataType: 'script',
       });
