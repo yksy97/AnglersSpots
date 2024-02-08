@@ -1,0 +1,10 @@
+<!--新しいコメントをコメント一覧の最後に追加-->
+var commentsList = document.getElementById("comments-list");
+var commentContent = "<%= j(@comment.comment) %>";
+var commentCreatedAt = "<%= l(@comment.created_at, format: :custom_long) %>";
+var newCommentHtml = '<div class="media mt-3"><div class="media-body"><p>' + commentContent + '</p><p class="text-muted">投稿日時: ' + commentCreatedAt + '</p></div></div>';
+
+commentsList.insertAdjacentHTML('beforeend', newCommentHtml);
+
+<!--フォームリセット-->
+document.getElementById("new_book_comment").reset();

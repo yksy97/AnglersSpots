@@ -1,30 +1,24 @@
 <div class="container mt-4">
-<div class="container mt-4">
   <div class="card">
     <div class="card-header">
       <h2><%= @book.title %></h2>
-      <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
-    　  <!--「format: :custom_long」は詳細な日時を表示するフォーマット-->
       <p class="text-muted">登録日時: <%= l @book.created_at, format: :custom_long %></p>
     </div>
     <div class="card-body">
       <p><%= @book.body %></p>
-      
+
       <!-- 感想フォーム -->
-      <!--ネスト関係のformヘルパーは[ ]を使う-->
-      <!--この場合、「@bookはすでに存在している特定の本」で、「BookComment.newは新しい感想」の２つ-->
-      <%= form_for [@book, BookComment.new] do |f| %>
+      <%= form_for [@book, BookComment.new], remote: true do |f| %>
         <div class="form-group">
           <%= f.label :comment, "「#{ @book.title }」 の感想" %>
           <%= f.text_area :comment, class: 'form-control', rows: 3 %>
         </div>
         <%= f.submit "投稿する", class: "btn btn-primary" %>
       <% end %>
-      
-      <!--水平方向の仕切り板-->
+
       <hr>
 
-      <!-- Bootstrap4.3.1対応「.nav-tabs」のタブ参照 -->
+      <!-- タブ -->
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="home-tab" data-toggle="tab" href="#myComment" role="tab" aria-controls="home" aria-selected="true">あなたの感想</a>
@@ -34,37 +28,35 @@
         </li>
       </ul>
 
-      <!-- タブの詳細 -->
+      <!-- タブの内容 -->
       <div class="tab-content" id="myTabContent">
+        <!-- 自分の感想 -->
         <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
-         
-          <!-- 自分の感想 -->
-          <!--感想の編集を同一画面で行いたいと思い調べた結果、JSのインライン編集とHOTWIREのTurboFramesという実装方法がありました-->
-          <!--使用しているRailsはv6なので、HOTWIREを使った実装にはGemが必要(Rails7はデフォルト機能)とわかり、今回はJSのインライン編集で実装しました-->
-        <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
-        <% @book.book_comments.where(customer: current_customer).each do |comment| %>
-          <div class="media mt-3" id="comment-<%= comment.id %>">
-            <div class="media-body">
-              <p><%= comment.comment %></p>
-              <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
-              <%= link_to '編集', '#', class: 'btn btn-sm btn-primary edit-comment-link', data: { comment_id: comment.id } %>
-            </div>
-          </div>
-          <!--インライン編集が作動したとき編集ボタンが更新ボタンに変わる-->
-          <!--remote tureの非同期通信は、books/update.js.erbにJS書く-->
-          <div id="edit-comment-<%= comment.id %>" class="edit-comment-form" style="display: none;">
-            <%= form_for [comment.book, comment], remote: true do |f| %>
-              <div class="form-group">
-                <%= f.text_area :comment, class: 'form-control', rows: 3 %>
+          <div id="comments-list">
+            <% @book.book_comments.where(customer: current_customer).each do |comment| %>
+              <div class="media mt-3">
+                <div class="media-body" id="comment-<%= comment.id %>">
+                  <p><%= comment.comment %></p>
+                  <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
+                  <%= link_to '編集', '#', class: 'btn btn-sm btn-primary edit-comment-link', data: { comment_id: comment.id }, remote: true %>
+                  <%= link_to '削除', book_book_comment_path(@book, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-danger', remote: true %>
+                </div>
               </div>
-              <%= f.submit "更新", class: "btn btn-primary" %>
+              <!-- インライン編集用のフォーム、初期状態では非表示 -->
+              <div id="edit-comment-<%= comment.id %>" class="edit-comment-form" style="display: none;">
+                <%= form_for [comment.book, comment], remote: true do |f| %>
+                  <div class="form-group">
+                    <%= f.text_area :comment, value: comment.comment, class: 'form-control', rows: 3 %>
+                  </div>
+                  <%= f.submit "更新する", class: "btn btn-primary" %>
+                <% end %>
+              </div>
             <% end %>
           </div>
-        <% end %>
         </div>
-        </div>
+
+        <!-- 他のユーザーの感想 -->
         <div class="tab-pane fade" id="othersComments" role="tabpanel" aria-labelledby="profile-tab">
-          <!-- 他のユーザーの感想 -->
           <% @book.book_comments.where.not(customer: current_customer).each do |comment| %>
             <div class="media mt-3">
               <div class="media-body">
