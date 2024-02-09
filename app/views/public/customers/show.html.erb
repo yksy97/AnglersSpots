@@ -3,7 +3,7 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-header text-center d-flex justify-content-between align-items-center">
-          <h2 class="mb-0 text-center flex-grow-1">マイページ</h2>
+          <h2 class="mb-0 text-center flex-grow-1"><%= @customer.name %> さん</h2>
           <%= link_to "編集", edit_customer_path, class: "btn btn-success btn-sm" %>
         </div>
         <div class="card-body">
@@ -18,14 +18,12 @@
             <div class="col-md-8">
               <table class="table">
                 <tbody>
-                  <tr>
-                    <th width="30%">ユーザーネーム</th>
-                    <td><%= @customer.name %></td>
-                  </tr>
-                  <tr>
-                    <th>メールアドレス</th>
-                    <td><%= @customer.email %></td>
-                  </tr>
+                  
+                 <!--本の投稿一覧を表示させたい
+                 その上で、他のユーザーが同一の本について感想を書けるようにして、
+                 自分の感想と他のユーザーの感想をタブで分けたい-->
+                
+                
                 </tbody>
               </table>
             </div>
