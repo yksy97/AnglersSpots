@@ -1,3 +1,4 @@
+class Public::FavoritesController < ApplicationController
 def create
   book = Book.find(params[:book_id])
   @favorite = current_customer.favorites.new(book_id: book.id)
@@ -20,4 +21,4 @@ def destroy
     format.js   # destroy.js.erb を呼び出す
   end
 end
-
+end

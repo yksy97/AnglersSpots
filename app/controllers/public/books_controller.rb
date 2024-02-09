@@ -24,6 +24,8 @@ def create
   respond_to do |format|
     if @book.save
       format.html { redirect_to books_path, notice: "投稿が完了しました" }
+        # 「.all」は「N+1問題」が生じる可能性がある。
+        # 今後、ジャンル情報を本に紐づける場合は、「includes」メゾットを使う
       format.js { @books = Book.all }
     else
       format.html { redirect_to books_path, alert: "投稿に失敗しました" }
@@ -32,23 +34,23 @@ def create
   end
 end
 
-
-  def edit
-  end
-  
   def genre
     genre = Genre.find(params[:id])
     @books = genre.books
   end
 
+  def edit
+    @book = Book.find(params[:id])
+  end
+
 def update
   respond_to do |format|
     if @book.update(book_params)
-      format.html { redirect_to book_path(@book), notice: "You have updated book successfully." }
-      format.js   # update.js.erb を呼び出す
+      format.html { redirect_to book_path(@book), notice: "本の登録情報が更新されました." }
+      format.js
     else
       format.html { render "edit" }
-      format.js   # errors.js.erb を呼び出してエラーメッセージを表示する
+      format.js
     end
   end
 end
@@ -56,8 +58,8 @@ end
 def destroy
   @book.destroy
   respond_to do |format|
-    format.html { redirect_to books_path, notice: "Book was successfully destroyed." }
-    format.js   # destroy.js.erb を呼び出す
+    format.html { redirect_to books_path, notice: "本が削除されました" }
+    format.js
   end
 end
 
@@ -67,10 +69,10 @@ end
     params.require(:book).permit(:title, :body)
   end
 
-  def ensure_correct_user
+  def ensure_correct_customer
     @book = Book.find(params[:id])
     unless @book.customer == current_customer
-      redirect_to books_path
+      redirect_to books_path, alert: '権限がありません。'
     end
   end
 end

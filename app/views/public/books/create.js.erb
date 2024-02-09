@@ -1,10 +1,7 @@
-
-
+<!--フォームの内容をリセット-->
 $("textarea").val("");
 $("input").val("");
-$('#exampleModal').modal('hide')
-$('.books').html("<%= escape_javascript('books', books: @books) %>")
-
- <!--エラーがない場合、フォームをリセットし、モーダルを閉じる-->
-  $('#exampleModal').find('textarea, input[type="text"]').val('');
-  $('#exampleModal').modal('hide');
+<!--モーダルを閉じる-->
+$('#NewBookModal').modal('hide');
+<!--登録した本の一覧を更新-->
+$('.books').html("<%= escape_javascript(render 'books', books: @books) %>");

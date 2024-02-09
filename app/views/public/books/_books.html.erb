@@ -6,6 +6,11 @@
         <h5 class="card-title"><%= book.title %></h5>
       <% end %>
       <p class="card-text"><%= truncate(book.body, length: 500) %></p>
+      
+      
+      <h5 class="card-customer"><%= link_to(book.customer.name, customer_path(book.customer)) %></h5>
+      
+      
       <div class="text-muted">
         <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
         <!--「format: :custom_short」は簡易な日時を表示するフォーマット-->

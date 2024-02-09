@@ -37,8 +37,10 @@
       <%= form_for @book, url: books_path, remote: true, html: { class: "modal-body needs-validation", novalidate: '' } do |f| %>
         <div class="form-group">
           <%= f.label :title, "本のタイトル" %>
-          
-          
+      <!--「required: true」属性といえば、「invalid-feedback」クラス-->
+      <!--「required: true」属性をフォームに設定すると、フォームに何も入力せずに送信しようとした場合、
+      ブラウザが自動的に警告を表示して、ユーザーにフォームの入力を促す-->
+      <!--「invalid-feedback」クラスは、フォームのバリデーションメッセージをカスタムする-->
           <%= f.text_field :title, class: "form-control", required: true %>
           <div class="invalid-feedback">
             本のタイトルを入力してください
