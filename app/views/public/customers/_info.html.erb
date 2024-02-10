@@ -1,0 +1,34 @@
+<table class='table'>
+  <tr>
+    <% if customer.image.attached? %>
+  <%= image_tag customer.image, size: '100x100' %>
+<% else %>
+  <%= image_tag 'no_image.jpg', size: '100x100' %>
+<% end %>
+  <tr>
+	  <th>名前</th>
+	  <th><%= customer.name %></th>
+  </tr>
+  <tr>
+	  <th>自己紹介</th>
+	  <th><%= customer.introduction %></th>
+  </tr>
+  <tr>
+    <th>フォロー</th>
+    <th><%= link_to customer.followings.count, customer_followings_path(customer) %></th>
+  </tr>
+  <tr>
+    <th>フォロワー</th>
+    <th><%= link_to customer.followers.count, customer_followers_path(customer) %></th>
+  </tr>
+</table>
+　
+<div class='row'>
+  <% if current_customer != customer %>
+    <td><%= render "relationships/btn", customer: customer %></td>
+  <% else %>
+    <%= link_to edit_customer_path(customer), class: "btn btn-outline-secondary btn-block edit_customer_#{customer.id}" do %>
+      <i class="fas fa-user-cog"></i>
+    <% end %>
+  <% end %>
+</div>

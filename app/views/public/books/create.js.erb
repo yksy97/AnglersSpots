@@ -4,4 +4,4 @@ $("input").val("");
 <!--モーダルを閉じる-->
 $('#NewBookModal').modal('hide');
 <!--登録した本の一覧を更新-->
-$('.books').html("<%= escape_javascript(render 'books', books: @books) %>");
+$('.books').html("<%= escape_javascript(render 'app/views/public/books', books: @books) %>");
