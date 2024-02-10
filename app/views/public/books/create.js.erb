@@ -5,3 +5,10 @@ $("input").val("");
 $('#NewBookModal').modal('hide');
 <!--登録した本の一覧を更新-->
 $('.books').html("<%= escape_javascript(render 'public/books/books', books: @books) %>");
+
+<!--背景色-->
+$('#NewBookModal').on('shown.bs.modal', function () {
+  $('.modal-backdrop').css({
+    'background-color': 'rgba(0,0,0,0.5)'
+  });
+});

@@ -1,11 +1,8 @@
 <div class="container mt-5">
   <div class="row">
-    <!-- 左側の列: 会員情報と新規登録ボタン -->
     <div class="col-md-4">
-      <!-- 会員情報 -->
       <%= render 'public/customers/info', customer: current_customer %>
       
-      <!-- 新規登録ボタン -->
       <div class="my-3">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewBookModal">
           新規登録
@@ -13,9 +10,8 @@
       </div>
     </div>
 
-    <!-- 右側の列: 本の一覧 -->
     <div class="col-md-8">
-      <h2>Books</h2>
+      <h2>本の一覧</h2>
       <%= render 'public/books/books', books: @books %>
     </div>
   </div>
