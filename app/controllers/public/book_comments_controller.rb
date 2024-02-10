@@ -4,14 +4,13 @@ class Public::BookCommentsController < ApplicationController
 
 def create
   @comment = current_customer.book_comments.new(book_comment_params.merge(book_id: @book.id))
-  respond_to do |format|
-    if @comment.save
-      format.js { flash.now[:notice] = '感想が投稿されました' }
-    else
-      format.js { flash.now[:alert] = '感想の投稿に失敗しました' }
-    end
+  if @comment.save
+    redirect_to book_path(@book), notice: '感想が投稿されました'
+  else
+    redirect_to book_path(@book), alert: '感想の投稿に失敗しました'
   end
 end
+
 
 def update
   @comment = @book.book_comments.find(params[:id])

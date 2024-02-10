@@ -2,13 +2,18 @@
 <% books.each do |book| %>
   <div class="card border-dark mb-3" style="max-width: 18rem;">
     <div class="card-body text-dark">
+      タイトル：
       <%= link_to book_path(book) do %>
-        <h5 class="card-title"><%= book.title %></h5>
+        <h5 class="card-title">
+          <%= book.title %></h5>
       <% end %>
-      <p class="card-text"><%= truncate(book.body, length: 500) %></p>
+      紹介：
+      <p class="card-text">
+        <%= truncate(book.body, length: 500) %></p>
       
-      
-      <h5 class="card-customer"><%= link_to(book.customer.name, customer_path(book.customer)) %></h5>
+      投稿者：
+      <h5 class="card-customer">
+        <%= link_to(book.customer.name, customer_path(book.customer)) %></h5>
       
       
       <div class="text-muted">

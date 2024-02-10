@@ -1,17 +1,18 @@
 <table class='table'>
   <tr>
     <% if customer.image.attached? %>
-  <%= image_tag customer.image, size: '100x100' %>
-<% else %>
-  <%= image_tag 'no_image.jpg', size: '100x100' %>
-<% end %>
-  <tr>
-	  <th>名前</th>
-	  <th><%= customer.name %></th>
+      <%= image_tag customer.image, size: '100x100' %>
+    <% else %>
+      <%= image_tag 'no_image.jpg', size: '100x100' %>
+    <% end %>
   </tr>
   <tr>
-	  <th>自己紹介</th>
-	  <th><%= customer.introduction %></th>
+    <th>名前</th>
+    <th><%= customer.name %></th>
+  </tr>
+  <tr>
+    <th>自己紹介</th>
+    <th><%= customer.introduction %></th>
   </tr>
   <tr>
     <th>フォロー</th>
@@ -22,17 +23,19 @@
     <th><%= link_to customer.followers.count, customer_followers_path(customer) %></th>
   </tr>
 </table>
-　
-<div class='row'>
+
+<div class="d-flex justify-content-between">
   <% if current_customer != customer %>
     <td><%= render "relationships/btn", customer: customer %></td>
   <% else %>
-  <!--編集モーダル-->
+    <!--編集モーダルボタン-->
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#EditCustomerModal">
-    編集
-  </button>
+      編集
+    </button>
   <% end %>
-  <!-- 編集モーダル -->
+</div>
+
+<!-- 編集モーダル -->
 <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -49,21 +52,19 @@
             <%= f.text_field :name, class: "form-control" %>
           </div>
           <div class="form-group">
-            <%= f.label :"メールアドレス" %>
+            <%= f.label :email, "メールアドレス" %>
             <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
           </div>
           <div class="form-group">
             <%= f.label :introduction, "自己紹介" %>
             <%= f.text_area :introduction, class: "form-control" %>
           </div>
-          <div class="modal-footer">
-            <%= f.submit "変更保存", class: "btn btn-success" %>
-            <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger", data: { confirm: "本当に退会しますか？" } %>
+          <div class="modal-footer justify-content-between">
+            <%= f.submit "更新保存", class: "btn btn-success" %>
+            <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger" %>
           </div>
         <% end %>
       </div>
     </div>
   </div>
-</div>
-
 </div>

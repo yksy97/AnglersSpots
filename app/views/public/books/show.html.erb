@@ -1,4 +1,5 @@
 <div class="container mt-4">
+  <div id="flash-messages"></div>
   <div class="card">
     <div class="card-header">
       <h2><%= @book.title %></h2>
@@ -8,15 +9,16 @@
       <p><%= @book.body %></p>
 
       <!-- 感想フォーム -->
-      <%= form_for [@book, BookComment.new], remote: true do |f| %>
-        <div class="form-group">
-          <%= f.label :comment, "「#{ @book.title }」 の感想" %>
-          <!--メッセージ-->
-          <div id="flash-messages"></div>
-          <%= f.text_area :comment, class: 'form-control', rows: 3 %>
-        </div>
-        <%= f.submit "投稿", class: "btn btn-primary" %>
-      <% end %>
+      <%= form_for [@book, BookComment.new], remote: true, html: { class: 'needs-validation', novalidate: '' } do |f| %>
+  <div class="form-group">
+    <%= f.label :comment, "「#{ @book.title }」 の感想" %>
+    <%= f.text_area :comment, class: 'form-control', rows: 3, required: true %>
+    <div class="invalid-feedback">
+      感想を入力してください
+    </div>
+  </div>
+  <%= f.submit "投稿", class: "btn btn-primary" %>
+<% end %>
 
       <hr>
 
@@ -77,3 +79,4 @@
 
 <!--javascript/packsのedit_inlineから参照-->
 <%= javascript_pack_tag 'edit_inline' %>
+<%= javascript_pack_tag 'validations' %>
