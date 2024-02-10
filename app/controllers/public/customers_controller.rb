@@ -19,7 +19,7 @@ class Public::CustomersController < ApplicationController
 
   def update
     if @customer.update(customer_params)
-      redirect_to customer_path(@customer), notice: "アップデートが完了しました"
+      redirect_to books_path, notice: "アップデートが完了しました"
     else
       render "edit"
     end
@@ -39,7 +39,7 @@ class Public::CustomersController < ApplicationController
   private
 
   def customer_params
-    params.require(:customer).permit(:email, :name)
+    params.require(:customer).permit(:email, :name, :introduction)
   end
 
   def ensure_correct_customer

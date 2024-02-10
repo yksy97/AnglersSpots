@@ -27,8 +27,43 @@
   <% if current_customer != customer %>
     <td><%= render "relationships/btn", customer: customer %></td>
   <% else %>
-    <%= link_to edit_customer_path(customer), class: "btn btn-outline-secondary btn-block edit_customer_#{customer.id}" do %>
-      <i class="fas fa-user-cog"></i>
-    <% end %>
+  <!--編集モーダル-->
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#EditCustomerModal">
+    編集
+  </button>
   <% end %>
+  <!-- 編集モーダル -->
+<div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with model: customer, url: customer_path(customer), local: true do |f| %>
+          <div class="form-group">
+            <%= f.label :name, "名前" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :"メールアドレス" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :introduction, "自己紹介" %>
+            <%= f.text_area :introduction, class: "form-control" %>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "変更保存", class: "btn btn-success" %>
+            <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger", data: { confirm: "本当に退会しますか？" } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
