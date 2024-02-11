@@ -8,21 +8,20 @@ class Public::BooksController < ApplicationController
     @book_comments = @book.book_comments.order(created_at: :desc)
   end
 
- def index
-  @q = Book.ransack(params[:q])
-  @books = @q.result(distinct: true).order(created_at: :desc)
-  @book = Book.new
-end
+  def index
+    @q = Book.ransack(params[:q])
+    @books = @q.result(distinct: true).order(created_at: :desc)
+    @book = Book.new
+  end
 
-  
-def create
-  @book = Book.new(book_params)
-  @book.customer_id = current_customer.id
-  if @book.save
-    redirect_to books_path, notice: "投稿が完了しました"
-end
-end
+  def create
+    @book = Book.new(book_params)
+    @book.customer_id = current_customer.id
 
+    if @book.save
+      redirect_to books_path, notice: "投稿が完了しました"
+    end
+  end
 
   def genre
     genre = Genre.find(params[:id])
@@ -33,20 +32,18 @@ end
     @book = Book.find(params[:id])
   end
 
-def update
-  if @book.update(book_params)
-    redirect_to book_path(@book), notice: "本の登録情報が更新されました."
-  else
-    render :edit
+  def update
+    if @book.update(book_params)
+      redirect_to book_path(@book), notice: "本の登録情報が更新されました。"
+    else
+      render :edit
+    end
   end
-end
 
-
-def destroy
-  @book.destroy
-  redirect_to books_path, notice: "本が削除されました"
-end
-
+  def destroy
+    @book.destroy
+    redirect_to books_path, notice: "本が削除されました"
+  end
 
   private
 
