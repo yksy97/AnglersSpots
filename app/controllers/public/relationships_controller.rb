@@ -4,9 +4,7 @@ class Public::RelationshipsController < ApplicationController
   def create
     @customer = Customer.find(params[:customer_id])
     current_customer.follow(@customer)
-    @post = @customer.post
     respond_to do |format|
-      #format.html { redirect_to request.referer }
       format.js
     end
   end
@@ -14,9 +12,7 @@ class Public::RelationshipsController < ApplicationController
  def destroy
     @customer = Customer.find(params[:customer_id])
     current_customer.unfollow(@customer)
-    @post = @customer.post
     respond_to do |format|
-      format.html { redirect_to request.referer }
       format.js
     end
   end

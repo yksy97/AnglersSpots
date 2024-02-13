@@ -15,8 +15,9 @@
         </small>
         <!--いいね-->
         <%= render 'public/favorites/btn', post: post %>
-        
-        <%= render 'public/relationships/test', post: post %>
+        <!--投稿一覧のリレーションシップ-->
+        <%= render 'public/relationships/test', customer: post.customer %>
+
         
 
         <small class="text-muted">投稿者: <%= link_to post.customer.name, customer_path(post.customer) %>
