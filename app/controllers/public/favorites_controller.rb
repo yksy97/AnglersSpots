@@ -4,7 +4,9 @@ def create
   @favorite = current_customer.favorites.new(post_id: post.id)
   @favorite.save
   respond_to do |format|
+    # 同期リクエスト
     format.html { redirect_to post_path(post) }
+    # Ajaxリクエスト
     format.js
   end
 end
