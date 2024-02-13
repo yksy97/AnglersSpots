@@ -4,13 +4,13 @@ class Public::CustomersController < ApplicationController
 
   def show
   @customer = Customer.find(params[:id])
-  @books = @customer.books
-  @book = Book.new
+  @posts = @customer.posts
+  @post = Post.new
   end
   
   def index
     @customers = Customer.all
-    @book = Book.new
+    @post = Post.new
   end
 
   def edit
@@ -19,7 +19,7 @@ class Public::CustomersController < ApplicationController
 
   def update
     if @customer.update(customer_params)
-      redirect_to books_path, notice: "会員情報が更新されました"
+      redirect_to posts_path, notice: "会員情報が更新されました"
     else
       render "edit"
     end

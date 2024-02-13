@@ -1,13 +1,13 @@
-class Book < ApplicationRecord
+class Post < ApplicationRecord
   belongs_to :customer
-  has_many :book_comments, dependent: :destroy
+  has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_one_attached :image
   
   validates :title,presence:true
   validates :body,presence:true
   
-  def favorited_by?(user)
+  def favorited_by?(customer)
     favorites.where(customer_id: customer.id).exists?
   end
 	

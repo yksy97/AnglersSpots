@@ -2,6 +2,6 @@
 $("textarea").val("");
 $("input").val("");
 <!--モーダルを閉じる-->
-$('#NewBookModal').modal('hide');
+$('#NewPostModal').modal('hide');
 <!--登録した本の一覧を更新-->
-$('.books').html("<%= escape_javascript(render 'public/books/books', books: @books) %>");
+$('.posts').html("<%= escape_javascript(render 'public/posts/posts', posts: @posts) %>");

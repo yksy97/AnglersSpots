@@ -24,17 +24,17 @@ Rails.application.routes.draw do
       get 'followers' => 'relationships#followers', as: 'followers'
     end
 
-    resources :books, only: [:index, :show, :edit, :create, :destroy, :update] do
-      resources :book_comments, only: [:create, :edit, :destroy, :update]
+    resources :posts, only: [:index, :show, :edit, :create, :destroy, :update] do
+      resources :post_comments, only: [:create, :edit, :destroy, :update]
       resource :favorites, only: [:create, :destroy]
       collection do
         # 「ransack」 matchメゾット、viaオプションでGETとPOSTを指定
-        match 'search' => 'books#search', via: [:get, :post], as: :search
+        match 'search' => 'posts#search', via: [:get, :post], as: :search
       end
     end
 
     resources :genres, only: [] do
-      get 'books', to: 'books#genre', as: 'books', on: :member
+      get 'posts', to: 'posts#genre', as: 'posts', on: :member
     end
   end
 end

@@ -32,6 +32,6 @@ var alertMessage = "<div class='alert alert-warning' role='alert'><%= j flash.no
 <!--表記方法-->
 if ("<%= flash.now[:notice] %>") {
     flashMessages.innerHTML = successMessage;
-} else if ("<%= flash.now[:alert] %>") {
+} else if ("<%= flash.now[:alert] %>") {s
     flashMessages.innerHTML = alertMessage;
 }

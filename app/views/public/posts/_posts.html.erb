@@ -1,27 +1,27 @@
 <!--登録された本の一覧-->
-<% books.each do |book| %>
+<% posts.each do |post| %>
   <div class="card border-dark mb-3" style="max-width: 18rem;">
     <div class="card-body text-dark">
       タイトル：
-      <%= link_to book_path(book) do %>
+      <%= link_to post_path(post) do %>
         <h5 class="card-title">
-          <%= book.title %></h5>
+          <%= post.title %></h5>
       <% end %>
       紹介：
       <p class="card-text">
-        <%= truncate(book.body, length: 500) %></p>
+        <%= truncate(post.body, length: 500) %></p>
       
       投稿者：
       <h5 class="card-customer">
-        <%= link_to(book.customer.name, customer_path(book.customer)) %></h5>
+        <%= link_to(post.customer.name, customer_path(post.customer)) %></h5>
       
       
       <div class="text-muted">
         <!--「l」メゾットはRailsのローカライズ機能を使用して、日時を任意の形式で表示する-->
         <!--「format: :custom_short」は簡易な日時を表示するフォーマット-->
-        <%= l book.created_at, format: :custom_short %>
+        <%= l post.created_at, format: :custom_short %>
         <!--Rails「time_ago_in_words」ヘルパーでSNSのX時間前のような表示にする-->
-        (<%= time_ago_in_words(book.created_at) %>前)
+        (<%= time_ago_in_words(post.created_at) %>前)
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def set_search
     @query = { title_or_content_cont: params[:q] }
-    @search = Book.ransack(@query)
-    @search_books = @search.result.order(created_at: :desc)
+    @search = Post.ransack(@query)
+    @search_posts = @search.result.order(created_at: :desc)
   end
 end

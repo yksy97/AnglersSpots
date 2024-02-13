@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  post: one
+  reel: MyString
+  rod: MyString
+  line: MyString
+  bait: MyString
+  hook: MyString
+
+two:
+  post: two
+  reel: MyString
+  rod: MyString
+  line: MyString
+  bait: MyString
+  hook: MyString
