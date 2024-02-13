@@ -13,8 +13,10 @@
           <%= l post.created_at, format: :custom_short %>
           (<%= time_ago_in_words(post.created_at) %>前)
         </small>
+        <!--いいね-->
         <%= render 'public/favorites/btn', post: post %>
-
+        
+        <!--リレーショナルシップス-->
         <% if customer_signed_in? && current_customer != post.customer %>
           <% if current_customer.following?(post.customer) %>
             <%= link_to 'フォロー中', customer_relationships_path(customer_id: post.customer, id: current_customer.relationships.find_by(followed_id: post.customer.id)), method: :delete, data: { confirm: 'フォローを解除しますか？' }, class: "btn btn-secondary" %>

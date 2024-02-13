@@ -15,10 +15,14 @@
     <th><%= customer.introduction %></th>
   </tr>
   <th>
-  <%= link_to 'フォロー', '#followersModal', data: { toggle: 'modal' } %>: <%= customer.followings.count %>
+  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+        <span><%= customer.followings.count %></span> フォロー
+      <% end %>
 </th>
 <th>
-  <%= link_to 'フォロワー', '#followersModal', data: { toggle: 'modal' } %>: <%= customer.followers.count %>
+  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+        <span><%= customer.followers.count %></span> フォロワー
+      <% end %>
 </th>
 </table>
 
