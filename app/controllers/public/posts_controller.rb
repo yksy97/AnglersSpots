@@ -9,8 +9,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true).order(created_at: :desc)
+    @posts = Post.all.order(created_at: :desc)
     @post = Post.new
   end
 

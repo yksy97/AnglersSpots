@@ -23,4 +23,3 @@ class Public::RelationshipsController < ApplicationController
     @customers = customer.followers
   end
 end
-

@@ -36,6 +36,10 @@ class Public::PostCommentsController < ApplicationController
   def set_post
     @post = Post.find(params[:post_id])
   end
+  
+  def post_params
+  params.require(:post).permit(:title, :body, :image)
+end
 
   def post_comment_params
     params.require(:post_comment).permit(:comment)

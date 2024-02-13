@@ -23,3 +23,13 @@ class Post < ApplicationRecord
     end
   end
 end
+
+ def get_image
+  if image.attached?
+    image
+  else
+    '/assets/no_image.jpg'
+  end
+  end
+
+

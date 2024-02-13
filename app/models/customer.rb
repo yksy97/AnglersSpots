@@ -23,17 +23,17 @@ class Customer < ApplicationRecord
   end
   end
   
-  def follow
-    relationships.create(followed_id: customer.id)
+  def follow(other_customer)
+    relationships.create(followed_id: other_customer.id) unless self == other_customer
   end
 
-  def unfollow
-    relationships.find_by(followed_id: customer.id).destroy
+  def unfollow(other_customer)
+  relationships.find_by(followed_id: other_customer.id).destroy if following?(other_customer)
   end
 
-  def following?
-    followings.include?
-  end
+  def following?(other_customer)
+  followings.include?(other_customer)
+end
 
   def self.search_for(content, method)
     if method == 'perfect'
