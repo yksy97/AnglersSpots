@@ -16,7 +16,14 @@
   </tr>
   <th>
   <!--会員情報のリレーションシップ-->
+  <th>
    <%= render "public/relationships/customer_info", customer: customer %>
+   </th>
+   <th>
+  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+        <span><%= customer.followers.count %></span> フォロワー
+      <% end %>
+</th>
 </table>
 
 <!--フォローフォロワーのモーダル-->
