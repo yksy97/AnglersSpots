@@ -8,6 +8,21 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
+// bootstrap導入
+import "jquery";
+import "popper.js";
+import "bootstrap";
+import "../stylesheets/application"; 
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+
+
+// モーダル画面の背景色
+$('#NewBookModal').on('shown.bs.modal', function () {
+  $('.modal-backdrop').css({
+    'background-color': 'rgba(0,0,0,0.5)'
+  });
+});

@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header text-center">
+          <h3>本当に退会しますか？</h3>
+        </div>
+        <div class="card-body text-center">
+          <p class="card-text">
+            退会すると、会員登録情報や<br>
+            これまでの投稿履歴が閲覧できなくなります。<br>
+            退会する場合は、「退会する」をクリックしてください。
+          </p>
+          <div class="text-center">
+            <!--退会しないボタンのリンクを後で、ユーザー編集画面のリンクに変える-->
+            <%= link_to "退会しない", root_path, class: "btn btn-primary mb-3" %>
+            <%= link_to "退会する", customers_withdraw_path, method: :patch, class: "btn btn-danger mb-3", data: { confirm: "本当に退会しますか？" } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+<table class='table'>
+  <tr>
+    <% if customer.image.attached? %>
+      <%= image_tag customer.image, size: '100x100' %>
+    <% else %>
+      <%= image_tag 'no_image.jpg', size: '100x100' %>
+    <% end %>
+  </tr>
+  <tr>
+    <th>名前</th>
+    <th><%= customer.name %></th>
+  </tr>
+  <tr>
+    <th>自己紹介</th>
+    <th><%= customer.introduction %></th>
+  </tr>
+  <th>
+    <!--モーダルごとidで括れば、１つのid指定で二箇所の非同期通信が可能なのか-->
+    <!--<div id="relationship-btn<%= customer.id %>">-->
+  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+        <span><%= customer.followings.count %></span> フォロー
+      <% end %>
+</th>
+<th>
+  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+        <span><%= customer.followers.count %></span> フォロワー
+      <% end %>
+</th>
+</table>
+
+<!--フォローフォロワーのモーダル-->
+<div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="followersModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="followersModalLabel">フォロー / フォロワー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- タブ -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="followings-tab" data-toggle="tab" href="#followings" role="tab" aria-controls="followings" aria-selected="true">フォロー</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">フォロワー</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="followings" role="tabpanel" aria-labelledby="followings-tab">
+            <!--フォロー一覧-->
+            <% customer.followings.each do |following| %>
+              <p><%= following.name %></p>
+            <% end %>
+          </div>
+          <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
+            <!--フォロワー一覧-->
+            <% customer.followers.each do |follower| %>
+              <p><%= follower.name %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="d-flex justify-content-between">
+  <% if current_customer != customer %>
+    <td><%= render "relationships/btn", customer: customer %></td>
+  <% else %>
+    <!--編集モーダルボタン-->
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#EditCustomerModal">
+      編集
+    </button>
+  <% end %>
+</div>
+
+<!-- 編集モーダル -->
+<div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with model: customer, url: customer_path(customer), local: true do |f| %>
+          <div class="form-group">
+            <%= f.label :name, "名前" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :email, "メールアドレス" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :introduction, "自己紹介" %>
+            <%= f.text_area :introduction, class: "form-control" %>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <%= f.submit "更新保存", class: "btn btn-success" %>
+            <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

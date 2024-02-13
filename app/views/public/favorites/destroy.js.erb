@@ -1,0 +1,2 @@
+<!--いいねボタンを新しい状態に更新-->
+$("#favorite-btn<%= @favorite.post_id %>").html("<%= j(render 'public/favorites/btn', post: @favorite.post) %>");
