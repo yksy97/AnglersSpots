@@ -1,11 +1,11 @@
-<div id="relationship-btn<%= customer.id %>">
+<div class="relationship-btn<%= customer.id %>">
   <% if current_customer != customer %>
     <% if current_customer.following?(customer) %>
-      <%= link_to customer_relationships_path(customer.id), method: :delete, remote: true, class: "btn btn-info" do %>
+      <%= link_to customer_relationships_path(customer.id), method: :delete, remote: true do %>
         フォロー外す
       <% end %>
     <% else %>
-      <%= link_to customer_relationships_path(customer.id), method: :post, remote: true, class: "btn btn-success" do %>
+      <%= link_to customer_relationships_path(customer.id), method: :post, remote: true do %>
         フォローする
       <% end %>
     <% end %>

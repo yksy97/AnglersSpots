@@ -1,1 +1,2 @@
-$("#relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/btn', customer: @customer) %>");
+$(".relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/test', post: @post) %>");
+$("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_info', customer: @customer) %>");

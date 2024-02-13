@@ -16,16 +16,8 @@
   </tr>
   <th>
     <!--モーダルごとidで括れば、１つのid指定で二箇所の非同期通信が可能なのか-->
-    <!--<div id="relationship-btn<%= customer.id %>">-->
-  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-        <span><%= customer.followings.count %></span> フォロー
-      <% end %>
-</th>
-<th>
-  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-        <span><%= customer.followers.count %></span> フォロワー
-      <% end %>
-</th>
+   
+   <%= render "public/relationships/customer_info", customer: customer %>
 </table>
 
 <!--フォローフォロワーのモーダル-->
