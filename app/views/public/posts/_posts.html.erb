@@ -3,10 +3,15 @@
     <div class="card-header">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          投稿者：<strong><%= link_to post.customer.name, customer_path(post.customer), class: "mr-2" %></strong>
+          <% if post.customer.image.attached? %>
+            <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
+          <% end %>
+          <strong><%= link_to post.customer.name, customer_path(post.customer), class: "ml-2" %></strong>
           
           <div id="relationship-btn<%= post.customer.id %>">
-          <%= render 'public/relationships/test', customer: post.customer %>
+            <%= render 'public/relationships/test', customer: post.customer %>
           </div>
           
         </div>
@@ -18,7 +23,7 @@
     <% else %>
       <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid" %>
     <% end %>
-      <div class="card-body">
+    <div class="card-body">
       <h5 class="card-title"><%= link_to post.title, post_path(post), class: "text-dark" %></h5>
       <p class="card-text"><%= truncate(post.body, length: 100) %></p>
       <div class="d-flex flex-column">
@@ -34,4 +39,3 @@
     </div>
   </div>
 <% end %>
-

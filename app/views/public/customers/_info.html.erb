@@ -9,13 +9,17 @@
   <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
     <span><%= customer.followers.count %></span> フォロワー
   <% end %>
-  </th>
-  <tr>
-    <th>実装したいこと</th>
-    <th>プロフィール画像</th>
-    <th>コメント通知</th>
-    <th>いいね通知</th>
-    </tr>
+ </th>
+ <div>
+  <% if customer.image.attached? %>
+    <%= image_tag customer.image, class: "card-img-top img-fluid", style: "height: 100px; object-fit: cover;" %>
+  <% else %>
+    <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid", style: "height: 100px; object-fit: cover;" %>
+  <% end %>
+ </div>
+
+
+    
 </table>
 
 <!--フォローフォロワーのモーダル-->

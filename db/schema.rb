@@ -56,6 +56,9 @@ ActiveRecord::Schema.define(version: 2024_02_07_003308) do
     t.string "name", null: false
     t.string "email", default: "", null: false
     t.text "introduction"
+    t.string "favorite_fish"
+    t.string "favorite_rig"
+    t.string "favorite_location"
     t.string "encrypted_password", default: "", null: false
     t.boolean "is_deleted", default: true, null: false
     t.string "reset_password_token"

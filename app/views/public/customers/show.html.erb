@@ -2,17 +2,16 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header text-center d-flex justify-content-between align-items-center">
-          <h2 class="mb-0 text-center flex-grow-1"><%= @customer.name %> さんの詳細</h2>
-          <%= link_to "編集", edit_customer_path(@customer), class: "btn btn-success btn-sm" %>
+        <div class="card-header text-center">
+          <h2><%= @customer.name %> さんの詳細</h2>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-4 text-center mb-4">
               <% if @customer.image.attached? %>
-                <%= image_tag @customer.image, size: "100x100" %>
+                <%= image_tag @customer.image, class: "img-thumbnail" %>
               <% else %>
-                <%= image_tag 'no_image.jpg', size: "100x100" %>
+                <%= image_tag 'no_image.jpg', class: "img-thumbnail" %>
               <% end %>
             </div>
             <div class="col-md-8">
@@ -32,15 +31,15 @@
                   </tr>
                   <tr>
                     <th>好きな魚</th>
-                    <td><!-- 好きな魚の情報 --></td>
+                    <td><%= @customer.favorite_fish %></td>
                   </tr>
                   <tr>
                     <th>好きな仕掛け</th>
-                    <td><!-- 好きな仕掛けの情報 --></td>
+                    <td><%= @customer.favorite_rig %></td>
                   </tr>
                   <tr>
                     <th>好きな場所</th>
-                    <td><!-- 好きな場所の情報 --></td>
+                    <td><%= @customer.favorite_location %></td>
                   </tr>
                   <tr>
                     <th>おすすめの魚レシピ</th>
@@ -56,62 +55,68 @@
   </div>
 </div>
 
-
-<div class="d-flex justify-content-between">-->
-  <% if current_customer != customer %>
-    <td><%= render "relationships/btn", customer: customer %></td>
-  <% else %>
-    編集モーダルボタン
+<% if current_customer == @customer %>
+  <!--編集モーダルボタン-->
+  <div class="text-center">
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#EditCustomerModal">
-      編集
+      プロフィールを編集
     </button>
-  <% end %>
-</div>
+  </div>
 
- 編集モーダル 
-<div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= form_with model: customer, url: customer_path(customer), local: true do |f| %>
-          <div class="form-group">
-            <%= f.label :name, "名前" %>
-            <%= f.text_field :name, class: "form-control" %>
-          </div>
-          <div class="form-group">
-            <%= f.label :email, "メールアドレス" %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
-          </div>
-          <div class="form-group">
-            <%= f.label :introduction, "自己紹介" %>
-            <%= f.text_area :introduction, class: "form-control" %>
-          </div>
-           <div class="form-group">
+  <!--編集モーダル -->
+  <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_with model: @customer, local: true do |f| %>
+            <div class="form-group">
+              <%= f.label :name, "名前" %>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :email, "メールアドレス" %>
+              <%= f.email_field :email, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :introduction, "自己紹介" %>
+              <%= f.text_area :introduction, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :favorite_fish, "好きな魚" %>
+              <%= f.text_field :favorite_fish, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :favorite_rig, "好きな仕掛け" %>
+              <%= f.text_field :favorite_rig, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :favorite_location, "好きな場所" %>
+              <%= f.text_field :favorite_location, class: "form-control" %>
+            </div>
+            <div class="form-group">
             <label for="inputCustomerFile">プロフィール画像</label>
-            <div class="input-group drop-area">
+            <div class="input-group customer-drop-area">
               <div class="custom-file">
-                
-                <%= f.file_field :image, class: "custom-file-input", id:"inputFile" %>
-                
-                <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
+                <%= f.file_field :image, class: "custom-file-input", id:"inputCustomerFile" %>
+                <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択</label>
               </div>
             </div>
           </div>
-          <div class="modal-footer justify-content-between">
-            <%= f.submit "更新", class: "btn btn-success" %>
-            <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger" %>
-          </div>
-        <% end %>
+            <div class="modal-footer">
+              <%= f.submit "更新", class: "btn btn-success" %>
+              <%= link_to "退会手続き", customers_confirm_path, class: "btn btn-danger" %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
 
-
-<%= javascript_pack_tag 'input_image' %>
+<%= javascript_pack_tag 'input_customer_image' %>
