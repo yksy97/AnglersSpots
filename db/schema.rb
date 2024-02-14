@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(version: 2024_02_07_003308) do
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "body"
+    t.string "rig"
+    t.string "location"
     t.string "rod"
     t.string "reel"
     t.string "line"

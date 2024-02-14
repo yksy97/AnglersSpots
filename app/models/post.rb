@@ -1,11 +1,12 @@
 class Post < ApplicationRecord
   belongs_to :customer
+  belongs_to :genre, optional: true
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_one_attached :image
   
-  validates :title,presence:true
-  validates :body,presence:true
+  validates :title, presence: true
+  validates :body, presence: true
   
   # 仮想属性（フォームで一時的に使用するための属性）
   # 「new_genre_name」 は、PostモデルのDBに保存される属性ではありません。
@@ -30,14 +31,18 @@ class Post < ApplicationRecord
       Book.where('title LIKE ?', '%'+content+'%')
     end
   end
+  
+  def get_image
+    if image.attached?
+      image
+    else
+      '/assets/no_image.jpg'
+    end
+  end
+  
+  
 end
 
- def get_image
-  if image.attached?
-    image
-  else
-    '/assets/no_image.jpg'
-  end
-  end
+  
 
 
