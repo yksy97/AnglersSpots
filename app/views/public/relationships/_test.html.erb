@@ -1,0 +1,10 @@
+<!--投稿一覧のリレーションシップス-->
+<div id="relationship-btn<%= customer.id %>">
+  <% if customer_signed_in? && current_customer != customer %>
+    <% if current_customer.following?(customer) %>
+      <%= link_to 'フォロー中', customer_relationships_path(customer_id: customer.id, id: current_customer.relationships.find_by(followed_id: customer.id)), remote: true, method: :delete, data: { confirm: 'フォローを解除しますか？' }, class: "btn btn-secondary" %>
+    <% else %>
+      <%= link_to 'フォローする', customer_relationships_path(customer_id: customer), remote: true, method: :post, class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+</div>
