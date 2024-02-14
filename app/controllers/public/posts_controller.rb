@@ -17,13 +17,20 @@ class Public::PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-    @post.customer_id = current_customer.id
+  @post = Post.new(post_params)
+  @post.customer_id = current_customer.id
 
-    if @post.save
-      redirect_to posts_path, notice: "投稿が完了しました"
-    end
+  if params[:new_genre_name].present?
+    genre = Genre.find_or_create_by(name: params[:new_genre_name])
+    @post.genre_id = genre.id
   end
+
+  if @post.save
+    redirect_to posts_path, notice: "投稿が完了しました。"
+  else
+    render :new
+  end
+end
 
   def genre
     genre = Genre.find(params[:id])
@@ -50,7 +57,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :rod, :reel, :rod, :line, :bait, :hook, :tips)
+    params.require(:post).permit(:title, :body, :image, :genre_id, :rig, :location, :rod, :reel, :rod, :line, :bait, :hook, :tips)
   end
 
   def ensure_correct_customer

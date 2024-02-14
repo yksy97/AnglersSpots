@@ -69,25 +69,29 @@
       <div class="modal-body">
         <%= form_for @post, url: posts_path, local: true, html: { class: "needs-validation", novalidate: '' } do |f| %>
           <div class="form-group">
-            <%= f.label :title, "魚種" %>
-            <%= f.text_field :title, class: "form-control", required: true %>
-            <div class="invalid-feedback">
-              魚種を入力してください
-            </div>
+            <%= f.label :genre_id, "魚種" %>
+            <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: '新規または既存の魚種を選択'}, class: "custom-select" %>
           </div>
           <div class="form-group">
-            <%= f.label :body, "内容" %>
+            <%= f.label :new_genre_name, "新規魚種名" %>
+            <%= f.text_field :new_genre_name, class: "form-control" %>
+            <small class="form-text text-muted">既存の魚種がない場合に入力してください。</small>
+          </div>
+          <div class="form-group">
+            <%= f.label :rig, "仕掛け" %>
+            <%= f.text_field :rig, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :location, "場所" %>
+            <%= f.text_field :location, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :body, "一言" %>
             <%= f.text_area :body, class: "form-control", required: true %>
-            <div class="invalid-feedback">
-              内容を入力してください
-            </div>
           </div>
           <div class="form-group">
             <%= f.label :image, "画像" %>
             <%= f.file_field :image, class: "form-control" %>
-            <div class="invalid-feedback">
-              画像ファイルを選択してください（任意）
-            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>

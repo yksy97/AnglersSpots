@@ -8,4 +8,3 @@ def self.ransackable_attributes(auth_object = nil)
 end
 
 end
-end

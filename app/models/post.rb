@@ -7,6 +7,14 @@ class Post < ApplicationRecord
   validates :title,presence:true
   validates :body,presence:true
   
+  # 仮想属性（フォームで一時的に使用するための属性）
+  # 「new_genre_name」 は、PostモデルのDBに保存される属性ではありません。
+  # この一時的な属性は、ユーザーがフォームに入力した新規魚種名を保持するために使用します。
+  # フォームから受け取った新規魚種名は、Postコントローラの createアクション内で
+  # Genreモデル(魚種の管理) の新しいレコード作成に使用され、その後この一時的な値は不要となります。
+  # これにより、ユーザーは新しい魚種をシステムに追加できます。
+  attr_accessor :new_genre_name
+  
   def favorited_by?(customer)
     favorites.where(customer_id: customer.id).exists?
   end
