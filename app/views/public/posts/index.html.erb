@@ -5,8 +5,8 @@
     <div class="col-md-4">
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <h4 class="text-center mb-4">WERT FISCH</h4>
-          <h5 class="card-title">ようこそ！<%= link_to "#{current_customer.name}さん！", customer_path(current_customer) %></h5>
+          <h4 class="text-center mb-4">WERT FISCH（フィッシュ）</h4>
+          <h5 class="card-title">ようこそ！<%= link_to "#{current_customer.name}さん", customer_path(current_customer) %></h5>
           <%= render 'public/customers/info', customer: current_customer %>
         </div>
       </div>
@@ -94,7 +94,8 @@
             <label for="inputFile">画像</label>
             <div class="input-group drop-area">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputFile">
+                <%= f.file_field :image, class: "custom-file-input", id:"inputFile" %>
+                <!--<input type="file" class="custom-file-input" id="inputFile">-->
                 <label class="custom-file-label" for="inputFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
               </div>
             </div>

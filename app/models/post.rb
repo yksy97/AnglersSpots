@@ -5,7 +5,7 @@ class Post < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_one_attached :image
   
-  validates :title, presence: true
+  # validates :title, presence: true
   validates :body, presence: true
   
   # 仮想属性（フォームで一時的に使用するための属性）

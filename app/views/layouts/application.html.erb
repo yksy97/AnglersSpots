@@ -10,34 +10,38 @@
   <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' %>
 </head>
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <%= link_to 'WERT FISCH', (customer_signed_in? ? about_path : root_path), class: 'navbar-brand' %>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+ <header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <%= link_to 'WERT FISCH', (customer_signed_in? ? about_path : root_path), class: 'navbar-brand' %>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <% if customer_signed_in? %>
-            <li class="nav-item">
-              <%= link_to '投稿一覧', posts_path(current_customer), class: 'nav-link' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
-            </li>
-          <% else %>
-            <li class="nav-item">
-              <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </nav>
-  </header>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <%= link_to 'About', about_path, class: 'nav-link' %>
+        </li>
+        <% if customer_signed_in? %>
+          <li class="nav-item">
+            <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to '投稿一覧', posts_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</header>
+
 
   <!-- メッセージ -->
   <% flash.each do |key, value| %>

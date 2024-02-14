@@ -1,7 +1,7 @@
+
   var dropArea = document.querySelector('.drop-area');
   var inputFile = document.getElementById('inputFile');
 
-  // ドラッグオーバー時のイベントを無効化
   ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropArea.addEventListener(eventName, preventDefaults, false);
   });
@@ -24,3 +24,9 @@
     var fileName = files[0].name;
     dropArea.querySelector('.custom-file-label').innerText = fileName;
   }
+  inputFile.addEventListener('change', function(e){
+    var files = inputFile.files;
+    
+    var fileName = files[0].name;
+    dropArea.querySelector('.custom-file-label').innerText = fileName;
+})
