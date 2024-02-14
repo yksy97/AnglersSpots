@@ -1,19 +1,11 @@
 <table class='table'>
+  
   <tr>
-    <% if customer.image.attached? %>
-      <%= image_tag customer.image, size: '100x100' %>
-    <% else %>
-      <%= image_tag 'no_image.jpg', size: '100x100' %>
-    <% end %>
-  </tr>
-  <tr>
-    <th>名前</th>
-    <th><%= customer.name %></th>
-  </tr>
-  <tr>
-    <th>自己紹介</th>
-    <th><%= customer.introduction %></th>
-  </tr>
+    <th>実装したいこと</th>
+    <th>プロフィール画像</th>
+    <th>コメント通知</th>
+    <th>いいね通知</th>
+    </tr>
   <!--会員情報のリレーションシップ-->
   <th>
    <%= render "public/relationships/customer_info", customer: customer %>
@@ -103,8 +95,17 @@
             <%= f.label :introduction, "自己紹介" %>
             <%= f.text_area :introduction, class: "form-control" %>
           </div>
+           <div class="form-group">
+            <label for="inputFile">プロフィール画像</label>
+            <div class="input-group drop-area">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputFile">
+                <label class="custom-file-label" for="inputFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
+              </div>
+            </div>
+          </div>
           <div class="modal-footer justify-content-between">
-            <%= f.submit "更新保存", class: "btn btn-success" %>
+            <%= f.submit "更新", class: "btn btn-success" %>
             <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger" %>
           </div>
         <% end %>
@@ -112,3 +113,4 @@
     </div>
   </div>
 </div>
+<%= javascript_pack_tag 'input_image' %>

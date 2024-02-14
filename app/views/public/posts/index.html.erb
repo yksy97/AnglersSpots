@@ -1,39 +1,42 @@
 <div class="container mt-5">
   <div class="row">
+    
     <!-- 会員情報セクション -->
     <div class="col-md-4">
-      <div class="card mb-4">
+      <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <h3 class="card-title">会員情報</h3>
+          <h4 class="text-center mb-4">WERT FISCH</h4>
+          <h5 class="card-title">ようこそ！<%= link_to "#{current_customer.name}さん！", customer_path(current_customer) %></h5>
           <%= render 'public/customers/info', customer: current_customer %>
         </div>
       </div>
+    </div>
 
-      <!-- 新規投稿モーダルボタン -->
+    <!-- 新規投稿モーダルボタン -->
+    <div class="col-md-8">
       <div class="text-center mb-4">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#NewPostModal">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewPostModal">
           新規投稿
         </button>
       </div>
-    </div>
 
-     <!-- 投稿一覧セクション -->
-    <div class="col-md-8">
-      <!-- タブのナビゲーション -->
-      <ul class="nav nav-tabs" id="postTabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="all-posts-tab" data-toggle="tab" href="#all-posts" role="tab" aria-controls="all-posts" aria-selected="true">全体の投稿</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="following-posts-tab" data-toggle="tab" href="#following-posts" role="tab" aria-controls="following-posts" aria-selected="false">フォロー中の投稿</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="my-posts-tab" data-toggle="tab" href="#my-posts" role="tab" aria-controls="my-posts" aria-selected="false">自分の投稿</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="liked-posts-tab" data-toggle="tab" href="#liked-posts" role="tab" aria-controls="liked-posts" aria-selected="false">いいねした投稿</a>
-        </li>
-      </ul>
+      <!-- 投稿一覧セクション -->
+      <div class="card">
+        <ul class="nav nav-tabs" id="postTabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="all-posts-tab" data-toggle="tab" href="#all-posts" role="tab" aria-controls="all-posts" aria-selected="true">全体の投稿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="following-posts-tab" data-toggle="tab" href="#following-posts" role="tab" aria-controls="following-posts" aria-selected="false">フォロー中の投稿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="my-posts-tab" data-toggle="tab" href="#my-posts" role="tab" aria-controls="my-posts" aria-selected="false">自分の投稿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="liked-posts-tab" data-toggle="tab" href="#liked-posts" role="tab" aria-controls="liked-posts" aria-selected="false">いいねした投稿</a>
+          </li>
+        </ul>
+
 
           <!-- タブのコンテンツ -->
           <div class="tab-content" id="postTabsContent">
