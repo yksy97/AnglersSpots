@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-center align-items-center mt-2">
+    <div class="d-flex justify-content-center align-items-center mt-2", style="background-color: #fcffff">
       <% if post.image.attached? %>
         <%= link_to post_path(post) do %>
           <%= image_tag post.image, class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover;" %>
@@ -26,7 +26,7 @@
       <% end %>
     </div>
 
-    <div class="card-body">
+    <div class="card-body", style="background-color: #fcffff">
       <h5 class="card-title mb-2">
         <i class="fa-solid fa-fish-fins"></i> <%= link_to post.genre.name, post_path(post), class: "text-dark" %>（<%= post.rig %>）
       </h5>

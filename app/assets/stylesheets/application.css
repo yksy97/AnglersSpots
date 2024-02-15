@@ -1,21 +1,4 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
- 
  /*固定ヘッダーのカスタム*/
- 
   .navbar-custom {
     background-color: #AFDFE4;
   }
@@ -42,14 +25,15 @@
     background-color: #78CDD1;
   }
   
-  /*投稿タブのカスタム*/
+  /*投稿タブの大枠*/
   .custom-card {
-  background-color: #f0f9fa;
+  background-color: #fff;
   }
   
+  /*投稿タブの中身*/
   .nav-tabs .nav-item .nav-link {
     background-color: #AFDFE4;
-    color: #404048; /* テキストの色 */
+    color: #404048;
     border: none;
   }
 
@@ -63,8 +47,8 @@
     color: #404048;
   }
 
-  /*会員情報の背景色*/
+  /*その他の背景色*/
    .custom-card-body {
-  background-color: #f0f9fa;
+  background-color: #fcffff;;
   }
   
