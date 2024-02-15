@@ -17,11 +17,15 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center ml-4 mt-2">
+    <div class="d-flex justify-content-center align-items-center mt-2">
       <% if post.image.attached? %>
-        <%= image_tag post.image, class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover; width: auto; margin: auto;" %>
+        <%= link_to post_path(post) do %>
+          <%= image_tag post.image, class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover;" %>
+        <% end %>
       <% else %>
-        <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover; width: auto; margin: auto;" %>
+        <%= link_to post_path(post) do %>
+          <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover;" %>
+        <% end %>
       <% end %>
     </div>
 
@@ -43,4 +47,3 @@
     </div>
   </div>
 <% end %>
-
