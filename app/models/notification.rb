@@ -13,8 +13,8 @@ class Notification < ApplicationRecord
   end
 
   def notifiable_path
-    if notification.notifiable_type === "Post"
-      posts_path(notifiable.id)
+    if self.notifiable_type === "Post"
+      post_path(notifiable.id)
     else
       customer_path(notifiable.customer.id)
     end

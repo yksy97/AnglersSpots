@@ -20,28 +20,18 @@
   <% end %>
 </div>
 
-<div class="new-notifications-section">
-  <h4 class="notification-title" style="text-align: center;">新着通知</h4>
-  <div class="notifications" style="text-align: center;">
-    <% unread_notifications = current_customer.notifications.where(read_at: nil).order(created_at: :desc).limit(5) %>
-    <% if current_customer.notifications.where(read: false).any? %>
-      <div class="notification-header">新着の未読通知</div>
-      <% current_customer.notifications.where(read: false).limit(5).order(created_at: :desc).each do |notification| %>
-        <div class="notification-item">
-          
-          
-          <!--コメントアウト外すとエラー-->
-          <!--　%= link_to notification.message, notification, method: :patch %> -->
-        
-        
-        </div>
+ <div class="notifications">
+  <h4>未読通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
+  <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(5).each do |notification| %>
+    <div class="notification">
+      <% if notification.notifiable_type == "Favorite" %>
+        <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿「#{notification.notifiable.post.title}」にいいねしました", notification.notifiable_path %>
+      <% elsif notification.notifiable_type == "Post" %>
+        <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", notification.notifiable_path %>
       <% end %>
-    <% else %>
-      <div class="notification-none" style="text-align: center;">未読の通知はありません</div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
-
 
 
 
