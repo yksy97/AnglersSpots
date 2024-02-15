@@ -5,6 +5,14 @@ class Post < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_one_attached :image
   
+  # 通知
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    customer.followers.each do |follower|
+      notifications.create(customer_id: follower.id)
+    end
+  end  
+  
   # validates :title, presence: true
   validates :body, presence: true
   

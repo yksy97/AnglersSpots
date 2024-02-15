@@ -36,5 +36,11 @@ Rails.application.routes.draw do
     resources :genres, only: [] do
       get 'posts', to: 'posts#genre', as: 'posts', on: :member
     end
+    
+    resources :notifications, only: [] do
+      member do
+      post :mark_as_read
+      end
+    end
   end
 end
