@@ -5,10 +5,10 @@ class Notification < ApplicationRecord
   include Rails.application.routes.url_helpers
  
   def message
-    if notifiable_type === "Book"
-      "フォローしている#{notifiable.user.name}さんが#{notifiable.title}を投稿しました"
+    if notifiable_type === "Post"
+      "フォローしている#{notifiable.customer.name}さんが#{notifiable.title}を投稿しました"
     else
-      "投稿した#{notifiable.book.title}が#{notifiable.user.name}さんにいいねされました"
+      "投稿した#{notifiable.post.title}が#{notifiable.customer.name}さんにいいねされました"
     end
   end
 

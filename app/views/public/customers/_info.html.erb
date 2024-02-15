@@ -28,7 +28,12 @@
       <div class="notification-header">新着の未読通知</div>
       <% current_customer.notifications.where(read: false).limit(5).order(created_at: :desc).each do |notification| %>
         <div class="notification-item">
-          <%= link_to notification.message, notification, method: :patch %> 
+          
+          
+          <!--コメントアウト外すとエラー-->
+          <!--　%= link_to notification.message, notification, method: :patch %> -->
+        
+        
         </div>
       <% end %>
     <% else %>

@@ -73,7 +73,8 @@
         </button>
       </div>
       <div class="modal-body", style="background-color: #f0f9fa;">
-        <%= form_for @post, url: posts_path, local: true, html: { class: "needs-validation", novalidate: '' } do |f| %>
+        
+        <%= form_with model: @post, url: posts_path, remote: false, html: { class: "needs-validation", novalidate: '' } do |f| %>
           <div class="form-group">
             <%= f.label :genre_id, "既存の魚種" %>
             <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: '過去に投稿された魚を選択'}, class: "custom-select" %>

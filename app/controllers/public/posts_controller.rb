@@ -26,7 +26,7 @@ class Public::PostsController < ApplicationController
     end
 
     if @post.save
-      redirect_to posts_path, notice: "投稿が完了しました。"
+      redirect_to posts_path, notice: "投稿が完了しました"
     else
       @posts = Post.includes(:customer, :genre).order(created_at: :desc)
       @following_posts = Post.where(customer_id: current_customer.followings.pluck(:id)).order(created_at: :desc)
@@ -49,7 +49,7 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to post_path(@post), notice: "投稿が更新されました。"
+      redirect_to post_path(@post), notice: "投稿が更新されました"
     else
       render :edit
     end
