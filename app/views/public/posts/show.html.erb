@@ -13,73 +13,50 @@
         <div class="card-body">
           <p><%= @post.body %></p>
 
-          <!-- 感想フォーム -->
-          <%= form_for [@post, PostComment.new], remote: true, html: { class: 'needs-validation', novalidate: '' } do |f| %>
+          <!-- コメントフォーム -->
+          <%= form_with model: [@post, @post.post_comments.build], local: true, html: { class: 'needs-validation', novalidate: '' } do |f| %>
             <div class="form-group">
               <%= f.label :comment, "コメント" %>
               <%= f.text_area :comment, class: 'form-control', rows: 3, required: true %>
               <div class="invalid-feedback">
-                感想を入力してください
+                コメントを入力してください。
               </div>
             </div>
-            <%= f.submit "投稿", class: "btn btn-primary" %>
+            <%= f.submit "コメントを投稿", class: "btn btn-primary" %>
           <% end %>
 
           <hr>
 
-          <!-- タブ -->
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#myComment" role="tab" aria-controls="home" aria-selected="true">自分のコメント</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#othersComments" role="tab" aria-controls="profile" aria-selected="false">他人のコメント</a>
-            </li>
-          </ul>
+          <!-- コメントとリプライ一覧 -->
+          <div id="comments">
+            <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
+              <div class="comment">
+                <p><i class="fa-regular fa-user"></i><span class="ml-2"><%= comment.customer.name %></span>：<%= comment.comment %></p>
+                <p class="text-muted">投稿日: <%= l comment.created_at, format: :custom_long %></p>
+                <p><%= link_to "返信", "#", class: "reply-link", data: { comment_id: comment.id } %></p>
+                
+                <div id="reply-form-<%= comment.id %>" class="reply-form" style="display: none;">
+                  <%= form_with model: [@post, @post.post_comments.build(parent_id: comment.id)], local: true do |f| %>
+                    <%= f.hidden_field :parent_id %>
+                    <%= f.text_area :comment, placeholder: "返信を入力", class: 'form-control', rows: 2 %>
+                    <%= f.submit "返信を投稿", class: "btn btn-sm btn-primary" %>
+                  <% end %>
+                </div>
 
-          <!-- タブ -->
-          <div class="tab-content" id="myTabContent">
-            <!-- 自分の感想 -->
-            <div class="tab-pane fade show active" id="myComment" role="tabpanel" aria-labelledby="home-tab">
-              <div id="comments-list">
-                <% @post.post_comments.order(created_at: :desc).where(customer: current_customer).each do |comment| %>
-                  <div class="media mt-3">
-                    <div class="media-body" id="comment-<%= comment.id %>">
-                      <p><%= comment.comment %></p>
-                      <p class="text-muted">投稿日: <%= l comment.created_at, format: :custom_long %></p>
-                      <%= link_to '編集', '#', class: 'btn btn-sm btn-primary edit-comment-link', data: { comment_id: comment.id }, remote: true %>
-                      <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-danger', remote: true %>
+                <!-- リプライ -->
+                <% comment.replies.order(created_at: :desc).each do |reply| %>
+                  <div class="reply ml-4 pl-3 mt-2">
+                    <div class="name" style="background-color: #d9f6fa; padding-left: 10px;">
+                      <i class="fa-regular fa-user"></i><span class="ml-2"><%= reply.customer.name %></span>
                     </div>
-                    
-                    
-                    
-            
-                  </div>
-                  <!-- インライン編集フォーム、通常は非表示 -->
-                  <div id="edit-comment-<%= comment.id %>" class="edit-comment-form" style="display: none;">
-                    <%= form_for [comment.post, comment], remote: true do |f| %>
-                      <div class="form-group">
-                        <%= f.text_area :comment, value: comment.comment, class: 'form-control', rows: 3 %>
-                      </div>
-                      <%= f.submit "更新", class: "btn btn-primary" %>
-                    <% end %>
+                    <div style="background-color: #f8f8f8; padding-left: 15px;">
+                      <p><i class="fa-regular fa-comment"></i><span class="ml-2"><%= reply.comment %></span></p>
+                      <p class="text-muted" style="color: #6c757d;">返信日: <%= l reply.created_at, format: :custom_long %></p>
+                    </div>
                   </div>
                 <% end %>
               </div>
-            </div>
-
-            <!-- 他のユーザーの感想 -->
-            <div class="tab-pane fade" id="othersComments" role="tabpanel" aria-labelledby="profile-tab">
-              <% @post.post_comments.order(created_at: :desc).where.not(customer: current_customer).each do |comment| %>
-                <div class="media mt-3">
-                  <div class="media-body">
-                    <h5 class="mt-0"><%= comment.customer.name %></h5>
-                    <%= comment.comment %>
-                    <p class="text-muted">投稿日時: <%= l comment.created_at, format: :custom_long %></p>
-                  </div>
-                </div>
-              <% end %>
-            </div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -87,8 +64,4 @@
   </div>
 </div>
 
-
-
-<!--javascript/packsのedit_inlineから参照-->
-<%= javascript_pack_tag 'edit_inline' %>
-<%= javascript_pack_tag 'validations' %>
+<%= javascript_pack_tag 'reply' %>
