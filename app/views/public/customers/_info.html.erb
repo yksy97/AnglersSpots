@@ -1,42 +1,51 @@
 <table class='table'>
   <thead>
-    <tr>
-      <th>
-        <div id="relationship-info"><%= render "public/relationships/customer_info", customer: customer %></div>
-      </th>
-      <th>
-        <%= link_to '#followersModal', data: { toggle: 'modal' } do %><span style="color: black;">フォロワー</span> <span><%= customer.followers.count %></span><% end %>
-      </th>
+   <tr>
+      <td colspan="2" class="text-center">
+        <%= link_to customer_path(current_customer) do %>
+          <% if current_customer.image.attached? %>
+            <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+          <% end %>
+        <% end %>
+      </td>
     </tr>
   </thead>
-
-<div class="my-3 text-center">
-  <%= link_to customer_path(current_customer) do %>
-    <% if current_customer.image.attached? %>
-      <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-    <% else %>
-      <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-    <% end %>
-  <% end %>
-</div>
-
- <div class="notifications">
-  <h4>未読通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
-  <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(5).each do |notification| %>
-    <div class="notification">
-      <% if notification.notifiable_type == "Favorite" %>
-        <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿「#{notification.notifiable.post.title}」にいいねしました", notification.notifiable_path %>
-      <% elsif notification.notifiable_type == "Post" %>
-        <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", notification.notifiable_path %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-
-
-
-
+  <tbody>
+    
+     <tr>
+      <th>
+        <div id="relationship-info">
+          <%= render "public/relationships/customer_info", customer: customer %>
+        </div>
+      </th>
+      <th>
+        <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+          <span style="color: black;">フォロワー</span> <span><%= customer.followers.count %></span>
+        <% end %>
+      </th>
+      
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div class="my-3 text-center">
+          <h4>新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
+          <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(5).each do |notification| %>
+            <div class="notification my-2">
+              <% if notification.notifiable_type == "Favorite" %>
+                <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿「#{notification.notifiable.post.title}」にいいねしました", notification.notifiable_path, class: "text-dark" %>
+              <% elsif notification.notifiable_type == "Post" %>
+                <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", notification.notifiable_path, class: "text-dark" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>
+
 
 
 <!-- フォローフォロワーのモーダル -->
