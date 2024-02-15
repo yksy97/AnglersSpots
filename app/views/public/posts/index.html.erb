@@ -4,9 +4,10 @@
     <!-- 会員情報セクション -->
     <div class="col-md-4">
       <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-          <h4 class="text-center mb-4">WERT FISCH（フィッシュ）</h4>
-          <h5 class="card-title">ようこそ！<%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h5>
+        <div class="custom-card-body">
+          <h4 class="text-center mt-2 mb-4">WERT FISCH</h4>
+          <h5 class="card-title text-center mb-2">ようこそ！</h5>
+          <h5><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark text-center d-block" %></h5>
           <%= render 'public/customers/info', customer: current_customer %>
         </div>
       </div>
@@ -21,7 +22,7 @@
       </div>
 
       <!-- 投稿一覧セクション -->
-      <div class="card">
+      <div class="custom-card">
         <ul class="nav nav-tabs" id="postTabs" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="all-posts-tab" data-toggle="tab" href="#all-posts" role="tab" aria-controls="all-posts" aria-selected="true">全体の投稿</a>
