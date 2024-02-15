@@ -1,28 +1,26 @@
 <table class='table'>
-  <!--会員情報のリレーションシップ-->
-  <th>
-    <div id="relationship-info">
-   <%= render "public/relationships/customer_info", customer: customer %>
-   </div>
-   </th>
-   <th>
-  <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-    <span><%= customer.followers.count %></span> フォロワー
-  <% end %>
- </th>
- <div>
-  <% if customer.image.attached? %>
-    <%= image_tag customer.image, class: "card-img-top img-fluid", style: "height: 100px; object-fit: cover;" %>
+  <thead>
+    <tr>
+      <th>
+        <div id="relationship-info"><%= render "public/relationships/customer_info", customer: customer %></div>
+      </th>
+      <th>
+        <%= link_to '#followersModal', data: { toggle: 'modal' } do %><span style="color: black;">フォロワー</span><span><%= customer.followers.count %></span><% end %>
+      </th>
+    </tr>
+  </thead>
+
+<div class="my-3 text-center">
+  <% if current_customer.image.attached? %>
+    <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
   <% else %>
-    <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid", style: "height: 100px; object-fit: cover;" %>
+    <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
   <% end %>
- </div>
-
-
-    
+</div>
 </table>
 
-<!--フォローフォロワーのモーダル-->
+
+<!-- フォローフォロワーのモーダル -->
 <div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="followersModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -44,13 +42,11 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="followings" role="tabpanel" aria-labelledby="followings-tab">
-            <!--フォロー一覧-->
             <% customer.followings.each do |following| %>
               <p><%= following.name %></p>
             <% end %>
           </div>
           <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
-            <!--フォロワー一覧-->
             <% customer.followers.each do |follower| %>
               <p><%= follower.name %></p>
             <% end %>
@@ -63,5 +59,3 @@
     </div>
   </div>
 </div>
-
-
