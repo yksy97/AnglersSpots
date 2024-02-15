@@ -1,4 +1,4 @@
 <!--投稿一覧「class」-->
-$("#relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/test', customer: @customer) %>");
+$("#relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
 <!--会員情報「id」-->
 $("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_info', customer: current_customer) %>");

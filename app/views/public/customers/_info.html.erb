@@ -5,16 +5,18 @@
         <div id="relationship-info"><%= render "public/relationships/customer_info", customer: customer %></div>
       </th>
       <th>
-        <%= link_to '#followersModal', data: { toggle: 'modal' } do %><span style="color: black;">フォロワー</span><span><%= customer.followers.count %></span><% end %>
+        <%= link_to '#followersModal', data: { toggle: 'modal' } do %><span style="color: black;">フォロワー</span> <span><%= customer.followers.count %></span><% end %>
       </th>
     </tr>
   </thead>
 
 <div class="my-3 text-center">
-  <% if current_customer.image.attached? %>
-    <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-  <% else %>
-    <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+  <%= link_to customer_path(current_customer) do %>
+    <% if current_customer.image.attached? %>
+      <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+    <% else %>
+      <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+    <% end %>
   <% end %>
 </div>
 </table>

@@ -8,9 +8,10 @@
           <% else %>
             <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
           <% end %>
-          <strong><%= link_to post.customer.name, customer_path(post.customer), class: "ml-2" %></strong>
+          <strong class="mr-3"><%= link_to post.customer.name, customer_path(post.customer), class: "ml-2 text-dark" %></strong>
           <div id="relationship-btn<%= post.customer.id %>">
-            <%= render 'public/relationships/test', customer: post.customer %>
+            <!--フォローするボタン-->
+            <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
           </div>
         </div>
         <h6 class="text-muted"><%= time_ago_in_words(post.created_at) %>前</h6>
