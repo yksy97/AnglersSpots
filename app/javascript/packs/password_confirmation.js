@@ -1,5 +1,5 @@
 // 新規登録画面で使用
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const passwordField = document.querySelector('#password');
   const passwordConfirmationField = document.querySelector('#password_confirmation');
   const form = document.querySelector('#signup-form');

@@ -1,7 +1,7 @@
 // このファイルはログイン画面の入力フォームをAjaxを用いて表示させるために作りました
 import $ from 'jquery';
 
-$(document).on('turbolinks:load', function() {
+$(document).on('DOMContentLoaded', function() {
   $('#login-form').on('submit', function(e) {
     e.preventDefault();
 

@@ -14,7 +14,9 @@ class Post < ApplicationRecord
   end  
   
   # validates :title, presence: true
-  validates :body, presence: true
+  validates :body, presence: true, length: { maximum: 500 }
+  validates :rig, presence: true
+  validates :location, presence: true
   
   # 仮想属性（フォームで一時的に使用するための属性）
   # 「new_genre_name」 は、PostモデルのDBに保存される属性ではありません。

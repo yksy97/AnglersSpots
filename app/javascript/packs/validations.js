@@ -2,7 +2,7 @@
 // public/session/new.html.erb
 // public/view/books/index.html.erb
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const forms = document.getElementsByClassName('needs-validation');
 
   Array.prototype.filter.call(forms, (form) => {

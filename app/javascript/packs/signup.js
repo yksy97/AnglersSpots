@@ -1,7 +1,7 @@
 // このファイルは新規登録の入力フォームをAjaxを用いて表示させるために作りました
 import $ from 'jquery';
 
-$(document).on('turbolinks:load', function() {
+$(document).on('DOMContentLoaded', function() {
   $('#signup-form').on('submit', function(e) {
     e.preventDefault();
 
