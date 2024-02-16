@@ -14,7 +14,7 @@
             <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
           </div>
         </div>
-        <h6 class="text-muted"><%= time_ago_in_words(post.created_at) %>前</h6>
+        <h6 class="text-muted"><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）</h6>
       </div>
     </div>
 
@@ -43,9 +43,12 @@
 </div>
 
 
-    <div class="card-footer d-flex justify-content-between align-items-center">
-      <%= render 'public/favorites/btn', post: post %>
-      <h6 class="text-muted"><%= l post.created_at, format: :custom_short %></h6>
-    </div>
+   <div class="card-footer d-flex justify-content-between align-items-center">
+  <%= render 'public/favorites/btn', post: post %>
+  <div class="d-flex align-items-center">
+    <h6 class="mb-0">コメント件数 (<%= post.post_comments.count %>)</h6>
+  </div>
+</div>
+
   </div>
 <% end %>
