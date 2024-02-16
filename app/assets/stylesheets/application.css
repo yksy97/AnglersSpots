@@ -46,3 +46,10 @@
     background-color: #78CDD1;
     color: #404048;
   }
+
+
+/*「posts/index」のタブ間の余白*/
+.nav-item-custom {
+  margin-right: 2px;
+  margin-left: 2px;
+}
