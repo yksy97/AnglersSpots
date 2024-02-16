@@ -33,12 +33,12 @@
           <h4>新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
           <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(5).each do |notification| %>
             <div class="notification my-2">
-              <% if notification.notifiable_type == "Favorite" %>
-                <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿「#{notification.notifiable.post.title}」にいいねしました", notification.notifiable_path, class: "text-dark" %>
-              <% elsif notification.notifiable_type == "Post" %>
-                <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", notification.notifiable_path, class: "text-dark" %>
-              <% end %>
-            </div>
+           <% if notification.notifiable_type == "Favorite" %>
+            <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿にいいねしました", notification.notifiable_path, class: "text-dark" %>
+          <% elsif notification.notifiable_type == "Post" %>
+            <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", notification.notifiable_path, class: "text-dark" %>
+          <% end %>
+          </div>
           <% end %>
         </div>
       </td>
