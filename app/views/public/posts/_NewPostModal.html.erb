@@ -10,7 +10,7 @@
       </div>
       
       <div class="modal-body" style="background-color: #f0f9fa;">
-        <%= form_with model: @post, url: posts_path, local: true, html: { class: "NewPostForm", novalidate: '' } do |f| %>
+        <%= form_with model: @post, url: posts_path, local: true, html: { id: "NewPostForm", novalidate: '' } do |f| %>
           <div class="form-group">
             <label class="d-block mb-2">魚</label>
             <div class="btn-group" role="group" aria-label="Genre Buttons">
@@ -19,7 +19,7 @@
             </div>
             <small class="form-text text-muted">過去に投稿した魚は既存から選択できます</small>
           </div>
-          <!--魚種の隠しフォーム-->
+          <!--魚フォーム-->
           <div id="newGenreInput" class="mb-3" style="display: none;">
             <%= f.label :new_genre_name, "新規の魚" %>
             <%= f.text_field :new_genre_name, class: "form-control" %>
@@ -61,7 +61,7 @@
 
           <div class="modal-footer" style="background-color: #f0f9fa;">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <%= f.submit "投稿", class: "btn btn-primary" %>
+            <%= f.submit "投稿", class: "btn btn-primary", id: "submitBtn" %>
           </div>
         <% end %>
       </div>
@@ -70,4 +70,3 @@
 </div>
 
 <%= javascript_pack_tag 'NewPostForm' %>
-<%= javascript_pack_tag 'NewFish' %>
