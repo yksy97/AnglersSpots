@@ -1,8 +1,10 @@
-<div class="container mt-4">
+<div class="container mt-5">
   <div class="row">
-    <div class="col-md-4">
-      <%= render 'public/customers/info', customer: current_customer %>
-    </div>
+  
+  <!-- 会員情報セクション -->
+  <div class="col-md-4">
+    <%= render 'public/posts/customer_section' %>
+  </div>
 
     <div class="col-md-8">
       <div class="card">
@@ -26,6 +28,7 @@
           <hr>
 
           <!-- コメントとリプライ一覧 -->
+          <h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
           <div id="comments">
             <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
               <div class="comment mb-3" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #f8f8f8; padding: 5px 10px;">
@@ -33,10 +36,10 @@
                   <span><%= comment.customer.name %>さん</span>
                 </div>
 
-                <div class="mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+                 <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
                   <span><%= comment.comment %></span>
                   <% if comment.customer == current_customer %>
-                    <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm float-right" %>
+                    <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
                   <% end %>
                 </div>
 
@@ -45,8 +48,18 @@
                   <p class="text-muted" style="color: #6c757d;">投稿日: <%= l comment.created_at, format: :custom_long %></p>
                 </div>
               </div>
+              
+              <!--リプライフォーム-->
+              <div id="reply-form-<%= comment.id %>" class="reply-form" style="display: none;">
+                <%= form_with model: [@post, @post.post_comments.build(parent_id: comment.id)], local: true do |f| %>
+                  <%= f.hidden_field :parent_id %>
+                  <%= f.text_area :comment, placeholder: "返信を記入してください", class: 'form-control', rows: 2 %>
+                  <%= f.submit "投稿", class: "btn btn-sm btn-primary" %>
+                  <button type="button" class="btn btn-sm btn-secondary close-reply-form" data-comment-id="<%= comment.id %>">閉じる</button>
+                <% end %>
+              </div>
 
-              <!--リプライ-->
+              <!-- リプライ -->
               <% comment.replies.order(created_at: :desc).each do |reply| %>
                 <div class="reply ml-4 pl-3 mt-2">
                   <div class="comment mb-3" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #f8f8f8; padding: 5px 10px;">
@@ -54,14 +67,14 @@
                       <span><%= reply.customer.name %>さん</span>
                     </div>
 
-                    <div class="mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+                     <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
                       <span><%= reply.comment %></span>
-                      <% if reply.customer == current_customer %>
-                        <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm float-right" %>
+                       <% if reply.customer == current_customer %>
+                        <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
                       <% end %>
                     </div>
 
-                      <div class="d-flex justify-content-end align-items-center mt-2">
+                    <div class="d-flex justify-content-between align-items-center mt-2">
                       <p class="text-muted" style="color: #6c757d;">返信日: <%= l reply.created_at, format: :custom_long %></p>
                     </div>
                   </div>
@@ -69,11 +82,11 @@
               <% end %>
             <% end %>
           </div>
+          
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<%= javascript_pack_tag 'validations' %>
 <%= javascript_pack_tag 'reply' %>

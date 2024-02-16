@@ -1,0 +1,34 @@
+<!-- 投稿一覧セクション -->
+      <div class="custom-card">
+        <ul class="nav nav-tabs" id="postTabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="all-posts-tab" data-toggle="tab" href="#all-posts" role="tab" aria-controls="all-posts" aria-selected="true">全体の投稿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="following-posts-tab" data-toggle="tab" href="#following-posts" role="tab" aria-controls="following-posts" aria-selected="false">フォロー中の投稿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="my-posts-tab" data-toggle="tab" href="#my-posts" role="tab" aria-controls="my-posts" aria-selected="false">自分の投稿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="liked-posts-tab" data-toggle="tab" href="#liked-posts" role="tab" aria-controls="liked-posts" aria-selected="false">いいねした投稿</a>
+          </li>
+        </ul>
+
+
+          <!-- タブ -->
+          <div class="tab-content" id="postTabsContent">
+            <div class="tab-pane fade show active" id="all-posts" role="tabpanel" aria-labelledby="all-posts-tab">
+              <%= render 'public/posts/posts', posts: @posts %>
+            </div>
+            <div class="tab-pane fade" id="following-posts" role="tabpanel" aria-labelledby="following-posts-tab">
+              <%= render 'public/posts/following_posts', following_posts: @following_posts %>
+            </div>
+            <div class="tab-pane fade" id="my-posts" role="tabpanel" aria-labelledby="my-posts-tab">
+              <%= render 'public/posts/my_posts', my_posts: @my_posts %>
+            </div>
+            <div class="tab-pane fade" id="liked-posts" role="tabpanel" aria-labelledby="liked-posts-tab">
+              <%= render 'public/posts/favorited_posts', favorited_posts: @favorited_posts %>
+            </div>
+          </div>
+        </div>

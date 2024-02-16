@@ -1,0 +1,55 @@
+<!-- 新規登録モーダル -->
+<div class="modal fade" id="NewPostModal" tabindex="-1" role="dialog" aria-labelledby="NewPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header", style="background-color: #AFDFE4">
+        <h5 class="modal-title" id="NewPostModalLabel">新規投稿</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body", style="background-color: #f0f9fa;">
+        
+        <%= form_with model: @post, url: posts_path, remote: false, html: { class: "needs-validation", novalidate: '' } do |f| %>
+          <div class="form-group">
+            <%= f.label :genre_id, "既存の魚種" %>
+            <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: '過去に投稿された魚を選択'}, class: "custom-select" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :new_genre_name, "新規の魚種" %>
+            <%= f.text_field :new_genre_name, class: "form-control" %>
+            <small class="form-text text-muted">例：マグロ、ヒラマサ、シーバス、アジ</small>
+          </div>
+          <div class="form-group">
+            <%= f.label :rig, "仕掛け" %>
+            <%= f.text_field :rig, class: "form-control" %>
+            <small class="form-text text-muted">例：ジギング、タイラバ、サビキ、泳がせ</small>
+          </div>
+          <div class="form-group">
+            <%= f.label :location, "場所" %>
+            <%= f.text_field :location, class: "form-control" %>
+            <small class="form-text text-muted">例：東京湾、相模湾、瀬戸内海、男女群島</small>
+          </div>
+          <div class="form-group">
+            <label for="inputFile">画像</label>
+            <div class="input-group drop-area">
+              <div class="custom-file">
+                <%= f.file_field :image, class: "custom-file-input", id:"inputFile" %>
+                <!--<input type="file" class="custom-file-input" id="inputFile">-->
+                <label class="custom-file-label" for="inputFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
+              </div>
+            </div>
+          </div>
+            <div class="form-group">
+              <%= f.label :body, "感想" %>
+              <%= f.text_area :body, class: "form-control", required: true %>
+            </div>
+          </div>
+          <div class="modal-footer", style="background-color: #f0f9fa;" >
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+          <%= f.submit "投稿", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

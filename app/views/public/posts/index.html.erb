@@ -1,20 +1,10 @@
 <div class="container mt-5">
   <div class="row">
-    
     <!-- 会員情報セクション -->
     <div class="col-md-4">
-      <div class="card mb-4 shadow-sm">
-        <div class="custom-card-body">
-          <h4 class="text-center mt-2 mb-4">WERT FISCH</h4>
-          <h5 class="card-title text-center mb-2">ようこそ！</h5>
-          <h5><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark text-center d-block" %></h5>
-          <%= render 'public/customers/info', customer: current_customer %>
-        </div>
-        
-
-      </div>
+      <%= render 'public/posts/customer_section' %>
     </div>
-
+    
     <!-- 新規投稿モーダルボタン -->
     <div class="col-md-8">
       <div class="text-center mb-4">
@@ -22,103 +12,15 @@
           新規投稿
         </button>
       </div>
-
+      
       <!-- 投稿一覧セクション -->
-      <div class="custom-card">
-        <ul class="nav nav-tabs" id="postTabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="all-posts-tab" data-toggle="tab" href="#all-posts" role="tab" aria-controls="all-posts" aria-selected="true">全体の投稿</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="following-posts-tab" data-toggle="tab" href="#following-posts" role="tab" aria-controls="following-posts" aria-selected="false">フォロー中の投稿</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="my-posts-tab" data-toggle="tab" href="#my-posts" role="tab" aria-controls="my-posts" aria-selected="false">自分の投稿</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="liked-posts-tab" data-toggle="tab" href="#liked-posts" role="tab" aria-controls="liked-posts" aria-selected="false">いいねした投稿</a>
-          </li>
-        </ul>
-
-
-          <!-- タブのコンテンツ -->
-          <div class="tab-content" id="postTabsContent">
-            <div class="tab-pane fade show active" id="all-posts" role="tabpanel" aria-labelledby="all-posts-tab">
-              <%= render 'public/posts/posts', posts: @posts %>
-            </div>
-            <div class="tab-pane fade" id="following-posts" role="tabpanel" aria-labelledby="following-posts-tab">
-              <%= render 'public/posts/following_posts', following_posts: @following_posts %>
-            </div>
-            <div class="tab-pane fade" id="my-posts" role="tabpanel" aria-labelledby="my-posts-tab">
-              <%= render 'public/posts/my_posts', my_posts: @my_posts %>
-            </div>
-            <div class="tab-pane fade" id="liked-posts" role="tabpanel" aria-labelledby="liked-posts-tab">
-              <%= render 'public/posts/favorited_posts', favorited_posts: @favorited_posts %>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render 'public/posts/index_section' %>
     </div>
   </div>
 </div>
 
 <!-- 新規登録モーダル -->
-<div class="modal fade" id="NewPostModal" tabindex="-1" role="dialog" aria-labelledby="NewPostModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header", style="background-color: #AFDFE4">
-        <h5 class="modal-title" id="NewPostModalLabel">新規投稿</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body", style="background-color: #f0f9fa;">
-        
-        <%= form_with model: @post, url: posts_path, remote: false, html: { class: "needs-validation", novalidate: '' } do |f| %>
-          <div class="form-group">
-            <%= f.label :genre_id, "既存の魚種" %>
-            <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: '過去に投稿された魚を選択'}, class: "custom-select" %>
-          </div>
-          <div class="form-group">
-            <%= f.label :new_genre_name, "新規の魚種" %>
-            <%= f.text_field :new_genre_name, class: "form-control" %>
-            <small class="form-text text-muted">例：マグロ、ヒラマサ、シーバス、アジ</small>
-          </div>
-          <div class="form-group">
-            <%= f.label :rig, "仕掛け" %>
-            <%= f.text_field :rig, class: "form-control" %>
-            <small class="form-text text-muted">例：ジギング、タイラバ、サビキ、泳がせ</small>
-          </div>
-          <div class="form-group">
-            <%= f.label :location, "場所" %>
-            <%= f.text_field :location, class: "form-control" %>
-            <small class="form-text text-muted">例：東京湾、相模湾、瀬戸内海、男女群島</small>
-          </div>
-          <div class="form-group">
-            <label for="inputFile">画像</label>
-            <div class="input-group drop-area">
-              <div class="custom-file">
-                <%= f.file_field :image, class: "custom-file-input", id:"inputFile" %>
-                <!--<input type="file" class="custom-file-input" id="inputFile">-->
-                <label class="custom-file-label" for="inputFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
-              </div>
-            </div>
-          </div>
-            <div class="form-group">
-              <%= f.label :body, "感想" %>
-              <%= f.text_area :body, class: "form-control", required: true %>
-            </div>
-          </div>
-          <div class="modal-footer", style="background-color: #f0f9fa;" >
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-          <%= f.submit "投稿", class: "btn btn-primary" %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-
+<%= render 'public/posts/NewPostModal' %>
 
 <%= javascript_pack_tag 'validations' %>
 <%= javascript_pack_tag 'input_image' %>

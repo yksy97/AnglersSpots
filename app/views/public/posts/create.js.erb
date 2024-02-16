@@ -1,7 +1,0 @@
-<!--フォームの内容をリセット-->
-$("textarea").val("");
-$("input").val("");
-<!--モーダルを閉じる-->
-$('#NewPostModal').modal('hide');
-<!--登録した本の一覧を更新-->
-$('.posts').html("<%= escape_javascript(render 'public/posts/posts', posts: @posts) %>");
