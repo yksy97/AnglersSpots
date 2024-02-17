@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       get 'posts', to: 'posts#genre', as: 'posts', on: :member
     end
     
-   
+    resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
+    
   end
 end

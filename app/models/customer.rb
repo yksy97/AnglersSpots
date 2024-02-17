@@ -15,6 +15,9 @@ class Customer < ApplicationRecord
   has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :reverse_of_relationships, source: :follower
   
+  # タックルプリセット
+  has_many :tackles
+  
   # 通知
   has_many :notifications, dependent: :destroy
   

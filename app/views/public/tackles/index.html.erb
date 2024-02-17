@@ -1,0 +1,50 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- 会員情報セクション -->
+    <div class="col-md-4">
+      <%= render 'public/posts/customer_section', customer: current_customer %>
+    </div>
+
+    <!-- タックル一覧 -->
+    <div class="col-md-8">
+      <div class="mb-3">
+        <%= link_to '新規タックルを登録する', new_tackle_path, class: 'btn btn-primary' %>
+      </div>
+
+      <div class="card">
+        <div class="card-header card-header d-flex justify-content-center align-items-center" style="background-color: #AFDFE4;">
+          <h2>タックル一覧</h2>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>プリセット名</th>
+                <th>ロッド</th>
+                <th>リール</th>
+                <th>ライン</th>
+                <th>ベイト</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @tackles.each do |tackle| %>
+                <tr>
+                  <td><%= tackle.name %></td>
+                  <td><%= tackle.rod %></td>
+                  <td><%= tackle.reel %></td>
+                  <td><%= tackle.line %></td>
+                  <td><%= tackle.bait %></td>
+                  <td>
+                    <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
+                    <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

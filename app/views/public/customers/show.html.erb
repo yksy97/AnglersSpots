@@ -1,94 +1,110 @@
+
 <div class="container mt-4">
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <!-- 会員情報カード -->
+    <!-- 会員情報セクション -->
+    <div class="col-md-4">
       <div class="card mb-4">
         <div class="card-header text-center" style="background-color: #AFDFE4;">
           <h2><%= @customer.name %> さん</h2>
         </div>
+        <div class="card-body text-center">
+          <% if @customer.image.attached? %>
+            <%= image_tag @customer.image, class: "img-thumbnail" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', class: "img-thumbnail" %>
+          <% end %>
+          <div class="mt-4">
+            <h3>会員情報</h3>
+            <p><strong>名前：</strong><%= @customer.name %></p>
+            <p><strong>Eメールアドレス：</strong><%= @customer.email %></p>
+            <p><strong>自己紹介：</strong><%= @customer.introduction %></p>
+            <p><strong>好きな魚：</strong><%= @customer.favorite_fish %></p>
+            <p><strong>好きな釣り方：</strong><%= @customer.favorite_rig %></p>
+            <p><strong>好きな釣り場：</strong><%= @customer.favorite_location %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- タックルと投稿一覧 -->
+    <div class="col-md-8">
+      <!-- タックル新着一覧 -->
+      <div class="card mb-4">
+        <div class="card-header" style="background-color: #AFDFE4;">
+          <h3>タックル新着５件</h3>
+        </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-4 text-center mb-4">
-              <% if @customer.image.attached? %>
-                <%= image_tag @customer.image, class: "img-thumbnail" %>
-              <% else %>
-                <%= image_tag 'no_image.jpg', class: "img-thumbnail" %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>ロッド</th>
+                <th>リール</th>
+                <th>ライン</th>
+                <th>ベイト</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @customer.tackles.limit(5).each do |tackle| %>
+                <tr>
+                  <td><%= tackle.name %></td>
+                  <td><%= tackle.rod %></td>
+                  <td><%= tackle.reel %></td>
+                  <td><%= tackle.line %></td>
+                  <td><%= tackle.bait %></td>
+                </tr>
               <% end %>
-            </div>
-            <div class="col-md-8">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <th>名前</th>
-                    <td><%= @customer.name %></td>
-                  </tr>
-                  <tr>
-                    <th>Eメールアドレス</th>
-                    <td><%= @customer.email %></td>
-                  </tr>
-                  <tr>
-                    <th>自己紹介</th>
-                    <td><%= @customer.introduction %></td>
-                  </tr>
-                  <tr>
-                    <th>好きな魚</th>
-                    <td><%= @customer.favorite_fish %></td>
-                  </tr>
-                  <tr>
-                    <th>好きな釣り方</th>
-                    <td><%= @customer.favorite_rig %></td>
-                  </tr>
-                  <tr>
-                    <th>好きな釣り場</th>
-                    <td><%= @customer.favorite_location %></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            </tbody>
+          </table>
+          <div class="text-center mt-2">
+            <a href="<%= tackles_path %>" class="text-decoration-none">タックル一覧はこちらから</a>
           </div>
         </div>
       </div>
 
       <!-- 投稿一覧 -->
-<div class="card">
-  <div class="card-header" style="background-color: #AFDFE4;">
-    <%= @customer.name %> さんの投稿一覧
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <% @my_posts.each do |post| %>
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <% if post.image.attached? %>
-              <%= link_to post_path(post) do %>
-                <%= image_tag(post.image, class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
-              <% end %>
-            <% else %>
-              <%= link_to post_path(post) do %>
-                <%= image_tag('no_image.jpg', class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
-              <% end %>
+      <div class="card">
+        <div class="card-header" style="background-color: #AFDFE4;">
+          <%= @customer.name %> さんの投稿一覧
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @my_posts.each do |post| %>
+              <div class="col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                  <% if post.image.attached? %>
+                    <%= link_to post_path(post) do %>
+                      <%= image_tag(post.image, class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to post_path(post) do %>
+                      <%= image_tag('no_image.jpg', class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
+                    <% end %>
+                  <% end %>
+                  <div class="card-footer bg-white border-0">
+                    <div class="d-flex flex-column">
+                      <div>
+                        <h4><%= post.genre ? post.genre.name : '' %></h4>
+                      </div>
+                      <div>
+                        <i class="fas fa-comments mr-2"></i><span><%= post.post_comments.count %> 件</span>
+                      </div>
+                      <div>
+                        <i class="fas fa-calendar-alt mr-2"></i><span><%= l post.created_at, format: :custom_short %></span>
+                      </div>
+                    </div>
+                    <%= link_to '詳細を見る', post_path(post), class: "btn btn-primary btn-sm mt-2" %>
+                  </div>
+                </div>
+              </div>
             <% end %>
-
-            <div class="card-footer bg-white border-0">
-            <div class="d-flex flex-column">
-               <div>
-                <h4><%= post.genre ? post.genre.name : '' %></h4>
-              </div>
-              <div>
-                <i class="fas fa-comments mr-2"></i><span><%= post.post_comments.count %> 件</span>
-              </div>
-              <div>
-                <i class="fas fa-calendar-alt mr-2"></i><span><%= l post.created_at, format: :custom_short %></span>
-              </div>
-            </div>
-            <%= link_to '詳細を見る', post_path(post), class: "btn btn-primary btn-sm mt-2" %>
-          </div>
           </div>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
+
 
 <% if current_customer == @customer %>
   <!--編集モーダルボタン-->

@@ -82,7 +82,7 @@
                   <% end %>
                 </div>
 
-                <!-- コメント日時と返信リンク -->
+                <!-- コメント日時と返信 -->
                 <div class="d-flex justify-content-between align-items-center mt-2">
                   <p><%= link_to "返信", "#", class: "btn btn-primary btn-sm reply-link", data: { comment_id: comment.id } %></p>
                   <p class="text-muted">投稿日: <%= l comment.created_at, format: :custom_long %></p>

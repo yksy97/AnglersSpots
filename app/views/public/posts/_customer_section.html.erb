@@ -12,12 +12,11 @@
       <% end %>
     </div>
 
-    <!-- 会員名 -->
     <div class="text-center mb-3">
       <%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %>
     </div>
 
-    <!-- 会員画像 -->
+    <!-- 画像 -->
     <div class="text-center mb-3">
       <%= link_to customer_path(current_customer) do %>
         <% if current_customer.image.attached? %>
@@ -28,10 +27,6 @@
       <% end %>
     </div>
 
-    <!-- 新規投稿モーダルボタン -->
-    <div class="text-center mb-3">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
-    </div>
 
     <!-- フォロー/フォロワー情報 -->
     <table class='table'>

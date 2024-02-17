@@ -2,17 +2,18 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_customer!
   before_action :ensure_correct_customer, only: [:edit, :update, :destroy]
 
+  def index
+    @posts = Post.includes(:customer, :genre).order(created_at: :desc)
+    @post = Post.new
+    @genres = Genre.order(:name)
+    @tackles = Tackle.all
+  end
+  
   def show
     @post = Post.find(params[:id])
     @customer = @post.customer
     @post_comment = PostComment.new
     @post_comments = @post.post_comments.order(created_at: :desc)
-  end
-
-  def index
-    @posts = Post.includes(:customer, :genre).order(created_at: :desc)
-    @post = Post.new
-    @genres = Genre.order(:name)
   end
 
   def create
@@ -60,7 +61,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :image, :genre_id, :rig, :location)
+    params.require(:post).permit(:body, :image, :genre_id, :rig, :location, :tackle_id)
   end
 
   def ensure_correct_customer
