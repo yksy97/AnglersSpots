@@ -20,16 +20,16 @@
           <!--「public/posts/Post_Tab」に各部分テンプレートを収納しました-->
           <div class="tab-content" id="postTabsContent">
             <div class="tab-pane fade show active" id="all-posts" role="tabpanel" aria-labelledby="all-posts-tab">
-              <%= render 'public/posts/Post_Tab/posts', posts: @posts %>
+              <%= render 'public/posts/Post_Tabs/posts', posts: @posts %>
             </div>
             <div class="tab-pane fade" id="following-posts" role="tabpanel" aria-labelledby="following-posts-tab">
-              <%= render 'public/posts/Post_Tab/following_posts', following_posts: @following_posts %>
+              <%= render 'public/posts/Post_Tabs/following_posts', following_posts: @following_posts %>
             </div>
             <div class="tab-pane fade" id="my-posts" role="tabpanel" aria-labelledby="my-posts-tab">
-              <%= render 'public/posts/Post_Tab/my_posts', my_posts: @my_posts %>
+              <%= render 'public/posts/Post_Tabs/my_posts', my_posts: @my_posts %>
             </div>
             <div class="tab-pane fade" id="liked-posts" role="tabpanel" aria-labelledby="liked-posts-tab">
-              <%= render 'public/posts/Post_Tab/favorited_posts', favorited_posts: @favorited_posts %>
+              <%= render 'public/posts/Post_Tabs/favorited_posts', favorited_posts: @favorited_posts %>
             </div>
           </div>
         </div>

@@ -9,4 +9,17 @@ class PostComment < ApplicationRecord
 # 1つのコメントに対して複数のリプライを持つ
   belongs_to :parent, class_name: "PostComment", optional: true
   has_many :replies, class_name: "PostComment", foreign_key: "parent_id", dependent: :destroy
+
+# コメント通知
+ after_create :create_notification
+
+  private
+
+  def create_notification
+    Notification.create(
+      customer_id: self.post.customer_id,
+      notifiable: self,
+      read: false
+    )
+  end
 end

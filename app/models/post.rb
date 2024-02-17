@@ -1,5 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :customer
+  # 「optional: true」は、PostとGenreの関連付け）を任意で行えるようにするオプション
+  # 会員が新しい魚で投稿したとき、Genreの指定がない状態でもPostの作成が可能になる
+  # ＝ 全てのPostがGenreに属する必要はないので、魚（ジャンル）が未分類のPostも許容される
   belongs_to :genre, optional: true
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -20,11 +23,11 @@ class Post < ApplicationRecord
   validates :location, presence: true
   
   # 仮想属性（フォームで一時的に使用するための属性）
-  # 「new_genre_name」 は、PostモデルのDBに保存される属性ではありません。
-  # この一時的な属性は、ユーザーがフォームに入力した新規魚種名を保持するために使用します。
-  # フォームから受け取った新規魚種名は、Postコントローラの createアクション内で
-  # Genreモデル(魚種の管理) の新しいレコード作成に使用され、その後この一時的な値は不要となります。
-  # これにより、会員は新しい魚種をシステムに追加できます。
+  # 「new_genre_name」 は、PostモデルのDBに保存される属性ではなく、
+  # 会員がフォームに入力した新しい魚を保持するために使用する
+  # フォームから受け取った新しい魚は、Postコントローラの createアクション内で
+  # Genreモデル(魚種の管理) の新しいレコード作成に使用され、その後この一時的な値は不要となる
+  # これにより、会員は新しい魚をシステムに追加できる
   attr_accessor :new_genre_name
   
   def favorited_by?(customer)
@@ -33,8 +36,9 @@ class Post < ApplicationRecord
   
   private
 
+# 投稿フォーム（public/posts/index）のモデル側のバリデーション
   def validate_genre_presence
-    # 既存の魚種が選択されていない、かつ新規魚種名が空の場合エラーを追加
+    # 既存の魚が選択されていない、かつ新しい魚が空の場合エラーを追加
     if genre_id.blank? && new_genre_name.blank?
       errors.add(:base, '既存の魚種を選択するか、新規の魚種名を入力してください')
     end

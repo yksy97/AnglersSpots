@@ -4,6 +4,7 @@ class Favorite < ApplicationRecord
   validates_uniqueness_of :post_id, scope: :customer_id
   has_one :notification, as: :notifiable, dependent: :destroy
 
+# いいね
   after_create :create_notification
 
   private
