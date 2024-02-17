@@ -1,7 +1,7 @@
   <!-- 会員情報セクション -->
   <div class="card mb-4 shadow-sm">
         <div class="custom-card-body">
-          <h4 class="text-center mt-2 mb-4">WERT FISCH</h4>
+          <h4 class="text-center mt-2 mb-4"><i class="fas fa-fish mr-3"></i>釣りあい<i class="fas fa-fish ml-3"></i></h4>
           <h5 class="card-title text-center mb-2">ようこそ！</h5>
           <h5><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark text-center d-block" %></h5>
           <%= render 'public/customers/info', customer: current_customer %>
