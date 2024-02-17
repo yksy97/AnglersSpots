@@ -1,67 +1,80 @@
-  <!-- 会員情報セクション -->
+<!-- 会員情報セクション -->
 <div class="card mb-4 shadow-sm">
   <div class="custom-card-body">
-    <h5 class="card-title text-center mb-2 pt-2">
-      <!--時間帯によってメッセージを変更-->
+    <!-- 時間帯によってメッセージを変更 -->
+    <div class="text-center mb-3 pt-4">
       <% if Time.current.hour < 12 %>
-        おはようございます！
+        <h5>おはようございます！</h5>
       <% elsif Time.current.hour < 18 %>
-        こんにちは！
+        <h5>こんにちは！</h5>
       <% else %>
-        こんばんは！
+        <h5>こんばんは！</h5>
       <% end %>
-      <%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark text-center d-block" %>
-    </h5>
+    </div>
+
+    <!-- 会員名 -->
+    <div class="text-center mb-3">
+      <%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %>
+    </div>
+
+    <!-- 会員画像 -->
+    <div class="text-center mb-3">
+      <%= link_to customer_path(current_customer) do %>
+        <% if current_customer.image.attached? %>
+          <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+        <% else %>
+          <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- 新規投稿モーダルボタン -->
+    <div class="text-center mb-3">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
+    </div>
+
+    <!-- フォロワー情報等 -->
     <table class='table'>
-  <thead>
-   <tr>
-      <td colspan="2" class="text-center">
-        <%= link_to customer_path(current_customer) do %>
-          <% if current_customer.image.attached? %>
-            <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-          <% else %>
-            <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-          <% end %>
-        <% end %>
-      </td>
-    </tr>
-  </thead>
-  <tbody>
-     <tr>
-      <th>
-        <div class = ml-3 id="relationship-info">
-          <%= render "public/relationships/customer_info", customer: customer %>
-        </div>
-      </th>
-      <th>
-        <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-          <span style="color: black;">フォロワー</span> <span><%= customer.followers.count %></span>
-        <% end %>
-      </th>
-    </tr>
-    
-    <tr>
-      <td colspan="2">
-        <div class="my-3 text-center">
-          <h4>新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
-          <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(15).each do |notification| %>
-            <div class="notification my-2">
-            <% if notification.notifiable_type == "Favorite" %>
-             <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿にいいねしました", notification.notifiable_path, class: "text-dark" %>
-            <% elsif notification.notifiable_type == "Post" %>
-             <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", post_path(notification.notifiable), class: "text-dark" %>
-            <% elsif notification.notifiable_type == "PostComment" %>
-             <%= link_to "#{notification.notifiable.customer.name} さんから投稿にコメントがありました", post_path(notification.notifiable.post), class: "text-dark" %>
+      <tbody>
+        <tr>
+          <th>
+            <div class="ml-3" id="relationship-info">
+              <%= render "public/relationships/customer_info", customer: current_customer %>
+            </div>
+          </th>
+          <th>
+            <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+              <span style="color: black;">フォロワー</span> <span><%= current_customer.followers.count %></span>
             <% end %>
-          </div>
-          <% end %>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+          </th>
+        </tr>
+
+        <!-- 新着通知 -->
+        <tr>
+          <td colspan="2">
+            <div class="my-3 text-center">
+              <h4>新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
+              <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(15).each do |notification| %>
+                <div class="notification my-2">
+                  <% if notification.notifiable_type == "Favorite" %>
+                    <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿にいいねしました", notification.notifiable_path, class: "text-dark" %>
+                  <% elsif notification.notifiable_type == "Post" %>
+                    <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", post_path(notification.notifiable), class: "text-dark" %>
+                  <% elsif notification.notifiable_type == "PostComment" %>
+                    <%= link_to "#{notification.notifiable.customer.name} さんから投稿にコメントがありました", post_path(notification.notifiable.post), class: "text-dark" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <!--リレーションシップスのモーダル-->
 <%= render 'public/relationships/relationships_modal', customer: customer %>
+
+
+ 
