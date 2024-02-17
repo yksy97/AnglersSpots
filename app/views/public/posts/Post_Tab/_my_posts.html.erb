@@ -28,10 +28,10 @@
 
    <div class="card-body" style="background-color: #fcffff">
   <h5 class="card-title mb-2">
-    <i class="fa-solid fa-fish-fins"></i> <%= link_to post.genre ? post.genre.name : '情報なし', post_path(post), class: "text-dark" %>（<%= post.rig %>）
+    <i class="fa-solid fa-fish-fins"></i> <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark" %>（<%= post.rig %>）
   </h5>
   <p class="card-text">
-    <i class="fas fa-anchor mr-2"></i> <%= post.location.presence || "情報なし" %>
+    <i class="fas fa-anchor mr-2"></i> <%= post.location.presence || "" %>
   </p>
   <p class="card-text">
     <i class="fa-solid fa-pencil"></i> <%= post.body %>

@@ -1,4 +1,4 @@
-<% @following_posts.each do |post| %>
+<% @posts.each do |post| %>
   <div class="card mb-4 shadow-sm">
     <div class="card-header">
       <div class="d-flex justify-content-between align-items-center">
@@ -10,10 +10,11 @@
           <% end %>
           <strong class="mr-3"><%= link_to post.customer.name, customer_path(post.customer), class: "ml-2 text-dark" %></strong>
           <div id="relationship-btn<%= post.customer.id %>">
+            <!--フォローするボタン-->
             <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
           </div>
         </div>
-        <h6 class="text-muted"><%= time_ago_in_words(post.created_at) %>前</h6>
+        <h6 class="text-muted"><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）</h6>
       </div>
     </div>
 
@@ -29,22 +30,25 @@
       <% end %>
     </div>
 
-       <div class="card-body" style="background-color: #fcffff">
+    <div class="card-body" style="background-color: #fcffff">
   <h5 class="card-title mb-2">
-    <i class="fa-solid fa-fish-fins"></i> <%= link_to post.genre ? post.genre.name : '情報なし', post_path(post), class: "text-dark" %>（<%= post.rig %>）
+    <i class="fa-solid fa-fish-fins"></i> <%= link_to post.genre ? post.genre.name : '', post_path(post) %>（<%= post.rig %>）
   </h5>
   <p class="card-text">
-    <i class="fas fa-anchor mr-2"></i> <%= post.location.presence || "情報なし" %>
+    <i class="fas fa-anchor mr-2"></i> <%= post.location.presence || "" %>
   </p>
   <p class="card-text">
     <i class="fa-solid fa-pencil"></i> <%= post.body %>
   </p>
 </div>
 
-    <div class="card-footer d-flex justify-content-between align-items-center">
-      <%= render 'public/favorites/btn', post: post %>
-      <h6 class="text-muted"><%= l post.created_at, format: :custom_short %></h6>
-    </div>
+
+   <div class="card-footer d-flex justify-content-between align-items-center">
+  <%= render 'public/favorites/btn', post: post %>
+  <div class="d-flex align-items-center">
+    <h6 class="mb-0">コメント件数 (<%= post.post_comments.count %>)</h6>
+  </div>
+</div>
+
   </div>
 <% end %>
-
