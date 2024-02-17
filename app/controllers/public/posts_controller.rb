@@ -12,7 +12,6 @@ class Public::PostsController < ApplicationController
     @posts = Post.includes(:customer, :genre).order(created_at: :desc)
     @post = Post.new
     @following_posts = Post.where(customer_id: current_customer.followings.pluck(:id)).order(created_at: :desc)
-    @my_posts = current_customer.posts.order(created_at: :desc)
     @favorited_posts = current_customer.favorites.includes(:post).map(&:post)
     @genres = Genre.order(:name)
   end

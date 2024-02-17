@@ -1,7 +1,8 @@
 <div class="container mt-4">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card">
+      <!-- 会員情報カード -->
+      <div class="card mb-4">
         <div class="card-header text-center">
           <h2><%= @customer.name %> さんの詳細</h2>
         </div>
@@ -34,20 +35,12 @@
                     <td><%= @customer.favorite_fish %></td>
                   </tr>
                   <tr>
-                    <th>好きな仕掛け</th>
+                    <th>好きな釣り方</th>
                     <td><%= @customer.favorite_rig %></td>
                   </tr>
                   <tr>
                     <th>好きな釣り場</th>
                     <td><%= @customer.favorite_location %></td>
-                  </tr>
-                  <tr>
-                    <th>おすすめの魚料理</th>
-                    <td><!-- おすすめの魚レシピの情報 --></td>
-                  </tr>
-                  <tr>
-                    <th>好きな釣具メーカー</th>
-                    <td><!-- おすすめの魚レシピの情報 --></td>
                   </tr>
                 </tbody>
               </table>
@@ -55,6 +48,44 @@
           </div>
         </div>
       </div>
+
+      <!-- 投稿一覧カード -->
+<div class="card">
+  <div class="card-header">
+    <%= @customer.name %> さんの投稿一覧
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <% @my_posts.each do |post| %>
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <% if post.image.attached? %>
+              <%= link_to post_path(post) do %>
+                <%= image_tag(post.image, class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
+              <% end %>
+            <% else %>
+              <%= link_to post_path(post) do %>
+                <%= image_tag('no_image.jpg', class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
+              <% end %>
+            <% end %>
+
+            <div class="card-footer bg-white border-0">
+            <div class="d-flex flex-column">
+               <div>
+                <h4><%= post.genre ? post.genre.name : '' %></h4>
+              </div>
+              <div>
+                <i class="fas fa-comments mr-2"></i><span><%= post.post_comments.count %> 件</span>
+              </div>
+              <div>
+                <i class="fas fa-calendar-alt mr-2"></i><span><%= l post.created_at, format: :custom_short %></span>
+              </div>
+            </div>
+            <%= link_to '詳細を見る', post_path(post), class: "btn btn-primary btn-sm mt-2" %>
+          </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

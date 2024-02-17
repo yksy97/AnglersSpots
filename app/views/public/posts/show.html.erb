@@ -10,7 +10,7 @@
  <!-- 投稿詳細セクション -->
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header" style="background-color: #AFDFE4;">
           <h2><i class="fa-solid fa-fish-fins"></i> <%= @post.genre ? @post.genre.name : '情報なし' %></h2>
           <p class="text-muted">投稿日: <%= l @post.created_at, format: :custom_long %></p>
         </div>

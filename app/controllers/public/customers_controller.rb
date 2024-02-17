@@ -5,6 +5,7 @@ class Public::CustomersController < ApplicationController
   def show
   @customer = Customer.find(params[:id])
   @posts = @customer.posts
+  @my_posts = @customer.posts.order(created_at: :desc)
   @post = Post.new
   end
   
