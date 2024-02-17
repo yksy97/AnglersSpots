@@ -11,8 +11,7 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-header" style="background-color: #AFDFE4;">
-          <h2><i class="fa-solid fa-fish-fins"></i> <%= @post.genre ? @post.genre.name : '情報なし' %></h2>
-          <p class="text-muted">投稿日: <%= l @post.created_at, format: :custom_long %></p>
+          <h2><i class="fa-solid fa-fish-fins"></i> <%= @post.genre ? @post.genre.name : '' %></h2>
         </div>
         <div class="card-body">
           
@@ -27,9 +26,10 @@
 
           <!-- 詳細情報 -->
           <div class="mb-4">
-            <p><%= @post.body %></p>
-            <p><%= @post.rig %></p>
-            <p><i class="fas fa-anchor mr-2"></i> <%= @post.location.presence || "情報なし" %></p>
+            <p>感想：<%= @post.body %></p>
+            <p>釣り方：<%= @post.rig %></p>
+            <p>釣り場：<%= @post.location.presence || "" %></p>
+            <p class="text-muted">投稿日: <%= l @post.created_at, format: :custom_long %></p>
           </div>
 
 

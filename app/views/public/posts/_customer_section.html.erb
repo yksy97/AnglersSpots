@@ -33,7 +33,7 @@
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
     </div>
 
-    <!-- フォロワー情報等 -->
+    <!-- フォロー/フォロワー情報 -->
     <table class='table'>
       <tbody>
         <tr>
@@ -52,20 +52,30 @@
         <!-- 新着通知 -->
         <tr>
           <td colspan="2">
-            <div class="my-3 text-center">
-              <h4>新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
-              <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(15).each do |notification| %>
-                <div class="notification my-2">
-                  <% if notification.notifiable_type == "Favorite" %>
-                    <%= link_to "#{notification.notifiable.customer.name} さんがあなたの投稿にいいねしました", notification.notifiable_path, class: "text-dark" %>
-                  <% elsif notification.notifiable_type == "Post" %>
-                    <%= link_to "#{notification.notifiable.customer.name} さんが新しい投稿をしました", post_path(notification.notifiable), class: "text-dark" %>
-                  <% elsif notification.notifiable_type == "PostComment" %>
-                    <%= link_to "#{notification.notifiable.customer.name} さんから投稿にコメントがありました", post_path(notification.notifiable.post), class: "text-dark" %>
+           <div class="my-3">
+            <h4 class="text-center mb-4">新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
+            <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(15).each do |notification| %>
+              <div class="notification p-2 mb-2 border rounded">
+                <% case notification.notifiable_type %>
+                <% when "Favorite" %>
+                  <%= link_to notification.notifiable_path, class: "d-flex align-items-center text-dark text-decoration-none" do %>
+                    <i class="fas fa-heart mr-2 text-danger"></i>
+                    <span><%= notification.notifiable.customer.name %> さんがあなたの投稿にいいねしました</span>
                   <% end %>
-                </div>
-              <% end %>
-            </div>
+                <% when "Post" %>
+                  <%= link_to post_path(notification.notifiable), class: "d-flex align-items-center text-dark text-decoration-none" do %>
+                    <i class="fas fa-upload mr-2 text-primary"></i>
+                    <span><%= notification.notifiable.customer.name %> さんが新しい投稿をしました</span>
+                  <% end %>
+                <% when "PostComment" %>
+                  <%= link_to post_path(notification.notifiable.post), class: "d-flex align-items-center text-dark text-decoration-none" do %>
+                    <i class="fas fa-comments mr-2 text-warning"></i>
+                    <span><%= notification.notifiable.customer.name %> さんから投稿にコメントがありました</span>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
           </td>
         </tr>
       </tbody>
@@ -74,7 +84,7 @@
 </div>
 
 <!--リレーションシップスのモーダル-->
-<%= render 'public/relationships/relationships_modal', customer: customer %>
+<%= render 'public/relationships/relationships_modal', customer: @customer %>
 
 
  

@@ -21,12 +21,12 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="followings" role="tabpanel" aria-labelledby="followings-tab">
-            <% customer.followings.each do |following| %>
-              <p><%= following.name %></p>
-            <% end %>
-          </div>
+          <% current_customer.followings.each do |following| %>
+            <p><%= following.name %></p>
+          <% end %>
+        </div>
           <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
-            <% customer.followers.each do |follower| %>
+            <% current_customer.followers.each do |follower| %>
               <p><%= follower.name %></p>
             <% end %>
           </div>

@@ -6,7 +6,7 @@
     <% end %>
   <% else %>
     <%= link_to post_favorites_path(post), method: :post, remote: true do %>
-      <i class="fas fa-heart" aria-hidden="true" style="color: grey;"></i>
+      <i class="fas fa-heart" aria-hidden="true" style="color: #02c6db;"></i>
       <span class="text-dark"><%= post.favorites.count %> いいね</span>
     <% end %>
   <% end %>
