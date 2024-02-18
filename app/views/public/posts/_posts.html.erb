@@ -33,7 +33,7 @@
     
 <h6 class="card-text mb-0 mr-3 mt-2" style="text-align: right;">
   <i class="fas fa-anchor mr-2" style="color: #ffc107;"></i>
-  <%= post.location.presence || "" %>
+  <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
 </h6>
 
     <div class="d-flex justify-content-center align-items-center mt-4">

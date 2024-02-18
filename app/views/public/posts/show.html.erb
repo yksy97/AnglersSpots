@@ -22,7 +22,8 @@
           <div class="d-flex justify-content-between">
             <!-- 釣り場 -->
             <p class="text-left ml-2">
-              <i class="fas fa-anchor mr-2" style="color: #ffc107;"></i><%= @post.location %>
+              <i class="fas fa-anchor mr-2" style="color: #ffc107;"></i>
+              <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %>
             </p>
             <!-- 投稿日 -->
             <div class="text-right mb-2">
@@ -40,14 +41,14 @@
             <% end %>
           </div>
 
-          <!-- リグと釣り場 -->
+          <!-- 釣り方と釣り場 -->
           <div class="d-flex justify-content-between mb-3">
             <div>
-              <!--リグ-->
+              <!--釣り方-->
               <p class="mb-0">
                 <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
                 <% @post.rigs.each do |rig| %>
-                  ＃<%= rig.name %>
+                  <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
                 <% end %>
               </p>
             </div>
