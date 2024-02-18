@@ -29,7 +29,7 @@
             <%= f.label :genre_id, "魚を選択" %>
             <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: true}, class: "custom-select" %>
           </div>
-          <!--仕掛けフォーム-->
+          <!--釣り方フォーム-->
           <div class="form-group">
             <%= f.label :rig_list, "釣り方" %>
             <%= f.text_field :rig_list, class: "form-control", required: true %>

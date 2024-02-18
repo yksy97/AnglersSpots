@@ -78,36 +78,36 @@ class Post < ApplicationRecord
   end
   
   def save_rigs(rigs)
-    # タグをスペース区切りで分割し配列にする
+    # リグをスペース区切りで分割し配列にする
     #   連続した空白も対応するので、最後の“+”がポイント
     rig_list = rigs.split(/[[:blank:]]+/)
 
-    # 自分自身に関連づいたタグを取得する
+    # 自分自身に関連づいたリグを取得する
     current_rigs = self.rigs.pluck(:name)
 
-    # (1) 元々自分に紐付いていたタグと投稿されたタグの差分を抽出
-    #   -- 記事更新時に削除されたタグ
+    # (1) 元々自分に紐付いていたリグと投稿されたリグの差分を抽出
+    #   -- 記事更新時に削除されたリグ
     old_rigs = current_rigs - rig_list
 
-    # (2) 投稿されたタグと元々自分に紐付いていたタグの差分を抽出
-    #   -- 新規に追加されたタグ
+    # (2) 投稿されたリグと元々自分に紐付いていたリグの差分を抽出
+    #   -- 新規に追加されたリグ
     new_rigs = rig_list - current_rigs
 
-    # tag_mapsテーブルから、(1)のタグを削除
-    #   tagsテーブルから該当のタグを探し出して削除する
+    # rig_postsテーブルから、(1)のタグを削除
+    #   rigsテーブルから該当のタグを探し出して削除する
     old_rigs.each do |old|
-      # tag_mapsテーブルにあるpost_idとtag_idを削除
-      #   後続のfind_byでtag_idを検索
+      # rig_postsテーブルにあるpost_idとrig_idを削除
+      #   後続のfind_byでrig_idを検索
       self.rigs.delete Rig.find_by(name: old)
     end
 
-    # tagsテーブルから(2)のタグを探して、tag_mapsテーブルにtag_idを追加する
+    # rigsテーブルから(2)のタグを探して、rig_postsテーブルにrig_idを追加する
     new_rigs.each do |new|
       # 条件のレコードを初めの1件を取得し1件もなければ作成する
       # find_or_create_by : https://railsdoc.com/page/find_or_create_by
       new_post_rig = Rig.find_or_create_by(name: new)
 
-      # tag_mapsテーブルにpost_idとtag_idを保存
+      # rig_postsテーブルにpost_idとrig_idを保存
       #   配列追加のようにレコードを渡すことで新規レコード作成が可能
       self.rigs << new_post_rig
     end
