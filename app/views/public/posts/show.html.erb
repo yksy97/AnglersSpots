@@ -15,6 +15,7 @@
         </div>
 
         <div class="card-body">
+          <small class="text-muted d-block text-right">投稿日: <%= l @post.created_at, format: :custom_long %></small>
           <!-- 画像 -->
           <div class="text-center mb-3">
             <% if @post.image.attached? %>
@@ -26,19 +27,25 @@
 
           <!-- 詳細情報 -->
           <div class="mb-4">
-            <p>釣り場：<%= @post.location.presence || "" %></p>
-            <p>釣り方：<%= @post.rig %></p>
+            <p>釣り場：<%= @post.location %></p>
+            <p>釣り方：
+              <% @post.rigs.each do |rig| %>
+                <%= rig.name %>
+              <% end %>
+            </p>
             <div class="mb-3">
               タックル情報
-              <ul class="list-group mt-2">
-               
+              <ul class="mt-2">
+               <li><%= @post.tackle.rod %></li>
+               <li><%= @post.tackle.reel %></li>
+               <li><%= @post.tackle.line %></li>
+               <li><%= @post.tackle.bait %></li>
               </ul>
             </div>
               感想
             <ul class="list-group mt-2 mb-3">
-              <li class="list-group-item"><%= @post.body %></li>
+              <li class="list-group-item"><%= simple_format(@post.body, class: "m-0") %></li>
             </ul>
-            <p class="text-muted">投稿日: <%= l @post.created_at, format: :custom_long %></p>
           </div>
 
           <!-- コメントフォーム -->

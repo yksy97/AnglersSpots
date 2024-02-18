@@ -3,7 +3,11 @@ class Public::PostsController < ApplicationController
   before_action :ensure_correct_customer, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.includes(:customer, :genre).order(created_at: :desc)
+    if params[:rig_id]
+      @posts = Rig.find(params[:rig_id]).posts.includes(:customer, :genre).order(created_at: :desc)
+    else
+      @posts = Post.includes(:customer, :genre).order(created_at: :desc)
+    end
     @post = Post.new
     @genres = Genre.order(:name)
     @tackles = Tackle.all
@@ -25,6 +29,7 @@ class Public::PostsController < ApplicationController
     end
 
     if @post.save
+      @post.save_rigs(params[:post][:rig_list])
       redirect_to posts_path, notice: "投稿が完了しました"
     else
       @posts = Post.includes(:customer, :genre).order(created_at: :desc)
@@ -61,7 +66,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:body, :image, :genre_id, :rig, :location, :tackle_id)
+    params.require(:post).permit(:body, :image, :genre_id, :location, :tackle_id)
   end
 
   def ensure_correct_customer

@@ -50,8 +50,9 @@
         <tr>
           <td colspan="2">
            <div class="my-3">
-            <h4 class="text-center mb-4">新着通知 (<%= current_customer.notifications.where(read: false).count %>)</h4>
-            <% current_customer.notifications.where(read: false).order(created_at: :desc).limit(15).each do |notification| %>
+             <%# TODO: 通知機能でうまく表示されない場合.where.notを疑うこと %>
+            <h4 class="text-center mb-4">新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)</h4>
+            <% current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).each do |notification| %>
               <div class="notification p-2 mb-2 border rounded">
                 <% case notification.notifiable_type %>
                 <% when "Favorite" %>
@@ -65,7 +66,7 @@
                     <span><%= notification.notifiable.customer.name %> さんが新しい投稿をしました</span>
                   <% end %>
                 <% when "PostComment" %>
-                  <%= link_to post_path(notification.notifiable.post), class: "d-flex align-items-center text-dark text-decoration-none" do %>
+                  <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
                     <i class="fas fa-comments mr-2 text-warning"></i>
                     <span><%= notification.notifiable.customer.name %> さんから投稿にコメントがありました</span>
                   <% end %>
