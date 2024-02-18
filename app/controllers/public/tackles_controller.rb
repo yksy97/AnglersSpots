@@ -13,7 +13,7 @@ class Public::TacklesController < ApplicationController
   def create
     @tackle = current_customer.tackles.build(tackle_params)
     if @tackle.save
-      redirect_to root_path, notice: 'タックルのプリセットが登録されました'
+      redirect_to tackles_path, notice: 'タックルが登録されました'
     else
       render :new
     end
@@ -26,7 +26,7 @@ class Public::TacklesController < ApplicationController
   def update
     @tackle = Tackle.find(params[:id])
     if @tackle.update(tackle_params)
-      redirect_to root_path, notice: 'タックルのプリセットが更新されました'
+      redirect_to tackles_path, notice: 'タックルが更新されました'
     else
       render :edit
     end
@@ -35,7 +35,7 @@ class Public::TacklesController < ApplicationController
   def destroy
     @tackle = Tackle.find(params[:id])
     @tackle.destroy
-    redirect_to root_path, notice: 'タックルのが削除されました'
+    redirect_to root_path, notice: 'タックルが削除されました'
   end
 
   private

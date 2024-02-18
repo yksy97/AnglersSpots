@@ -4,13 +4,15 @@
     <div class="col-md-4">
       <%= render 'public/posts/customer_section', customer: current_customer %>
     </div>
-    <!-- 新規投稿モーダルボタン -->
-    <div class="text-center mb-3">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
-    </div>
     
     <!-- 投稿一覧セクション -->
     <div class="col-md-8">
+
+      <!-- 新規投稿モーダルボタン -->
+    <div class="text-center mb-3">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
+    </div>
+
       <%= render 'public/posts/posts' %>
     </div>
   </div>

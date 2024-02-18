@@ -1,32 +1,33 @@
 <!-- 会員情報セクション -->
 <div class="card mb-4 shadow-sm">
   <div class="custom-card-body">
-    <!-- 時間帯によってメッセージを変更 -->
+    <% japan_time = Time.current.in_time_zone('Tokyo') %>
     <div class="text-center mb-3 pt-4">
-      <% if Time.current.hour < 12 %>
-        <h5>おはようございます！</h5>
-      <% elsif Time.current.hour < 18 %>
-        <h5>こんにちは！</h5>
+      <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
+        <h3>おはようございます！</h3>
+      <% elsif japan_time.hour >= 12 && japan_time.hour < 18 %>
+        <h3>こんにちは！</h3>
       <% else %>
-        <h5>こんばんは！</h5>
+        <h3>こんばんは！</h3>
       <% end %>
     </div>
 
     <div class="text-center mb-3">
-      <%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %>
+      <h4><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h4>
     </div>
 
-    <!-- 画像 -->
+     <!-- 画像 -->
     <div class="text-center mb-3">
       <%= link_to customer_path(current_customer) do %>
-        <% if current_customer.image.attached? %>
-          <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-        <% else %>
-          <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-        <% end %>
+        <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
+          <% if current_customer.image.attached? %>
+            <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+          <% end %>
+        </div>
       <% end %>
     </div>
-
 
     <!-- フォロー/フォロワー情報 -->
     <table class='table'>
