@@ -9,3 +9,12 @@
   margin-right: 2px;
   margin-left: 2px;
 }
+
+/*フォロー/フォロワーの背景色*/
+.bg-follow {
+  background-color: #82b6cf;
+}
+
+.bg-follower {
+  background-color: #87d49d;
+}
