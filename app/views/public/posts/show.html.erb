@@ -2,20 +2,28 @@
   <div class="row">
     <!-- 会員情報セクション -->
     <div class="col-md-4">
-      <%= render 'public/posts/customer_section' %>
+      <%= render 'public/customers/customer_section' %>
     </div>
-    
+
     <!-- 投稿詳細セクション -->
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header" style="background-color: #AFDFE4;">
-          <div class="d-flex justify-content-center">
-            <h2 class="mb-0"><%= @post.genre ? @post.genre.name : '' %></h2>
+        <!-- 魚 -->
+        <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
+          <div class="d-flex justify-content-center align-items-center">
+            <h2 class="mb-0">
+              <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+              <%= @post.genre ? @post.genre.name : '' %>
+            </h2>
           </div>
         </div>
 
         <div class="card-body">
-          <small class="text-muted d-block text-right">投稿日: <%= l @post.created_at, format: :custom_long %></small>
+          <!-- 投稿日 -->
+          <div class="text-right mb-2">
+            <small><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l @post.created_at, format: :custom_long %></small>
+          </div>
+
           <!-- 画像 -->
           <div class="text-center mb-3">
             <% if @post.image.attached? %>
@@ -25,27 +33,55 @@
             <% end %>
           </div>
 
-          <!-- 詳細情報 -->
-          <div class="mb-4">
-            <p>釣り場：<%= @post.location %></p>
-            <p>釣り方：
-              <% @post.rigs.each do |rig| %>
-                <%= rig.name %>
-              <% end %>
-            </p>
-            <div class="mb-3">
-              タックル情報
-              <ul class="mt-2">
-               <li><%= @post.tackle.rod %></li>
-               <li><%= @post.tackle.reel %></li>
-               <li><%= @post.tackle.line %></li>
-               <li><%= @post.tackle.bait %></li>
-              </ul>
+          <!-- リグと釣り場 -->
+          <div class="d-flex justify-content-between mb-3">
+            <div>
+              <!--リグ-->
+              <p class="mb-0">
+                <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
+                <% @post.rigs.each do |rig| %>
+                  ＃<%= rig.name %>
+                <% end %>
+              </p>
             </div>
-              感想
-            <ul class="list-group mt-2 mb-3">
-              <li class="list-group-item"><%= simple_format(@post.body, class: "m-0") %></li>
-            </ul>
+            <!--釣り場-->
+            <p class="mb-0">
+              <i class="fas fa-anchor mr-2" style="color: #ffc107;"></i><%= @post.location %>
+            </p>
+          </div>
+
+          <!-- タックル情報 -->
+          <div class="mb-3">
+            <h5 class="mb-2 mt-4">タックル情報</h5>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th style="width: 80px;">ロッド</th>
+                  <td><%= @post.tackle.rod %></td>
+                </tr>
+                <tr>
+                  <th style="width: 80px;">リール</th>
+                  <td><%= @post.tackle.reel %></td>
+                </tr>
+                <tr>
+                  <th style="width: 80px;">ライン</th>
+                  <td><%= @post.tackle.line %></td>
+                </tr>
+                <tr>
+                  <th style="width: 80px;">ベイト</th>
+                  <td><%= @post.tackle.bait %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 感想 -->
+          <div class="mb-3">
+            <h5 class="mb-2"></h5>
+            <p>
+              <i class="fa-solid fa-pencil mr-2"></i>
+              <%= simple_format(@post.body, class: "m-0") %>
+            </p>
           </div>
 
           <!-- コメントフォーム -->

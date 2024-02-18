@@ -1,10 +1,11 @@
 <!-- 会員情報セクション -->
 <div class="card mb-4 shadow-sm">
-  <div class="card-header" style="background-color: #AFDFE4; height: 50px;">
-    <div class="text-center mb-3">
-      <h4><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h4>
-    </div>
+  <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
+  <div class="text-center">
+    <h4><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h4>
   </div>
+</div>
+
   <div class="custom-card-body">
     <% japan_time = Time.current.in_time_zone('Tokyo') %>
     <div class="text-center mb-3 pt-4">

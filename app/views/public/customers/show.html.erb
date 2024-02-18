@@ -3,19 +3,21 @@
     <!-- 会員情報セクション -->
     <div class="col-md-4">
       <div class="card mb-4">
-        <div class="card-header text-center" style="background-color: #AFDFE4;">
-          <h2><%= @customer.name %> さん</h2>
+        <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
+          <div class="text-center">
+            <h4><%= @customer.name %> さん</h4>
+          </div>
         </div>
         <div class="card-body text-center">
           <% if @customer.image.attached? %>
-          <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
-            <%= image_tag @customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-          </div>
-        <% else %>
-          <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
-            <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-          </div>
-        <% end %>
+            <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
+              <%= image_tag @customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+            </div>
+          <% else %>
+            <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
+              <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+            </div>
+          <% end %>
           <div class="mt-4">
             <h3>会員情報</h3>
             <p><strong>名前：</strong><%= @customer.name %></p>
@@ -67,7 +69,7 @@
 
       <!-- 投稿一覧 -->
       <div class="card">
-        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4; min-height: 50px;">
           <h3><%= @customer.name %> さんの投稿一覧</h3>
         </div>
         <div class="card-body">
@@ -87,14 +89,28 @@
                   <div class="card-footer bg-white border-0">
                     <div class="d-flex flex-column">
                       <div>
-                        <h4><%= post.genre ? post.genre.name : '' %></h4>
+                        <h4><i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i><%= post.genre ? post.genre.name : '' %></h4>
                       </div>
-                      <div>
-                        <i class="fas fa-comments mr-2"></i><span><%= post.post_comments.count %> 件</span>
+                      <div class="d-flex align-items-center">
+                        <div class="mr-3">
+                          <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><span><%= l post.created_at, format: :custom_short %></span>
+                        </div>
+                        <div>
+                          <i class="fas fa-comments mr-2 text-warning"></i><span><%= post.post_comments.count %> 件</span>
+                        </div>
                       </div>
-                      <div>
-                        <i class="fas fa-calendar-alt mr-2"></i><span><%= l post.created_at, format: :custom_short %></span>
-                      </div>
+
+                      <% if post.rigs.present? %>
+                        <div class="d-flex align-items-center">
+                          <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
+                          <% post.rigs.take(2).each do |rig| %>
+                            <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
+                          <% end %>
+                          <% if post.rigs.count > 2 %>
+                            <span class="text-dark">...</span>
+                          <% end %>
+                        </div>
+                      <% end %>
                     </div>
                     <%= link_to '詳細を見る', post_path(post), class: "btn btn-primary btn-sm mt-2" %>
                   </div>
@@ -107,7 +123,6 @@
     </div>
   </div>
 </div>
-
 
 <% if current_customer == @customer %>
   <!--編集モーダルボタン-->
@@ -154,14 +169,14 @@
               <%= f.text_field :favorite_location, class: "form-control" %>
             </div>
             <div class="form-group">
-            <label for="inputCustomerFile">プロフィール画像</label>
-            <div class="input-group customer-drop-area">
-              <div class="custom-file">
-                <%= f.file_field :image, class: "custom-file-input", id:"inputCustomerFile" %>
-                <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択</label>
+              <label for="inputCustomerFile">プロフィール画像</label>
+              <div class="input-group customer-drop-area">
+                <div class="custom-file">
+                  <%= f.file_field :image, class: "custom-file-input", id:"inputCustomerFile" %>
+                  <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択</label>
+                </div>
               </div>
             </div>
-          </div>
             <div class="modal-footer">
               <%= f.submit "更新", class: "btn btn-success" %>
               <%= link_to "退会手続き", customers_confirm_path, class: "btn btn-danger" %>
