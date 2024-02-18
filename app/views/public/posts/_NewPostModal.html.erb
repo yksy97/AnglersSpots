@@ -34,7 +34,7 @@
             <%= f.label :rig_list, "釣り方" %>
             <%= f.text_field :rig_list, class: "form-control", required: true %>
             <div class="invalid-feedback">入力してください</div>
-            <small class="form-text text-muted">例：ジギング タイラバ サビキ 泳がせ</small>
+            <small class="form-text text-muted">スペースを開けると複数の単語を投稿できます。例：ジギング　夕まずめ</small>
           </div>
           <!--釣り場フォーム-->
           <div class="form-group">
@@ -55,18 +55,18 @@
           </div>
           
           
-    <!-- タックルプリセット -->
-<div class="form-group">
-  <%= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>
-  <% if @tackles.any? %>
-    <div class="alert alert-info" role="alert">
-      プリセットから選択できます
-    </div>
-  <% end %>
-  <div class="custom-select-wrapper">
-    <%= f.collection_select :tackle_id, @tackles, :id, :name, {include_blank: "プリセット無し"}, {class: "custom-select"} %>
-  </div>
-</div>
+            <!-- タックルプリセット -->
+        <div class="form-group">
+          <%= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>
+          <% if @tackles.any? %>
+            <div class="alert alert-info" role="alert">
+              プリセットから選択できます
+            </div>
+          <% end %>
+          <div class="custom-select-wrapper">
+            <%= f.collection_select :tackle_id, @tackles, :id, :name, {include_blank: "プリセット無し"}, {class: "custom-select"} %>
+          </div>
+        </div>
 
           
           <!--感想フォーム-->
