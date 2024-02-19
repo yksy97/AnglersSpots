@@ -14,52 +14,35 @@
 <body>
 
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+  <nav class="navbar-custom">
     <div class="container">
       <!-- ロゴ -->
-      <%= link_to root_path, class: 'navbar-brand' do %>
+      <%= link_to root_path, class: 'navbar-brand text-dark' do %>
         <i class="fas fa-fish"></i> 釣りあい <i class="fas fa-fish"></i>
       <% end %>
 
-      <!-- トグルボタン（レスポンシブ対応） -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
       <!-- ナビゲーションリンク -->
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item" style="margin-right: 10px;">
-            <%= link_to 'About', about_path, class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
+      <div class="navbar-links">
+        <ul class="nav">
+          <li class="nav-item">
+            <%= link_to 'About', about_path, class: 'nav-link' %>
           </li>
           <% if customer_signed_in? %>
-            <!-- 顧客がサインインしている場合のリンク -->
-            <li class="nav-item" style="margin-right: 10px;">
-              <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
-            </li>
-            <li class="nav-item" style="margin-right: 10px;">
-              <%= link_to '投稿一覧', posts_path, class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
-            </li>
-            <li class="nav-item" style="margin-right: 10px;">
-              <%= link_to 'タックル登録', new_tackle_path, class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
-            </li>
+            <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
+            <%= link_to '投稿一覧', posts_path, class: 'nav-link' %>
+            <%= link_to 'タックル登録', new_tackle_path, class: 'nav-link' %>
+            <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
           <% else %>
-            <!-- 顧客がサインインしていない場合のリンク -->
-            <li class="nav-item" style="margin-right: 10px;">
-              <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link', style: 'background-color: #5d6ec9; color: white; border-radius: 20px; padding: 5px 15px;' %>
-            </li>
+            <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
+            <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
           <% end %>
         </ul>
       </div>
     </div>
   </nav>
 </header>
+
+
 
 
 

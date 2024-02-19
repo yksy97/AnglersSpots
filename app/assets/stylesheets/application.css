@@ -1,15 +1,3 @@
- /*固定ヘッダーのカスタム*/
-  .navbar-custom {
-    background-color: #AFDFE4;
-  }
-  
-
-/*「posts/index」のタブ間の余白*/
-.nav-item-custom {
-  margin-right: 2px;
-  margin-left: 2px;
-}
-
 /*フォロー/フォロワーの背景色*/
 .bg-follow {
   background-color: #82b6cf;
@@ -17,4 +5,38 @@
 
 .bg-follower {
   background-color: #87d49d;
+}
+
+ /*固定ヘッダーのカスタム*/
+.navbar-custom {
+  background-color: #AFDFE4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-right: 20px; /* リンク間の余白 */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333; /* リンクテキストの色 */
+  padding: 5px 10px; /* リンクの内側の余白 */
+  border-radius: 0; /* 角の丸みをなくす */
+  transition: all 0.3s ease; /* アニメーションの効果を滑らかに */
+}
+
+.nav-link:hover {
+  background-color: #007B8F; /* ホバー時の背景色（#AFDFE4の濃い色系統） */
+  border-radius: 5px; /* ホバー時に角を丸くする */
+  color: #fff; /* ホバー時のテキスト色 */
 }

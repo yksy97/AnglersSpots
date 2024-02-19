@@ -10,11 +10,11 @@
     <% japan_time = Time.current.in_time_zone('Tokyo') %>
     <div class="text-center mb-3 pt-4">
       <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
-        <h3>おはようございます！</h3>
+        <h4>おはようございます！</h4>
       <% elsif japan_time.hour >= 12 && japan_time.hour < 18 %>
-        <h3>こんにちは！</h3>
+        <h4>こんにちは！</h4>
       <% else %>
-        <h3>こんばんは！</h3>
+        <h4>こんばんは！</h4>
       <% end %>
     </div>
 
