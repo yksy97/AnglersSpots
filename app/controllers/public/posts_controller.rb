@@ -75,7 +75,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:body, :image, :genre_id, :location, :tackle_id)
+    params.require(:post).permit(:body, :image, :genre_id, :location, :tackle_id, :rig_list)
   end
 
   def ensure_correct_customer

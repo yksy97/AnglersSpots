@@ -64,7 +64,7 @@
             </div>
           <% end %>
           <div class="custom-select-wrapper">
-            <%= f.collection_select :tackle_id, @tackles, :id, :name, {include_blank: "プリセット無し"}, {class: "custom-select"} %>
+            <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "プリセットなし"}, class: "custom-select" %>
           </div>
         </div>
 

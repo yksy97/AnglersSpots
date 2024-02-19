@@ -5,25 +5,25 @@
       <%= render 'public/customers/customer_section' %>
     </div>
 
-    <!-- 投稿詳細セクション -->
-    <div class="col-md-8">
-      <div class="card">
-        <!-- 魚 -->
-        <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h2 class="mb-0">
-              <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
-              <%= @post.genre ? @post.genre.name : '' %>
-            </h2>
+          <!-- 投稿詳細 -->
+          <div class="col-md-8">
+            <div class="card">
+              <!-- 魚 -->
+              <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h2 class="mb-0">
+                    <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                    <%= @post.genre ? @post.genre.name : '' %>
+                  </h2>
+                </div>
+                <div>
+            <% if current_customer == @post.customer %>
+              <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
+            <% end %>
           </div>
-          <div>
-      <% if current_customer == @post.customer %>
-        <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
-      <% end %>
-    </div>
-  </div>
-</div>
+        </div>
+      </div>
 
       
         <div class="card-body">
@@ -65,26 +65,30 @@
           <!-- タックル情報 -->
           <div class="mb-3">
             <h5 class="mb-2 mt-4">タックル情報</h5>
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th style="width: 80px;">ロッド</th>
-                  <td><%= @post.tackle.rod %></td>
-                </tr>
-                <tr>
-                  <th style="width: 80px;">リール</th>
-                  <td><%= @post.tackle.reel %></td>
-                </tr>
-                <tr>
-                  <th style="width: 80px;">ライン</th>
-                  <td><%= @post.tackle.line %></td>
-                </tr>
-                <tr>
-                  <th style="width: 80px;">ベイト</th>
-                  <td><%= @post.tackle.bait %></td>
-                </tr>
-              </tbody>
-            </table>
+            <% if @post.tackle %>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th style="width: 80px;">ロッド</th>
+                    <td><%= @post.tackle.rod %></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 80px;">リール</th>
+                    <td><%= @post.tackle.reel %></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 80px;">ライン</th>
+                    <td><%= @post.tackle.line %></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 80px;">ベイト</th>
+                    <td><%= @post.tackle.bait %></td>
+                  </tr>
+                </tbody>
+              </table>
+            <% else %>
+              no-data
+            <% end %>
           </div>
 
           <!-- 感想 -->

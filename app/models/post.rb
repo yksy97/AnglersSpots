@@ -15,7 +15,22 @@ class Post < ApplicationRecord
   # throughを利用して、tag_mapsを通してtagsとの関連付け(中間テーブル)
   #   Post.tagsとすれば、Postに紐付けられたTagの取得が可能
   has_many :rigs, through: :rig_posts
-  
+  # コールバック一連
+  # フォームヘルパー内でリグの編集（追加と削除）をしようとしたとき、
+  # 動作が上手くいかない＆リグがテキストにならないことが起因して質問した結果
+  # attr_accessorとattributeは大体同じ働きだが、attributeの方がメンテナンスが高い（けど難しい）
+  attr_accessor :rig_list
+  after_find :rigs_to_rig_list
+  def rigs_to_rig_list
+    # rails c とbeybug使って、self.rigs.map{|o| o.name }.join(" ")の動作を確認
+    if self.rigs && self.rigs.any?
+      self.rig_list = self.rigs.map{|o| o.name }.join(" ")
+    end
+  end
+  before_update :update_rigs
+  def update_rigs
+    save_rigs(self.rig_list)
+  end
   
   # 通知
   has_many :notifications, as: :notifiable, dependent: :destroy
@@ -87,7 +102,7 @@ class Post < ApplicationRecord
     current_rigs = self.rigs.pluck(:name)
 
     # (1) 元々自分に紐付いていたリグと投稿されたリグの差分を抽出
-    #   -- 記事更新時に削除されたリグ
+    #   -- 更新時に削除されたリグ
     old_rigs = current_rigs - rig_list
 
     # (2) 投稿されたリグと元々自分に紐付いていたリグの差分を抽出

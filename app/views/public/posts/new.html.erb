@@ -59,13 +59,12 @@
               <label class="custom-file-label" for="uniqueInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
             </div>
           </div>
-          <small class="form-text text-muted">対応ファイル形式: jpg, jpeg, png</small>
         </div>
         
           <!-- タックルプリセット -->
           <div class="form-group">
             <%= f.label :tackle_id, "タックルプリセット" %>
-            <%= f.collection_select :tackle_id, Tackle.all, :id, :name, {include_blank: "プリセットなし"}, class: "custom-select" %>
+            <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "プリセットなし"}, class: "custom-select" %>
           </div>
         
           <!-- 感想フォーム -->

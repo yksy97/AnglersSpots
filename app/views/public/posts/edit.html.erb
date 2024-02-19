@@ -11,7 +11,7 @@
         <div class="card-header" style="background-color: #AFDFE4;">
           <h2 class="mb-0 text-center">
             <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
-            <%= "#{@post.genre ? @post.genre.name : ''}" %>
+            ＃<%= "{@post.genre ? @post.genre.name : ''}" %>
           </h2>
         </div>
         <div class="card-body">
@@ -24,7 +24,11 @@
               <% else %>
                 <%= image_tag 'no_image.jpg', class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
               <% end %>
-              <%= form.file_field :image, class: 'form-control-file mt-2' %>
+              <div class="input-group drop-area">
+              <div class="custom-file">
+              <%= form.file_field :image, class: 'form-control-file mt-2', id: "PostsEditInputFile" %>
+              <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
+            </div>
             </div>
 
             <!-- 釣り場 -->
@@ -36,11 +40,12 @@
             <!-- 釣り方 -->
             <div class="form-group d-flex align-items-center">
               <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
-              <%= form.text_field :rigs, class: 'form-control ml-2' %>
+              <%# @post.rigs.each do |rig| %>
+              <%= form.text_field :rig_list, class: 'form-control ml-2' %>
+              <%# end %>
             </div>
 
             <!-- タックル情報 -->
-            <!-- タックル情報が複数ある場合は、それぞれのフィールドを追加してください -->
             <div class="form-group">
               <%= form.label :tackle, 'タックル情報', class: 'd-block' %>
               <%= form.text_field :tackle, class: 'form-control' %>
@@ -49,7 +54,6 @@
             <!-- 感想 -->
             <div class="form-group">
               <i class="fa-solid fa-pencil mr-2" style="color: #000;"></i>
-            
               <%= form.text_area :body, class: 'form-control', rows: 5 %>
             </div>
 
@@ -68,3 +72,43 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  // 画像のドラッグ&ドロップ
+   document.addEventListener('DOMContentLoaded', function() {
+  var dropArea = document.querySelector('.drop-area');
+  var inputFile = document.getElementById('PostsEditInputFile');
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  // ドロップ時の処理
+  dropArea.addEventListener('drop', handleDrop, false);
+
+  function handleDrop(e) {
+    var dt = e.dataTransfer;
+    var files = dt.files;
+
+    inputFile.files = files;
+
+    // ファイル名を表示
+    var fileName = files[0].name;
+    dropArea.querySelector('.custom-file-label').innerText = fileName;
+  }
+
+  // ファイル選択時の処理
+  inputFile.addEventListener('change', function(e) {
+    var files = inputFile.files;
+    var fileName = files[0].name;
+    dropArea.querySelector('.custom-file-label').innerText = fileName;
+  });
+});
+  
+</script>
