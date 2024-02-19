@@ -10,13 +10,13 @@ class Post < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_one_attached :image
   
-  # dependent: :destroyでPostが削除されると同時にPostとTagの関係が削除される
+  # dependent: :destroyでPostが削除されると同時にPostとRigの関係が削除される
   has_many :rig_posts, dependent: :destroy
 
-  # throughを利用して、tag_mapsを通してtagsとの関連付け(中間テーブル)
-  #   Post.tagsとすれば、Postに紐付けられたTagの取得が可能
+  # throughを利用して、rig_postsを通してtagsとの関連付け(中間テーブル)
+  #   Post.riggsとすれば、Postに紐付けられたTagの取得が可能
   has_many :rigs, through: :rig_posts
-  # コールバック一連
+  # コールバック一連（リグの編集）
   # フォームヘルパー内でリグの編集（追加と削除）をしようとしたとき、
   # 動作が上手くいかない＆リグがテキストにならないことが起因して質問した結果
   # attr_accessorとattributeは大体同じ働きだが、attributeの方がメンテナンスが高い（けど難しい）
@@ -73,19 +73,8 @@ class Post < ApplicationRecord
       self.genre_id = new_genre.id # 新規作成または見つかったジャンルをPostに関連付ける
     end
   end
-	
-  def self.search_for(content, method)
-    if method == 'perfect'
-      Post.where(title: content)
-    elsif method == 'forward'
-      Post.where('title LIKE ?', content+'%')
-    elsif method == 'backward'
-      Post.where('title LIKE ?', '%'+content)
-    else
-      Post.where('title LIKE ?', '%'+content+'%')
-    end
-  end
-  
+    
+    # no_image画像 
   def get_image
     if image.attached?
       image

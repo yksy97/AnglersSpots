@@ -6,9 +6,6 @@ has_many :posts
   # ジャンル名を保存する前に小文字に変換し、前後の空白を削除
   before_save :downcase_name
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["name"]
-  end
 
   private
 

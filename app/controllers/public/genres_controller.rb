@@ -1,11 +1,13 @@
 class Public::GenresController < ApplicationController
+  before_action :authenticate_customer!
   before_action :set_genre, only: [:edit, :update, :destroy]
 
   def index
     @genres = Genre.all.order(:name)
     @genre = Genre.new
   end
-
+  
+  
   def create
     @genre = Genre.new(genre_params)
     if @genre.save

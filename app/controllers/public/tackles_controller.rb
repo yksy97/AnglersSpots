@@ -9,7 +9,9 @@ class Public::TacklesController < ApplicationController
   def index
     @tackles = current_customer.tackles
   end
-
+  
+  
+  
   def create
     @tackle = current_customer.tackles.build(tackle_params)
     if @tackle.save

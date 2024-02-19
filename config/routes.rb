@@ -29,10 +29,6 @@ scope module: :public do
   resources :posts, only: [:new, :index, :show, :edit, :create, :destroy, :update] do
     resources :post_comments, only: [:create, :edit, :destroy, :update]
     resource :favorites, only: [:create, :destroy]
-    collection do
-      # 「ransack」 matchメゾット、viaオプションでGETとPOSTを指定
-      match 'search' => 'posts#search', via: [:get, :post], as: :search
-    end
     member do
       patch 'tackle_selection', to: 'posts#tackle_selection'
     end

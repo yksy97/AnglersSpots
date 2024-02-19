@@ -20,7 +20,7 @@ class Public::PostsController < ApplicationController
     @genres = Genre.order(:name)
     @tackles = Tackle.all
   end
-  
+
   def show
     @post = Post.find(params[:id])
     @customer = @post.customer

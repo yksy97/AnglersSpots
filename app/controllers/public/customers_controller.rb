@@ -13,7 +13,7 @@ class Public::CustomersController < ApplicationController
     @customers = Customer.all
     @post = Post.new
   end
-
+  
   def edit
     @customer = current_customer
   end
