@@ -1,0 +1,86 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- 会員情報セクション -->
+    <div class="col-md-4 d-flex flex-column">
+      <%= render 'public/customers/customer_section', customer: current_customer %>
+    </div>
+
+    <!-- ジャンル一覧と登録セクション -->
+    <div class="col-md-8">
+      <!-- ジャンル登録フォーム -->
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+          <h2>新しい魚の登録</h2>
+        </div>
+        <div class="card-body">
+          <%= form_with model: @genre, local: true, class: 'form-inline justify-content-center' do |form| %>
+            <div class="form-group mr-2">
+              <%= form.label :name, "ジャンル名", class: 'mr-2' %>
+              <%= form.text_field :name, class: 'form-control' %>
+            </div>
+            <%= form.submit "登録", class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- ジャンル一覧 -->
+      <div class="card">
+        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+          <h2>魚種一覧</h2>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>魚種</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @genres.each do |genre| %>
+                <tr>
+                  <td><%= genre.name %></td>
+                  <td class="text-right">
+                    <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
+                    <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<% @genres.each do |genre| %>
+  <div class="modal fade" id="genreModal<%= genre.id %>" tabindex="-1" role="dialog" aria-labelledby="genreModalLabel<%= genre.id %>" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="genreModalLabel<%= genre.id %>">ジャンル編集</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_with model: genre, local: true do |form| %>
+            <div class="form-group">
+              <%= form.label :name, "ジャンル名" %>
+              <%= form.text_field :name, class: 'form-control' %>
+            </div>
+            <div class="modal-footer">
+              <%= form.submit "更新", class: 'btn btn-success' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
