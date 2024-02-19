@@ -2,6 +2,12 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_customer!
   before_action :ensure_correct_customer, only: [:edit, :update, :destroy]
 
+  def new
+    @post = Post.new
+    @genres = Genre.order(:name)
+    @tackles = Tackle.all
+  end
+  
   def index
     if params[:rig_id]
       @posts = Rig.find(params[:rig_id]).posts.includes(:customer, :genre).order(created_at: :desc)
@@ -37,6 +43,7 @@ class Public::PostsController < ApplicationController
       @posts = Post.includes(:customer, :genre).order(created_at: :desc)
       @my_posts = current_customer.posts.order(created_at: :desc)
       @genres = Genre.order(:name)
+      @tackles = Tackle.all
       render :index
     end
   end

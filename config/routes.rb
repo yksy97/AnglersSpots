@@ -26,7 +26,7 @@ scope module: :public do
     get 'followers' => 'relationships#followers', as: 'followers'
   end
 
-  resources :posts, only: [:index, :show, :edit, :create, :destroy, :update] do
+  resources :posts, only: [:new, :index, :show, :edit, :create, :destroy, :update] do
     resources :post_comments, only: [:create, :edit, :destroy, :update]
     resource :favorites, only: [:create, :destroy]
     collection do
