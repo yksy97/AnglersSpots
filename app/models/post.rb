@@ -16,6 +16,7 @@ class Post < ApplicationRecord
   #   Post.tagsとすれば、Postに紐付けられたTagの取得が可能
   has_many :rigs, through: :rig_posts
   
+  
   # 通知
   has_many :notifications, as: :notifiable, dependent: :destroy
   

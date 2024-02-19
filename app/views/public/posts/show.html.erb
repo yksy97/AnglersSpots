@@ -10,13 +10,21 @@
       <div class="card">
         <!-- 魚 -->
         <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
-          <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
             <h2 class="mb-0">
               <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
               <%= @post.genre ? @post.genre.name : '' %>
             </h2>
           </div>
-        </div>
+          <div>
+      <% if current_customer == @post.customer %>
+        <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
       
         <div class="card-body">
           <div class="d-flex justify-content-between">
@@ -104,7 +112,7 @@
           <h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
           <div id="comments">
             <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
-              <div class="comment mb-3" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #f8f8f8; padding: 5px 10px;">
+              <div class="comment mb-3">
                 <!-- プロフィール画像 -->
                 <div class="d-flex align-items-center">
                   <% if comment.customer.image.attached? %>
@@ -116,14 +124,14 @@
                       <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
                     <% end %>
                   <% end %>
-                  <div style="background-color: #AFDFE4; padding: 3px; border-radius: 5px; display: inline-block;">
+                  <div>
                     <span><%= comment.customer.name %>さん</span>
                   </div>
                 </div>
 
                 <!-- コメント本文 -->
                 <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
-                  <span><%= comment.comment %></span>
+                  <span><%= simple_format(comment.comment, {}, wrapper_tag: "span") %></span>
                   <% if comment.customer == current_customer %>
                     <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
                   <% end %>
@@ -132,7 +140,7 @@
                 <!-- コメント日時と返信 -->
                 <div class="d-flex justify-content-between align-items-center mt-2">
                   <p><%= link_to "返信", "#", class: "btn btn-primary btn-sm reply-link", data: { comment_id: comment.id } %></p>
-                  <p class="text-muted">投稿日: <%= l comment.created_at, format: :custom_long %></p>
+                  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
                 </div>
               </div>
 
@@ -149,7 +157,7 @@
               <!-- リプライ一覧 -->
               <% comment.replies.order(created_at: :desc).each do |reply| %>
                 <div class="reply ml-4 pl-3 mt-2">
-                  <div class="comment mb-3" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #f8f8f8; padding: 5px 10px;">
+                  <div class="comment mb-3">
                     <!-- プロフィール画像 -->
                     <div class="d-flex align-items-center">
                       <% if reply.customer.image.attached? %>
@@ -161,14 +169,15 @@
                           <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
                         <% end %>
                       <% end %>
-                      <div style="background-color: #AFDFE4; padding: 3px; border-radius: 5px; display: inline-block;">
+                      <div>
                         <span><%= reply.customer.name %>さん</span>
                       </div>
                     </div>
 
                     <!-- リプライ本文 -->
+                    
                     <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
-                      <span><%= reply.comment %></span>
+                      <span><%= simple_format(reply.comment, {}, wrapper_tag: "span") %></span>
                       <% if reply.customer == current_customer %>
                         <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
                       <% end %>
@@ -176,7 +185,7 @@
 
                     <!-- リプライ日時 -->
                     <div class="d-flex justify-content-end align-items-center mt-2">
-                      <p class="text-muted">返信日: <%= l reply.created_at, format: :custom_long %></p>
+                      <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
                     </div>
                   </div>
                 </div>
