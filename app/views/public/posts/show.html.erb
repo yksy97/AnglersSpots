@@ -14,7 +14,7 @@
                 <div>
                   <h2 class="mb-0">
                     <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
-                    <%= @post.genre ? @post.genre.name : '' %>
+                    <%= @post.genre.name %>
                   </h2>
                 </div>
                 <div>
@@ -87,7 +87,8 @@
                 </tbody>
               </table>
             <% else %>
-              no-data
+            <!--プリセットが選択されずに投稿された場合、このメッセージを表示してタックル登録を促す-->
+             <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'text-dark' %>
             <% end %>
           </div>
 

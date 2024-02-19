@@ -3,7 +3,8 @@ class Post < ApplicationRecord
   # 「optional: true」は、PostとGenreの関連付け）を任意で行えるようにするオプション
   # 会員が新しい魚で投稿したとき、Genreの指定がない状態でもPostの作成が可能になる
   # ＝ 全てのPostがGenreに属する必要はないので、魚（ジャンル）が未分類のPostも許容される
-  belongs_to :genre, optional: true
+  belongs_to :genre
+  # 「optional: true」にした場合は、nill guardとして<% if @post.tackle %><% end %>の記述をする
   belongs_to :tackle, optional: true
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
