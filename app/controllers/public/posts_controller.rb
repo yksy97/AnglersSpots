@@ -65,6 +65,15 @@ class Public::PostsController < ApplicationController
       render :edit
     end
   end
+  
+  def tackle_selection
+  @post = Post.find(params[:id])
+  if @post.update(tackle_id: params[:post][:tackle_id])
+    redirect_to @post, notice: '登録したタックルが適用されました'
+  else
+    render :edit, alert: '登録したタックルの適用に失敗しました'
+  end
+  end
 
   def destroy
     @post = Post.find(params[:id])

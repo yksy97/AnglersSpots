@@ -33,6 +33,9 @@ scope module: :public do
       # 「ransack」 matchメゾット、viaオプションでGETとPOSTを指定
       match 'search' => 'posts#search', via: [:get, :post], as: :search
     end
+    member do
+      patch 'tackle_selection', to: 'posts#tackle_selection'
+    end
   end
 
   resources :notifications, only: [:index]

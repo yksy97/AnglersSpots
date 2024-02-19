@@ -89,7 +89,15 @@
                   <div class="card-footer bg-white border-0">
                     <div class="d-flex flex-column">
                       <div>
-                        <h4><i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i><%= @post.genre.name %></h4>
+                        <h4><i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                        <!--nil guard-->
+                         <% if @post.genre %>
+                          <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                          <%= @post.genre.name %>
+                          <% else %>
+                         <!--もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す-->
+                         <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+                          <% end %></h4>
                       </div>
                       <div class="d-flex align-items-center">
                         <div class="mr-3">
