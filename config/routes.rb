@@ -61,6 +61,6 @@ scope module: :public do
   end
   
   resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
-  get '/serches', to: 'searches#search'
+  get '/searches', to: 'searches#search'
 end
 end
