@@ -10,11 +10,11 @@ class Public::PostsController < ApplicationController
   
   def index
     if params[:rig_id]
-      @posts = Rig.find(params[:rig_id]).posts.includes(:customer, :genre).order(created_at: :desc)
+      @posts = Rig.find(params[:rig_id]).posts.includes(:customer, :genre).page(params[:page]).per(8).order(created_at: :desc)
     elsif params[:location]
-      @posts = Post.where(location: params[:location]).includes(:customer, :genre).order(created_at: :desc)
+      @posts = Post.where(location: params[:location]).includes(:customer, :genre).page(params[:page]).per(8).order(created_at: :desc)
     else
-      @posts = Post.includes(:customer, :genre).order(created_at: :desc)
+      @posts = Post.includes(:customer, :genre).page(params[:page]).per(8).order(created_at: :desc)
     end
     @post = Post.new
     @genres = Genre.order(:name)
