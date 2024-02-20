@@ -8,12 +8,12 @@ class Admin::CustomersController < ApplicationController
   
   def retire
   @customer.update(is_deleted: true)
-  redirect_to admin_customers_path, notice: '会員を退会させました。'
+  redirect_to admin_customers_path, notice: '会員を退会させました'
   end
 
   def revive
     @customer.update(is_deleted: false)
-    redirect_to admin_customers_path, notice: '会員を復活させました。'
+    redirect_to admin_customers_path, notice: '会員を復活させました'
   end
 
   private

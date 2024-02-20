@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- 会員情報セクション -->
+    <div class="col-md-4">
+      <%= render 'public/customers/customer_section', customer: current_customer %>
+
+      <!-- 新規投稿モーダルボタン -->
+      <div class="text-center mb-3">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
+      </div>
+    </div>
+    
+    <!-- 投稿一覧セクション -->
+    <div class="col-md-8">
+      <h2>検索結果</h2>
+      <!-- 投稿一覧セクション -->
+      <%= render "public/posts/posts", posts: @posts %>
+      <%= paginate @posts %>
+    </div>
+  </div>
+</div>
+
+<!-- 新規登録モーダル -->
+<%= render 'public/posts/NewPostModal' %>
+
+<%= javascript_pack_tag 'input_image' %>

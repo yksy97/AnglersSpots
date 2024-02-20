@@ -47,6 +47,13 @@
   </nav>
 </header>
 
+<%= search_form_for @q, url: serches_path do |f| %>
+  <%= f.label :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, "検索ワード" %>
+  <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont %>
+  
+  <%= f.submit %>
+<% end %>
+
 
 
 

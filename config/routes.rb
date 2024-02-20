@@ -15,13 +15,16 @@ Rails.application.routes.draw do
   }
 
   namespace :admin do
-  resources :customers, only: [:index] do
-    member do
-      patch :retire
-      patch :revive
+    resources :customers, only: [:index] do
+      member do
+        patch :retire
+        patch :revive
+      end
+      resources :posts, only: [:index, :show, :destroy] do
+        resources :post_comments, only: [:destroy]
+      end
     end
   end
-end
 
 # 顧客用Deviseルーティング
   devise_for :customers, skip: [:passwords], controllers: {
@@ -58,5 +61,6 @@ scope module: :public do
   end
   
   resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
+  get '/serches', to: 'searches#search'
 end
 end

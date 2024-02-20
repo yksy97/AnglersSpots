@@ -20,7 +20,7 @@
         <tbody>
           <% @customers.each do |customer| %>
             <tr>
-              <td><%= customer.name %></td>
+              <td><%= link_to customer.name, admin_customer_posts_path(customer_id: customer.id) %></td>
               <td><%= customer.email %></td>
               <td>
                 <% if customer.is_deleted %>
