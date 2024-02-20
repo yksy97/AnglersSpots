@@ -14,9 +14,11 @@
 
       <div class="modal-body">
         <div class="mb-4">
+          <!--:TODO フォローを外したとき、非同期でリストが更新されず、リロードが必要な状態-->
           <div><h6>フォロー</h6></div>
           <table class="table">
             <tbody>
+              <% if current_customer.followings.exists? %>
               <% current_customer.followings.each do |following| %>
                 <tr>
                   <th>名前</th>
@@ -26,6 +28,9 @@
                   <td><%= link_to following.name, customer_path(following), class: 'text-dark' %> さん</td>
                   <td><%= link_to '詳細', customer_path(following), class: 'btn btn-sm btn-outline-primary' %></td>
                 </tr>
+              <% end %>
+              <% else %>
+                <p class="text-center">フォローしている会員はいません</p>
               <% end %>
             </tbody>
           </table>

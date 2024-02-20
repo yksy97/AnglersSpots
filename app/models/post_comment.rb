@@ -10,6 +10,7 @@ class PostComment < ApplicationRecord
   belongs_to :parent, class_name: "PostComment", optional: true
   has_many :replies, class_name: "PostComment", foreign_key: "parent_id", dependent: :destroy
 
+# belongs_toの場合
   def self.ransackable_attributes(auth_object = nil)
     ["comment"]
   end

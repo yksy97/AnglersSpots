@@ -18,6 +18,7 @@
           </tr>
         </thead>
         <tbody>
+          <% if @customers.exists? %>
           <% @customers.each do |customer| %>
             <tr>
               <td><%= link_to customer.name, admin_customer_posts_path(customer_id: customer.id) %></td>
@@ -38,6 +39,9 @@
                 <% end %>
               </td>
             </tr>
+          <% end %>
+          <% else %>
+            <p class="text-center">会員情報がありません</p>
           <% end %>
         </tbody>
       </table>

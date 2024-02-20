@@ -43,6 +43,7 @@
               </tr>
             </thead>
             <tbody>
+              <% if @customer.tackles.exists? %>
               <% @customer.tackles.limit(5).each do |tackle| %>
                 <tr>
                   <td><%= tackle.name %></td>
@@ -51,6 +52,9 @@
                   <td><%= tackle.line %></td>
                   <td><%= tackle.bait %></td>
                 </tr>
+              <% end %>
+              <% else %>
+              <p class="text-center">登録されたタックルはありません</p>
               <% end %>
             </tbody>
           </table>
@@ -67,6 +71,7 @@
         </div>
         <div class="card-body">
           <div class="row">
+            <% if @my_posts.exists? %>
             <% @my_posts.each do |post| %>
               <div class="col-md-6 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
@@ -118,6 +123,9 @@
                 </div>
               </div>
             <% end %>
+          <% else %>
+            <p class="text-center">投稿がありません</p>
+          <% end %>
           </div>
         </div>
         <%= paginate @my_posts %>

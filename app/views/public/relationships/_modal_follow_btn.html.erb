@@ -1,3 +1,4 @@
+<% if current_customer.followers.exists? %>
 <% current_customer.followers.each do |follower| %>
   <tr>
     <th>名前</th>
@@ -13,4 +14,7 @@
       <% end %>
     </td>
   </tr>
+<% end %>
+<% else %>
+  <p class="text-center">フォロワーがいません</p>
 <% end %>
