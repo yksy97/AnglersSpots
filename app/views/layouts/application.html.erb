@@ -21,12 +21,17 @@
         <i class="fas fa-fish"></i> 釣りあい <i class="fas fa-fish"></i>
       <% end %>
 
-      <!-- ナビゲーションリンク -->
+      <% if admin_signed_in? %>
+        <!-- 管理者専用アラート -->
+        <div class="alert alert-warning" role="alert">
+          <strong>注意：</strong> こちらは管理者専用画面です
+        </div>
+      <% end %>
+
+      <!-- ナビリンク -->
       <div class="navbar-links">
         <ul class="nav">
-          
             <%= link_to 'About', about_path, class: 'nav-link' %>
-          
           <% if customer_signed_in? %>
             <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
             <%= link_to '新規投稿', new_post_path, class: 'nav-link' %>

@@ -1,12 +1,12 @@
 class Public::CustomersController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_customer_or_admin!
   before_action :ensure_correct_customer, only: [:edit, :update]
   before_action :ensure_guest_customer, only: [:edit, :update]
 
   def show
   @customer = Customer.find(params[:id])
   @posts = @customer.posts
-  @my_posts = @customer.posts.order(created_at: :desc)
+  @my_posts = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   @post = Post.new
   end
   
@@ -42,6 +42,12 @@ class Public::CustomersController < ApplicationController
 
   def customer_params
     params.require(:customer).permit(:email, :name, :introduction, :image, :favorite_fish, :favorite_rig, :favorite_location)
+  end
+  
+  def authenticate_customer_or_admin!
+    unless customer_signed_in? || admin_signed_in?
+      redirect_to new_customer_session_path
+    end
   end
 
   def ensure_correct_customer

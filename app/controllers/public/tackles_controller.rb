@@ -7,7 +7,7 @@ class Public::TacklesController < ApplicationController
   end
   
   def index
-    @tackles = current_customer.tackles
+    @tackles = current_customer.tackles.page(params[:page]).per(5)
   end
   
   

@@ -14,11 +14,10 @@
     <div class="col-md-8">
       <!-- 投稿一覧セクション -->
       <%= render "public/posts/posts", posts: @posts %>
+      <%= paginate @posts %>
     </div>
   </div>
 </div>
-
-<%= paginate @posts %>
 
 <!-- 新規登録モーダル -->
 <%= render 'public/posts/NewPostModal' %>
