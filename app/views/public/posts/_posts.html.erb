@@ -2,40 +2,46 @@
   <div class="card mb-4 shadow-sm">
     <div class="card-header" style="background-color: #AFDFE4;">
       <div class="d-flex justify-content-between align-items-center">
-  <div class="d-flex align-items-center">
-    <% if post.customer.image.attached? %>
-      <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
-    <% else %>
-      <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
-    <% end %>
-    <strong class="mr-3">
-      <%= link_to post.customer.name, customer_path(post.customer), class: "ml-2 text-dark" %>
-    </strong>
-    <div id="relationship-btn<%= post.customer.id %>">
-      <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
+        <div class="d-flex align-items-center">
+          <!-- 画像 -->
+          <% if post.customer.image.attached? %>
+            <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
+          <% end %>
+          <!-- 名前 -->
+          <strong class="mr-3">
+            <%= link_to post.customer.name, customer_path(post.customer), class: "ml-2 text-dark" %>
+          </strong>
+          <!-- フォローボタン -->
+          <div id="relationship-btn<%= post.customer.id %>">
+            <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
+          </div>
+        </div>
+        <!-- 投稿日 -->
+        <div class="d-flex align-items-center">
+          <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="d-flex align-items-center">
-    <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）
-  </div>
-</div>
 
-    </div>
-
+    <!-- 投稿内容 -->
     <div class="card-body" style="display: flex; justify-content: center;">
-  <div class="content">
-    <h5 class="mb-0" style="font-size: 2rem; color: #117a8b;">
-      <i class="fa-solid fa-fish-fins mr-2"></i>
-      <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark font-weight-bold" %>
-    </h5>
-  </div>
-</div>
-    
-<h6 class="card-text mb-0 mr-3 mt-2" style="text-align: right;">
-  <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
-  <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
-</h6>
+      <div class="content">
+        <h5 class="mb-0" style="font-size: 2rem; color: #117a8b;">
+          <i class="fa-solid fa-fish-fins mr-2"></i>
+          <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark font-weight-bold" %>
+        </h5>
+      </div>
+    </div>
 
+    <!-- 釣り場 -->
+    <h6 class="card-text mb-0 mr-3 mt-2" style="text-align: right;">
+      <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
+      <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
+    </h6>
+
+    <!-- 画像 -->
     <div class="d-flex justify-content-center align-items-center mt-4">
       <% if post.image.attached? %>
         <%= link_to post_path(post) do %>
@@ -48,6 +54,7 @@
       <% end %>
     </div>
 
+    <!-- 釣り方 -->
     <div class="card-body">
       <% if post.rigs.present? %>
         <p class="card-text" style="font-size: 1rem;">
@@ -57,6 +64,7 @@
           <% end %>
         </p>
       <% end %>
+      <!--投稿本文-->
       <p class="card-text">
         <i class="fa-solid fa-pencil mr-2 mt-3"></i>
         <div>
@@ -65,6 +73,7 @@
       </p>
     </div>
 
+    <!--いいねとコメント-->
     <div class="card-footer d-flex justify-content-between align-items-center">
       <h6>
         <%= render 'public/favorites/btn', post: post %>

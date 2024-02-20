@@ -10,26 +10,43 @@
             <div class="card">
               <!-- 魚 -->
               <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 class="mb-0">
-                    <!--nil guard-->
-                    <% if @post.genre.name %>
-                    <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
-                    <%= @post.genre.name %>
+                <div class="d-flex justify-content-between align-items-center">
+                  <!--名前-->
+                  <div class="d-flex align-items-center">
+                    <% if @post.customer.image.attached? %>
+                      <%= link_to customer_path(@post.customer) do %>
+                        <%= image_tag @post.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                      <% end %>
                     <% else %>
-                   <!--もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す-->
-                   <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+                      <%= link_to customer_path(@post.customer) do %>
+                        <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                      <% end %>
                     <% end %>
-                  </h2>
+                    <span><%= @post.customer.name %></span>
+                  </div>
+              
+                  <!-- 魚 -->
+                  <div>
+                    <h2 class="mb-0 ml-0">
+                      <!-- nil guard -->
+                      <% if @post.genre.name %>
+                        <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                        <%= @post.genre.name %>
+                      <% else %>
+                        <!-- もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す -->
+                        <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+                      <% end %>
+                    </h2>
+                  </div>
+              
+                  <!-- 編集 -->
+                  <div>
+                    <% if current_customer == @post.customer %>
+                      <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
+                    <% end %>
+                  </div>
                 </div>
-                <div>
-            <% if current_customer == @post.customer %>
-              <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
-            <% end %>
-          </div>
-        </div>
-      </div>
+              </div>
 
       
         <div class="card-body">
