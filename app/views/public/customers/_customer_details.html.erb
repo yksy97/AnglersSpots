@@ -1,0 +1,49 @@
+<div class="card mb-4">
+  <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
+    <div class="text-center">
+      <h4>会員情報</h4>
+    </div>
+  </div>
+
+  <div class="card-body text-center">
+    <% if customer.image.attached? %>
+      <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
+        <%= image_tag customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+      </div>
+    <% else %>
+      <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
+        <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
+      </div>
+    <% end %>
+
+    <div class="mt-4">
+      <!--名前-->
+      <div class="email mb-2" style="word-break: break-all;">
+        <h3><%= customer.name %></h3>
+      </div>
+
+      <!--メールアドレス（現在ログインしているユーザーしか見えない）-->
+      <% if customer == current_customer %>
+        <p class="mb-2"><strong>Email</strong></p>
+        <div class="email mb-2" style="word-break: break-all;">
+          <%= customer.email %>
+        </div>
+      <% end %>
+
+      <!--魚-->
+      <p class="mb-2" style="word-break: break-all;"><strong>好きな魚：</strong><%= customer.favorite_fish %></p>
+
+      <!--釣り方-->
+      <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り方：</strong><%= customer.favorite_rig %></p>
+
+      <!--釣り場-->
+      <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り場：</strong><%= customer.favorite_location %></p>
+
+      <!--自己紹介-->
+      <p class="mb-2"><strong>自己紹介</strong></p>
+      <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+        <%= simple_format(customer.introduction) %>
+      </div>
+    </div>
+  </div>
+</div>

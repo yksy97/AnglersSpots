@@ -1,11 +1,19 @@
 Rails.application.routes.draw do
-  get 'genres/index'
-  get 'genres/create'
+  
+  # get 'genres/index'
+  # get 'genres/create'
+  
+  
   # 顧客用Deviseルーティング
   devise_for :customers, skip: [:passwords], controllers: {
     registrations: 'public/registrations',
     sessions: 'public/sessions'
   }
+  
+  # ゲストログイン用のルーティングを追加
+  devise_scope :customer do
+    post 'customers/guest_sign_in', to: 'public/sessions#guest_sign_in', as: :guest_customer_session
+  end
 
   # 管理者用Deviseルーティング
   devise_for :admins, skip: [:registrations, :passwords], controllers: {
