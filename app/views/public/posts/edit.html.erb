@@ -24,11 +24,13 @@
               <% else %>
                 <%= image_tag 'no_image.jpg', class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
               <% end %>
-              <div class="input-group drop-area">
+              
+              <div class="form-group d-flex align-items-center justify-content-center mb-3">
+              <i class="fa-solid fa-camera mr-2" style="color: #117a8b;"></i>
               <div class="custom-file">
-              <%= form.file_field :image, class: 'form-control-file mt-2', id: "PostsEditInputFile" %>
-              <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
-            </div>
+                <%= form.file_field :image, class: 'custom-file-input', id: "PostsEditInputFile" %>
+                <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
+              </div>
             </div>
 
             <!-- 釣り場 -->

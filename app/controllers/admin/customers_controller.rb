@@ -5,9 +5,6 @@ class Admin::CustomersController < ApplicationController
   def index
     @customers = Customer.all.page(params[:page]).per(20)
   end
-  def show
-      @customer = Customer.find(params[:id])
-  end
   
   def retire
   @customer.update(is_deleted: true)

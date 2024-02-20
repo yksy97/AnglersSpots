@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   devise_scope :customer do
     post 'customers/guest_sign_in', to: 'public/sessions#guest_sign_in', as: :guest_customer_session
   end
+  
+  # 管理者用ゲストログイン用のルーティングを追加
+  devise_scope :admin do
+    post 'admins/guest_sign_in', to: 'admin/sessions#guest_sign_in', as: :guest_admin_session
+  end
 
   # 管理者用Deviseルーティング
   devise_for :admins, skip: [:registrations, :passwords], controllers: {
@@ -10,7 +15,7 @@ Rails.application.routes.draw do
   }
 
   namespace :admin do
-  resources :customers, only: [:index, :show] do
+  resources :customers, only: [:index] do
     member do
       patch :retire
       patch :revive

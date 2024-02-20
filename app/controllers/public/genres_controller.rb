@@ -3,7 +3,7 @@ class Public::GenresController < ApplicationController
   before_action :set_genre, only: [:edit, :update, :destroy]
 
   def index
-    @genres = Genre.all.order(:name).page(params[:page]).per(5)
+    @genres = Genre.all.order(created_at: :desc).page(params[:page]).per(10)
     @genre = Genre.new
   end
   
