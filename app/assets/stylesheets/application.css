@@ -1,19 +1,52 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
- 
- /*背景画像を表示できるようにする*/
-body {
-  background-image: image-url("hoge.jpg");}
+
+/*新規登録の入力フォームのメッセージ*/
+ .form-container {
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+
+/*フォロー/フォロワーの背景色*/
+.bg-follow {
+  background-color: #82b6cf;
+}
+
+.bg-follower {
+  background-color: #87d49d;
+}
+
+ /*固定ヘッダーのカスタム*/
+.navbar-custom {
+  background-color: #AFDFE4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-right: 20px; /* リンク間の余白 */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333; /* リンクテキストの色 */
+  padding: 5px 10px; /* リンクの内側の余白 */
+  border-radius: 0; /* 角の丸みをなくす */
+  transition: all 0.3s ease; /* アニメーションの効果を滑らかに */
+}
+
+.nav-link:hover {
+  background-color: #007B8F; /* ホバー時の背景色（#AFDFE4の濃い色系統） */
+  border-radius: 5px; /* ホバー時に角を丸くする */
+  color: #fff; /* ホバー時のテキスト色 */
+}

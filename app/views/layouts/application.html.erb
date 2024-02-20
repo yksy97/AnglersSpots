@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WERT FISCH</title>
+  <title>釣りあい</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <script src="https://kit.fontawesome.com/28e899c482.js" crossorigin="anonymous"></script>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <!--turbolinks有効にするときは下記の末尾に＝, 'data-turbolinks-track': 'reload'-->
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <!--turbolinks有効にするときは下記の末尾に＝, 'data-turbolinks-track': 'reload'-->
+  <%= javascript_pack_tag 'application' %>
   <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' %>
 </head>
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <%= link_to 'WERT FISCH', (customer_signed_in? ? about_path : root_path), class: 'navbar-brand' %>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
+<header>
+  <nav class="navbar-custom">
+    <div class="container">
+      <!-- ロゴ -->
+      <%= link_to root_path, class: 'navbar-brand text-dark' do %>
+        <i class="fas fa-fish"></i> 釣りあい <i class="fas fa-fish"></i>
+      <% end %>
+
+      <!-- ナビゲーションリンク -->
+      <div class="navbar-links">
+        <ul class="nav">
+          
+            <%= link_to 'About', about_path, class: 'nav-link' %>
+          
           <% if customer_signed_in? %>
-            <li class="nav-item">
-              <%= link_to '投稿一覧', posts_path(current_customer), class: 'nav-link' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
-            </li>
+            <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
+            <%= link_to '新規投稿', new_post_path, class: 'nav-link' %>
+            <%= link_to '通知一覧', notifications_path, class: 'nav-link' %>
+            <%= link_to '投稿一覧', posts_path, class: 'nav-link' %>
+            <%= link_to '魚種一覧', genres_path, class: 'nav-link' %>
+            <%= link_to 'タックル一覧', tackles_path, class: 'nav-link' %>
+            <%= link_to 'タックル登録', new_tackle_path, class: 'nav-link' %>
+            <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
           <% else %>
-            <li class="nav-item">
-              <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
-            </li>
+            <%= link_to "ゲストログイン（閲覧用）", guest_customer_session_path, class: 'nav-link', method: :post %>
+            <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
+            <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
           <% end %>
         </ul>
+      
+        
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
+
+
+
+
+
+
 
   <!-- メッセージ -->
   <% flash.each do |key, value| %>
@@ -50,7 +66,6 @@
       </div>
     </div>
   <% end %>
-  
   <%= yield %>
 
   <!--トップまで戻るボタン-->
@@ -58,7 +73,7 @@
   <i class="fas fa-arrow-up"></i>
   </button>
 
-  <!-- Bootstrap JavaScript -->
+  <!-- BootstrapのJavaScript -->
   <%= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.slim.min.js' %>
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' %>
   <!--CDNの-->

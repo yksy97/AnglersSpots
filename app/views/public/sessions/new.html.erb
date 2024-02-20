@@ -1,46 +1,37 @@
 <div class="container mt-5">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header">
-          <h2 class="text-center">ログイン</h2>
-        </div>
-        <div class="card-body">
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'needs-validation', novalidate: true }) do |f| %>
-            <div class="form-group mb-3">
-              <%= f.label :email, I18n.t('devise.sessions.new.email'), class: 'form-label' %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: true %>
-              <div class="invalid-feedback">
-                <%= I18n.t('errors.messages.invalid_email') %>
-              </div>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="form-container">
+        <h2 class="text-center mb-4">ログイン</h2>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: 'login-form', class: 'needs-validation', novalidate: true }) do |f| %>
 
-            <div class="form-group mb-3">
-              <%= f.label :password, I18n.t('devise.sessions.new.password'), class: 'form-label' %>
-              <%= f.password_field :password, autocomplete: "current-password", class: 'form-control', required: true %>
-              <div class="invalid-feedback">
-                <%= I18n.t('errors.messages.invalid_password') %>
-              </div>
-            </div>
+          <div class="form-group mb-3">
+            <%= f.label :email, I18n.t('devise.sessions.new.email'), class: 'form-label' %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: true %>
+            <div class="invalid-feedback">入力してください</div>
+          </div>
 
-            <% if devise_mapping.rememberable? %>
-              <div class="form-group form-check mb-3">
-                <%= f.check_box :remember_me, class: 'form-check-input', id: 'invalidCheck' %>
-                <%= f.label :remember_me, I18n.t('devise.sessions.new.remember_me'), class: 'form-check-label' %>
-              </div>
-            <% end %>
+          <div class="form-group mb-3">
+            <%= f.label :password, I18n.t('devise.sessions.new.password'), class: 'form-label' %>
+            <%= f.password_field :password, autocomplete: "current-password", class: 'form-control', required: true %>
+            <div class="invalid-feedback">入力してください</div>
+          </div>
 
-            <div class="form-group">
-              <%= f.submit I18n.t('devise.sessions.new.sign_in'), class: 'btn btn-primary btn-block' %>
+          <% if devise_mapping.rememberable? %>
+            <div class="form-group form-check mb-3">
+              <%= f.check_box :remember_me, class: 'form-check-input', id: 'invalidCheck' %>
+              <%= f.label :remember_me, I18n.t('devise.sessions.new.remember_me'), class: 'form-check-label' %>
             </div>
           <% end %>
-        </div>
+
+          <div class="form-group">
+            <%= f.submit I18n.t('devise.sessions.new.sign_in'), class: 'btn btn-primary w-100', disabled: true %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
 
-<!--validationによる入力フォームのカスタムはBootstrap4.3.1対応-->
-<!--app/javasctipt/packsから参照しました-->
-<%= javascript_pack_tag 'validations' %>
-<!--Ajaxは一度諦めてコメントアウト%= javascript_pack_tag 'login' %>-->
+<%= javascript_pack_tag 'log_in' %>
+

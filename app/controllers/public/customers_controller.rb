@@ -1,10 +1,12 @@
 class Public::CustomersController < ApplicationController
   before_action :authenticate_customer!
   before_action :ensure_correct_customer, only: [:edit, :update]
+  before_action :ensure_guest_customer, only: [:edit, :update]
 
   def show
   @customer = Customer.find(params[:id])
   @posts = @customer.posts
+  @my_posts = @customer.posts.order(created_at: :desc)
   @post = Post.new
   end
   
@@ -12,7 +14,7 @@ class Public::CustomersController < ApplicationController
     @customers = Customer.all
     @post = Post.new
   end
-
+  
   def edit
     @customer = current_customer
   end
@@ -39,7 +41,7 @@ class Public::CustomersController < ApplicationController
   private
 
   def customer_params
-    params.require(:customer).permit(:email, :name, :introduction)
+    params.require(:customer).permit(:email, :name, :introduction, :image, :favorite_fish, :favorite_rig, :favorite_location)
   end
 
   def ensure_correct_customer
@@ -48,4 +50,13 @@ class Public::CustomersController < ApplicationController
       redirect_to customer_path(current_customer)
     end
   end
+  
+  def ensure_guest_customer
+  @customer = Customer.find(params[:id])
+  if @customer.guest_customer?
+    redirect_to customer_path(current_customer), alert: 'ゲストカスタマーはプロフィールを編集できません。'
+  end
+  end
+  
+  
 end

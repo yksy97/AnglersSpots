@@ -1,0 +1,40 @@
+<!-- リレーションシップ一覧モーダル -->
+<!--「public/customers/_customer_section.html.erb」で使用-->
+<div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="followersModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="followersModalLabel">フォロー / フォロワー</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- タブ -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="followings-tab" data-toggle="tab" href="#followings" role="tab" aria-controls="followings" aria-selected="true">フォロー</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">フォロワー</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="followings" role="tabpanel" aria-labelledby="followings-tab">
+            <% customer.followings.each do |following| %>
+              <p><%= following.name %></p>
+            <% end %>
+          </div>
+          <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
+            <% customer.followers.each do |follower| %>
+              <p><%= follower.name %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>

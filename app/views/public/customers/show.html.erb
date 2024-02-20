@@ -1,40 +1,190 @@
 <div class="container mt-4">
+  
   <div class="row justify-content-center">
+    <!-- 会員情報セクション -->
+    <div class="col-md-4">
+      <!--会員詳細-->
+      <%= render 'customer_details', customer: @customer %>
+      
+        <% if !@customer.guest_customer? && current_customer == @customer %>
+        <!--編集モーダルボタン-->
+          <div class="text-center">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#EditCustomerModal">
+            プロフィールを編集
+            </button>
+          </div>
+        <% end %>
+    </div>
+
+    <!-- タックルと投稿一覧 -->
     <div class="col-md-8">
-      <div class="card">
-        <div class="card-header text-center d-flex justify-content-between align-items-center">
-          <h2 class="mb-0 text-center flex-grow-1"><%= @customer.name %> さん</h2>
-          <%= link_to "編集", edit_customer_path, class: "btn btn-success btn-sm" %>
+      <!-- タックル新着一覧 -->
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+          <h3>タックル新着５件</h3>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-4 text-center mb-4">
-              <% if @customer.image.attached? %>
-                <%= image_tag @customer.image, size: "100x100" %>
-              <% else %>
-                <%= image_tag 'no_image', size: "100x100" %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>ロッド</th>
+                <th>リール</th>
+                <th>ライン</th>
+                <th>ベイト</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @customer.tackles.limit(5).each do |tackle| %>
+                <tr>
+                  <td><%= tackle.name %></td>
+                  <td><%= tackle.rod %></td>
+                  <td><%= tackle.reel %></td>
+                  <td><%= tackle.line %></td>
+                  <td><%= tackle.bait %></td>
+                </tr>
               <% end %>
-            </div>
-            <div class="col-md-8">
-              <table class="table">
-                <tbody>
-                  
-                 <!--本の投稿一覧を表示させたい
-                 その上で、他のユーザーが同一の本について感想を書けるようにして、
-                 自分の感想と他のユーザーの感想をタブで分けたい
-                 そして、編集ボタンはそのユーザーのみだけに表示されたい
-                 他のユーザーには「フォローする」ボタンを表示したい-->
-                 
-   
-
-                
-                </tbody>
-              </table>
-            </div>
+            </tbody>
+          </table>
+          <div class="text-center mt-2">
+            <a href="<%= tackles_path %>" class="text-decoration-none text-dark">タックル一覧はこちらから</a>
           </div>
         </div>
       </div>
+
+      <!-- 投稿一覧 -->
+      <div class="card">
+        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4; min-height: 50px;">
+          <h3><%= @customer.name %> さんの投稿一覧</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @my_posts.each do |post| %>
+              <div class="col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                  <% if post.image.attached? %>
+                    <%= link_to post_path(post) do %>
+                      <%= image_tag(post.image, class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to post_path(post) do %>
+                      <%= image_tag('no_image.jpg', class: 'card-img-top', style: 'width: 100%; height: auto; display: block;') %>
+                    <% end %>
+                  <% end %>
+                  <div class="card-footer bg-white border-0">
+                    <div class="d-flex flex-column">
+                      <div>
+                        <h4><i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                        <!--nil guard-->
+                         <% if @post.genre %>
+                          <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                          <%= @post.genre.name %>
+                          <% else %>
+                         <!--もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す-->
+                         <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+                          <% end %></h4>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="mr-3">
+                          <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><span><%= l post.created_at, format: :custom_short %></span>
+                        </div>
+                        <div>
+                          <i class="fas fa-comments mr-2 text-warning"></i><span><%= post.post_comments.count %> 件</span>
+                        </div>
+                      </div>
+
+                      <% if post.rigs.present? %>
+                        <div class="d-flex align-items-center">
+                          <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
+                          <% post.rigs.take(2).each do |rig| %>
+                            <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
+                          <% end %>
+                          <% if post.rigs.count > 2 %>
+                            <span class="text-dark">...</span>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <%= link_to '詳細を見る', post_path(post), class: "btn btn-primary btn-sm mt-2" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>
 
+  <!--編集モーダル -->
+  <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_with model: @customer, local: true do |f| %>
+            <!--名前-->
+            <div class="form-group">
+              <%= f.label :name, "名前" %>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+            <!--メールアドレス-->
+            <div class="form-group">
+              <%= f.label :email, "メールアドレス" %>
+              <%= f.email_field :email, class: "form-control" %>
+            </div>
+            
+            <!--画像-->
+            <div class="form-group">
+              <label for="inputCustomerFile">プロフィール画像</label>
+              <div class="input-group customer-drop-area">
+                <div class="custom-file">
+                  <%= f.file_field :image, class: "custom-file-input", id:"inputCustomerFile" %>
+                  <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択</label>
+                </div>
+              </div>
+            </div>
+            
+            <!--魚-->
+            <div class="form-group">
+              <%= f.label :favorite_fish, "好きな魚" %>
+              <%= f.text_field :favorite_fish, class: "form-control" %>
+            </div>
+            
+            <!--釣り方-->
+            <div class="form-group">
+              <%= f.label :favorite_rig, "好きな釣り方" %>
+              <%= f.text_field :favorite_rig, class: "form-control" %>
+            </div>
+            
+            <!--場所-->
+            <div class="form-group">
+              <%= f.label :favorite_location, "好きな場所" %>
+              <%= f.text_field :favorite_location, class: "form-control" %>
+            </div>
+            
+            <!--自己紹介-->
+            <div class="form-group">
+              <%= f.label :introduction, "自己紹介" %>
+              <%= f.text_area :introduction, class: "form-control" %>
+            </div>
+
+            <div class="modal-footer">
+              <%= f.submit "更新", class: "btn btn-success" %>
+              <%= link_to "退会手続き", customers_confirm_path, class: "btn btn-danger" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<%= javascript_pack_tag 'input_customer_image' %>

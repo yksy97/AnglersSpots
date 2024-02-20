@@ -1,5 +1,5 @@
 // このファイルはページを上部まで戻すトグルスイッチを実装するために作りました
-document.addEventListener('turbolinks:load', function() {
+document.addEventListener('DOMContentLoaded', function() {
   // トップまで戻るボタン追随
   $(window).scroll(function() {
     if ($(this).scrollTop() > 100) {

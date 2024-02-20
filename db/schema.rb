@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_07_003308) do
+ActiveRecord::Schema.define(version: 2024_02_18_100954) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -56,6 +56,9 @@ ActiveRecord::Schema.define(version: 2024_02_07_003308) do
     t.string "name", null: false
     t.string "email", default: "", null: false
     t.text "introduction"
+    t.string "favorite_fish"
+    t.string "favorite_rig"
+    t.string "favorite_location"
     t.string "encrypted_password", default: "", null: false
     t.boolean "is_deleted", default: true, null: false
     t.string "reset_password_token"
@@ -80,23 +83,31 @@ ActiveRecord::Schema.define(version: 2024_02_07_003308) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.boolean "read", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_notifications_on_customer_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+  end
+
   create_table "post_comments", force: :cascade do |t|
     t.text "comment"
     t.integer "customer_id"
     t.integer "post_id"
+    t.integer "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title"
     t.text "body"
-    t.string "rod"
-    t.string "reel"
-    t.string "line"
-    t.string "hook"
-    t.string "bait"
-    t.string "tips"
+    t.integer "rig_id"
+    t.integer "tackle_id"
+    t.string "location"
     t.integer "customer_id"
     t.integer "genre_id"
     t.datetime "created_at", precision: 6, null: false
@@ -110,6 +121,33 @@ ActiveRecord::Schema.define(version: 2024_02_07_003308) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "rig_posts", force: :cascade do |t|
+    t.integer "rig_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rigs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tackles", force: :cascade do |t|
+    t.string "name"
+    t.string "rod"
+    t.string "reel"
+    t.string "line"
+    t.string "bait"
+    t.integer "customer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_tackles_on_customer_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "notifications", "customers"
+  add_foreign_key "tackles", "customers"
 end

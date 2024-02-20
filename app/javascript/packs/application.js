@@ -4,7 +4,7 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
+// import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
@@ -15,14 +15,9 @@ import "bootstrap";
 import "../stylesheets/application"; 
 
 Rails.start()
-Turbolinks.start()
+// JSとの競合を考慮した結果、TurbolinksをONにするメリットより、OFFにするメリットが上回っているのでOFFにしました。
+// Turbolinks.start()
 ActiveStorage.start()
 
 
 
-// モーダル画面の背景色
-$('#NewBookModal').on('shown.bs.modal', function () {
-  $('.modal-backdrop').css({
-    'background-color': 'rgba(0,0,0,0.5)'
-  });
-});

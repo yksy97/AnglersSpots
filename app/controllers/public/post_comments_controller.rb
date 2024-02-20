@@ -3,7 +3,7 @@ class Public::PostCommentsController < ApplicationController
   before_action :ensure_correct_customer, only: [:update, :destroy]
 
   def create
-    @comment = current_user.post_comments.new(post_comment_params.merge(post_id: @post.id))
+    @comment = current_customer.post_comments.new(post_comment_params.merge(post_id: @post.id))
     if @comment.save
       redirect_to post_path(@post), notice: 'コメントが投稿されました'
     else
@@ -13,22 +13,17 @@ class Public::PostCommentsController < ApplicationController
 
   def update
     @comment = @post.post_comments.find(params[:id])
-    respond_to do |format|
-      if @comment.update(post_comment_params)
-        format.js { flash.now[:notice] = 'コメントが更新されました' }
-      else
-        format.js { flash.now[:alert] = 'コメントの更新に失敗しました' }
-      end
+    if @comment.update(post_comment_params)
+      redirect_to post_path(@post), notice: 'コメントが更新されました'
+    else
+      render 'posts/show', alert: 'コメントの更新に失敗しました'
     end
   end
 
   def destroy
     @comment = @post.post_comments.find(params[:id])
-    respond_to do |format|
-      if @comment.destroy
-        format.js
-      end
-    end
+    @comment.destroy
+    redirect_to post_path(@post), notice: 'コメントが削除されました'
   end
 
   private
@@ -36,13 +31,9 @@ class Public::PostCommentsController < ApplicationController
   def set_post
     @post = Post.find(params[:post_id])
   end
-  
-  def post_params
-  params.require(:post).permit(:title, :body, :image)
-end
 
   def post_comment_params
-    params.require(:post_comment).permit(:comment)
+    params.require(:post_comment).permit(:comment, :parent_id)
   end
 
   def ensure_correct_customer
