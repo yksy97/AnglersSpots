@@ -112,11 +112,17 @@
             <% else %>
               <% if Tackle.exists? %>
                 <!-- タックルが存在する場合、セレクトボックスで選択できるようにする -->
-                <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch do |f| %>
-                  <%= f.label :tackle_id, "タックルを選択" %>
-                  <%= f.collection_select :tackle_id, Tackle.all, :id, :name, include_blank: true %>
-                  <%= f.submit "選択", class: "btn btn-primary mt-2" %>
+                <div class="form-group">
+                <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: 'form-inline' } do |f| %>
+                  <%= f.label :tackle_id, "タックルを選択", class: 'my-1 mr-2' %>
+                  <div class="input-group">
+                    <%= f.collection_select :tackle_id, Tackle.all, :id, :name, {include_blank: true}, {class: "custom-select my-1 mr-sm-2"} %>
+                    <div class="input-group-append">
+                      <%= f.submit "選択", class: "btn btn-primary btn-sm my-1" %>
+                    </div>
+                  </div>
                 <% end %>
+              </div>
               <% else %>
                 <!-- タックルプリセットが存在しない場合、新規登録を促すリンクを表示 -->
                 <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark mt-2' %>
