@@ -9,6 +9,6 @@ class Public::RegistrationsController < Devise::RegistrationsController
 
    # 会員登録後の遷移先
   def after_sign_up_path_for(resource)
-    customer_path(resource)
+    posts_path(resource)
   end
 end
