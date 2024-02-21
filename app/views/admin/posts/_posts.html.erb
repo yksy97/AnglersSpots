@@ -1,3 +1,4 @@
+<% if @posts.exists? %>
 <% @posts.each do |post| %>
   <div class="card mb-4 shadow-sm">
     <div class="card-header" style="background-color: #AFDFE4;">
@@ -80,4 +81,7 @@
       </div>
     </div>
   </div>
+<% end %>
+<% else %>
+<p class="text-center">投稿がありません</p>
 <% end %>

@@ -1,5 +1,12 @@
 <div class="container mt-5">
+   <!-- 管理者専用アラート -->
+   <% if admin_signed_in? %>
+    <div class="alert alert-warning" role="alert">
+      <strong>注意：</strong> こちらは管理者専用画面です
+    </div>
+  <% end %>
   <div class="row">
+     
 
           <!-- 投稿詳細 -->
           <div class="col-md-8 mx-auto">
@@ -116,6 +123,7 @@
           <!-- コメントとリプライ一覧 -->
           <h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
           <div id="comments">
+            <% if @post.post_comments.where(parent_id: nil).order(created_at: :desc).exists? %>
             <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
               <div class="comment mb-3">
                 <!-- プロフィール画像 -->
@@ -148,6 +156,7 @@
 
 
               <!-- リプライ一覧 -->
+              <% if comment.replies.order(created_at: :desc).exists? %>
               <% comment.replies.order(created_at: :desc).each do |reply| %>
                 <div class="reply ml-4 pl-3 mt-2">
                   <div class="comment mb-3">
@@ -180,8 +189,14 @@
                     </div>
                   </div>
                 </div>
-              <% end %>
+               <% end %>
+              <% else %>
+              <p class="text-center">リプライはありません</p>
             <% end %>
+            <% end %>
+            <% else %>
+            <p class="text-center">コメントはありません</p>
+          <% end %>
           </div>
         </div>
       </div>

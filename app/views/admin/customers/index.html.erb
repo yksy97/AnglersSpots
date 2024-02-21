@@ -1,8 +1,8 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-12">
+       <!-- 管理者専用アラート -->
        <% if admin_signed_in? %>
-        <!-- 管理者専用アラート -->
         <div class="alert alert-warning" role="alert">
           <strong>注意：</strong> こちらは管理者専用画面です
         </div>
@@ -13,8 +13,8 @@
           <tr>
             <th scope="col">名前</th>
             <th scope="col">メールアドレス</th>
-            <th scope="col">現在のステータス</th>
             <th scope="col">退会／復活</th>
+            <th scope="col">現在のステータス</th>
           </tr>
         </thead>
         <tbody>
@@ -22,22 +22,25 @@
           <% @customers.each do |customer| %>
             <tr>
               <td><%= link_to customer.name, admin_customer_posts_path(customer_id: customer.id) %></td>
-              <td><%= customer.email %></td>
+              
+              <td class="break-word"><%= customer.email %></td>
+              
               <td>
                 <% if customer.is_deleted %>
-                  <span class="btn btn-danger btn-sm">退会済み</span>
+                  <%= link_to '入会する', revive_admin_customer_path(customer), method: :patch, class: 'btn btn-success btn-sm' %>
                 <% else %>
-                  <span class="btn btn-success btn-sm">アクティブ</span>
+                  <%= link_to '退会する', retire_admin_customer_path(customer), method: :patch, data: { confirm: '本当に退会させますか？' }, class: 'btn btn-danger btn-sm' %>
                 <% end %>
               </td>
-
+              
               <td>
                 <% if customer.is_deleted %>
-                  <%= link_to '復会させる', revive_admin_customer_path(customer), method: :patch, class: 'btn btn-success btn-sm' %>
+                  <i class="fas fa-times-circle text-danger"></i> 退会済み
                 <% else %>
-                  <%= link_to '退会させる', retire_admin_customer_path(customer), method: :patch, data: { confirm: '本当に退会させますか？' }, class: 'btn btn-danger btn-sm' %>
+                  <i class="fas fa-check-circle text-success"></i> 入会済み
                 <% end %>
               </td>
+              
             </tr>
           <% end %>
           <% else %>

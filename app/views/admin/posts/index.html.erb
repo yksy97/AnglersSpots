@@ -1,4 +1,10 @@
 <div class="container mt-5">
+ <!-- 管理者専用アラート -->
+ <% if admin_signed_in? %>
+    <div class="alert alert-warning" role="alert">
+      <strong>注意：</strong> こちらは管理者専用画面です
+    </div>
+  <% end %>
   <!-- 投稿一覧セクション -->
   <div class="col-md-8 mx-auto">
     <%= render "admin/posts/posts", posts: @posts %>
