@@ -57,8 +57,6 @@ class Post < ApplicationRecord
   def favorited_by?(customer)
     favorites.where(customer_id: customer.id).exists?
   end
-  
-  # private
 
 # 投稿フォーム（public/posts/index）のモデル側のバリデーション
   def validate_genre_presence
