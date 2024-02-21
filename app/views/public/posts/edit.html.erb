@@ -28,20 +28,22 @@
           <%= form_with model: @post, local: true do |form| %>
 
             <!-- 画像 -->
-            <div class="form-group text-center mb-3">
+            <div class="drop-area form-group text-center mb-3">
               <% if @post.image.attached? %>
                 <%= image_tag @post.image, class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
               <% else %>
                 <%= image_tag 'no_image.jpg', class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
               <% end %>
               
-              <div class="form-group d-flex align-items-center justify-content-center mb-3">
-              <i class="fa-solid fa-camera mr-2" style="color: #117a8b;"></i>
-              <div class="custom-file">
-                <%= form.file_field :image, class: 'custom-file-input', id: "PostsEditInputFile" %>
-                <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
+              <div class="form-group d-flex align-items-center mb-3">
+                <i class="fa-solid fa-camera mr-3" style="color: #117a8b;"></i>
+                <div class="custom-file">
+                  <%= form.file_field :image, class: 'custom-file-input', id: "PostsEditInputFile" %>
+                  <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
+                </div>
               </div>
             </div>
+
 
             <!-- 釣り場 -->
             <div class="form-group d-flex align-items-center">
@@ -60,11 +62,11 @@
             <!-- タックル情報 -->
             <div class="form-group d-flex align-items-center">
               <i class="fa-solid fa-gear mr-2" style="color: #3131d6;"></i>
-              <% if Tackle.exists? %>
+              <% if current_customer.tackles.exists? %>
                 <!-- タックルが存在する場合、セレクトボックスで選択できるようにする -->
                 <div class="ml-2 mr-auto">
                 <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: "d-flex align-items-center w-100" } do |f| %>
-                  <%= f.collection_select :tackle_id, Tackle.all, :id, :name, { include_blank: true }, { class: "custom-select w-auto" } %>
+                  <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, { include_blank: true }, { class: "custom-select w-auto" } %>
                 <% end %>
                 
                   <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark' %>
@@ -109,8 +111,8 @@
 
 
 <script>
-  // 画像のドラッグ&ドロップ
-   document.addEventListener('DOMContentLoaded', function() {
+// 画像のドラッグ&ドロップ
+document.addEventListener('DOMContentLoaded', function() {
   var dropArea = document.querySelector('.drop-area');
   var inputFile = document.getElementById('PostsEditInputFile');
 
@@ -144,5 +146,4 @@
     dropArea.querySelector('.custom-file-label').innerText = fileName;
   });
 });
-  
 </script>
