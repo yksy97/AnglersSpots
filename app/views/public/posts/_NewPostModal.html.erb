@@ -60,11 +60,11 @@
           <%= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>
           <% if @tackles.any? %>
             <div class="alert alert-info" role="alert">
-              プリセットから選択できます
+              登録したタックルから選択できます
             </div>
           <% end %>
           <div class="custom-select-wrapper">
-            <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "プリセットなし"}, class: "custom-select" %>
+            <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, class: "custom-select" %>
           </div>
         </div>
 

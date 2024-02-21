@@ -72,8 +72,8 @@
         
           <!-- タックルプリセット -->
           <div class="form-group">
-            <%= f.label :tackle_id, "タックルプリセット" %>
-            <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "プリセットなし"}, class: "custom-select" %>
+            <%= f.label :tackle_id, "タックル" %>
+            <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, class: "custom-select" %>
           </div>
         
           <!-- 感想フォーム -->
