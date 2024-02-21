@@ -4,3 +4,5 @@ $("#relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'pu
 $("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_info', customer: current_customer) %>");
 
 $("#modal_follow_btn_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/modal_follow_btn') %>");
+
+$("#relationships_modal_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/relationships_modal') %>")
