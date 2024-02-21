@@ -105,7 +105,6 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
 
   create_table "posts", force: :cascade do |t|
     t.text "body"
-    t.integer "rig_id"
     t.integer "tackle_id"
     t.string "location"
     t.integer "customer_id"

@@ -6,7 +6,7 @@ class Public::SessionsController < Devise::SessionsController
   def guest_sign_in
     customer = Customer.guest
     sign_in customer
-    redirect_to customer_path(customer), notice: "ゲストカスタマーとしてログインしました。"
+    redirect_to customer_path(customer), notice: "ゲストカスタマーとしてログインしました"
   end
 
   # ログイン後の遷移先
@@ -24,7 +24,7 @@ class Public::SessionsController < Devise::SessionsController
     @customer = Customer.find_by(email: params[:customer][:email])
     if @customer
       if @customer.valid_password?(params[:customer][:password]) && @customer.is_deleted
-        flash[:alert] = "退会済みです。"
+        flash[:alert] = "退会済みです"
         redirect_to new_customer_session_path
       end
     end

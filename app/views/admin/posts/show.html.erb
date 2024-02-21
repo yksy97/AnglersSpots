@@ -1,0 +1,207 @@
+<div class="container mt-5">
+   <!-- 管理者専用アラート -->
+   <% if admin_signed_in? %>
+    <div class="alert alert-warning" role="alert">
+      <strong>注意：</strong> こちらは管理者専用画面です
+    </div>
+  <% end %>
+  <div class="row">
+     
+
+          <!-- 投稿詳細 -->
+          <div class="col-md-8 mx-auto">
+            <div class="card">
+              <!-- 魚 -->
+              <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <!--名前-->
+                  <div class="d-flex align-items-center">
+                    <% if @post.customer.image.attached? %>
+                      <%= link_to customer_path(@post.customer) do %>
+                        <%= image_tag @post.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to customer_path(@post.customer) do %>
+                        <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                      <% end %>
+                    <% end %>
+                    <span><%= @post.customer.name %></span>
+                  </div>
+              
+                  <!-- 魚 -->
+                  <div>
+                    <h2 class="mb-0 ml-0">
+                      <!-- nil guard -->
+                      <% if @post.genre.name %>
+                        <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
+                        <%= @post.genre.name %>
+                      <% else %>
+                        <!-- もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す -->
+                        <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+                      <% end %>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+
+      
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <!-- 釣り場 -->
+            <p class="text-left ml-2">
+              <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
+              <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %>
+            </p>
+            <!-- 投稿日 -->
+            <div class="text-right mb-2">
+              <small><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l @post.created_at, format: :custom_long %></small>
+            </div>
+          </div>
+
+
+          <!-- 画像 -->
+          <div class="text-center mb-3">
+            <% if @post.image.attached? %>
+              <%= image_tag @post.image, class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
+            <% else %>
+              <%= image_tag 'no_image.jpg', class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
+            <% end %>
+          </div>
+
+          <!-- 釣り方と釣り場 -->
+          <div class="d-flex justify-content-between mb-3">
+            <div>
+              <!--釣り方-->
+              <p class="mb-0">
+                <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
+                <% @post.rigs.each do |rig| %>
+                  <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
+                <% end %>
+              </p>
+            </div>
+          </div>
+
+          <!-- タックル情報 -->
+          <div class="mb-3">
+            <h5 class="mb-2 mt-4">タックル情報</h5>
+            <% if @post.tackle %>
+              <table class="table">
+                 <tbody>
+                  <tr>
+                    <th style="width: 80px;">ロッド</th>
+                    <td><%= @post.tackle.rod %></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 80px;">リール</th>
+                    <td><%= @post.tackle.reel %></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 80px;">ライン</th>
+                    <td><%= @post.tackle.line %></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 80px;">ベイト</th>
+                    <td><%= @post.tackle.bait %></td>
+                  </tr>
+                </tbody>
+              </table>
+            <% else %>
+              タックル未選択
+            <% end %>
+          </div>
+          
+
+          <!-- 感想 -->
+          <div class="mb-3">
+            <h5 class="mb-2"></h5>
+            <p>
+              <i class="fa-solid fa-pencil mr-2"></i>
+              <%= simple_format(@post.body, class: "m-0") %>
+            </p>
+          </div>
+
+          <!-- コメントとリプライ一覧 -->
+          <h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
+          <div id="comments">
+            <% if @post.post_comments.where(parent_id: nil).order(created_at: :desc).exists? %>
+            <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
+              <div class="comment mb-3">
+                <!-- プロフィール画像 -->
+                <div class="d-flex align-items-center">
+                  <% if comment.customer.image.attached? %>
+                    <%= link_to customer_path(comment.customer) do %>
+                      <%= image_tag comment.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to customer_path(comment.customer) do %>
+                      <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                    <% end %>
+                  <% end %>
+                  <div>
+                    <span><%= comment.customer.name %>さん</span>
+                  </div>
+                </div>
+
+                <!-- コメント本文 -->
+                <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+                  <span><%= simple_format(comment.comment, {}, wrapper_tag: "span") %></span>
+                  <%= link_to '削除', admin_customer_post_post_comment_path(@post.customer, @post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
+                </div>
+
+                <!-- コメント日時と返信 -->
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
+                </div>
+              </div>
+
+
+              <!-- リプライ一覧 -->
+              <% if comment.replies.order(created_at: :desc).exists? %>
+              <% comment.replies.order(created_at: :desc).each do |reply| %>
+                <div class="reply ml-4 pl-3 mt-2">
+                  <div class="comment mb-3">
+                    <!-- プロフィール画像 -->
+                    <div class="d-flex align-items-center">
+                      <% if reply.customer.image.attached? %>
+                        <%= link_to customer_path(reply.customer) do %>
+                          <%= image_tag reply.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                        <% end %>
+                      <% else %>
+                        <%= link_to customer_path(reply.customer) do %>
+                          <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                        <% end %>
+                      <% end %>
+                      <div>
+                        <span><%= reply.customer.name %>さん</span>
+                      </div>
+                    </div>
+
+                    <!-- リプライ本文 -->
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+                      <span><%= simple_format(reply.comment, {}, wrapper_tag: "span") %></span>
+                      <%= link_to '削除', admin_customer_post_post_comment_path(@post.customer, @post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
+                    </div>
+
+                    <!-- リプライ日時 -->
+                    <div class="d-flex justify-content-end align-items-center mt-2">
+                      <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
+                    </div>
+                  </div>
+                </div>
+               <% end %>
+              <% else %>
+              <p class="text-center">リプライはありません</p>
+            <% end %>
+            <% end %>
+            <% else %>
+            <p class="text-center">コメントはありません</p>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'reply' %>

@@ -1,23 +1,35 @@
 Rails.application.routes.draw do
-  
-  # get 'genres/index'
-  # get 'genres/create'
-  
-  
-  # 顧客用Deviseルーティング
-  devise_for :customers, skip: [:passwords], controllers: {
-    registrations: 'public/registrations',
-    sessions: 'public/sessions'
-  }
-  
   # ゲストログイン用のルーティングを追加
   devise_scope :customer do
     post 'customers/guest_sign_in', to: 'public/sessions#guest_sign_in', as: :guest_customer_session
+  end
+  
+  # 管理者用ゲストログイン用のルーティングを追加
+  devise_scope :admin do
+    post 'admins/guest_sign_in', to: 'admin/sessions#guest_sign_in', as: :guest_admin_session
   end
 
   # 管理者用Deviseルーティング
   devise_for :admins, skip: [:registrations, :passwords], controllers: {
     sessions: 'admin/sessions'
+  }
+
+  namespace :admin do
+    resources :customers, only: [:index] do
+      member do
+        patch :retire
+        patch :revive
+      end
+      resources :posts, only: [:index, :show, :destroy] do
+        resources :post_comments, only: [:destroy]
+      end
+    end
+  end
+
+# 顧客用Deviseルーティング
+  devise_for :customers, skip: [:passwords], controllers: {
+    registrations: 'public/registrations',
+    sessions: 'public/sessions'
   }
 
 scope module: :public do
@@ -49,5 +61,6 @@ scope module: :public do
   end
   
   resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
+  get '/searches', to: 'searches#search'
 end
 end

@@ -16,42 +16,44 @@
 <header>
   <nav class="navbar-custom">
     <div class="container">
-      <!-- ロゴ -->
-      <%= link_to root_path, class: 'navbar-brand text-dark' do %>
-        <i class="fas fa-fish"></i> 釣りあい <i class="fas fa-fish"></i>
-      <% end %>
-
-      <!-- ナビゲーションリンク -->
-      <div class="navbar-links">
-        <ul class="nav">
-          
-            <%= link_to 'About', about_path, class: 'nav-link' %>
-          
-          <% if customer_signed_in? %>
-            <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
-            <%= link_to '新規投稿', new_post_path, class: 'nav-link' %>
-            <%= link_to '通知一覧', notifications_path, class: 'nav-link' %>
-            <%= link_to '投稿一覧', posts_path, class: 'nav-link' %>
-            <%= link_to '魚種一覧', genres_path, class: 'nav-link' %>
-            <%= link_to 'タックル一覧', tackles_path, class: 'nav-link' %>
-            <%= link_to 'タックル登録', new_tackle_path, class: 'nav-link' %>
-            <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
-          <% else %>
-            <%= link_to "ゲストログイン（閲覧用）", guest_customer_session_path, class: 'nav-link', method: :post %>
-            <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
-            <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
+      <div class="row align-items-center justify-content-between">
+        <!-- ロゴ -->
+        <div class="col-auto">
+          <%= link_to root_path, class: 'navbar-brand text-dark' do %>
+            <i class="fas fa-fish"></i> 釣りあい <i class="fas fa-fish"></i>
           <% end %>
-        </ul>
-      
+        </div>
         
+        <!-- ナビリンク -->
+        <div class="col-auto">
+          <div class="navbar-links">
+            <ul class="nav">
+              <% if admin_signed_in? %>
+                <%= link_to '会員一覧', admin_customers_path, class: 'btn btn-success btn-lg mr-3' %>
+                <%= link_to '管理者ログアウト', destroy_admin_session_path, method: :delete, class: 'btn btn-primary btn-lg' %>
+              <% elsif customer_signed_in? %>
+                <%= link_to 'About', about_path, class: 'nav-link' %>
+                <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
+                <%= link_to '新規投稿', new_post_path, class: 'nav-link' %>
+                <%= link_to '通知一覧', notifications_path, class: 'nav-link' %>
+                <%= link_to '投稿一覧', posts_path, class: 'nav-link' %>
+                <%= link_to '魚種一覧', genres_path, class: 'nav-link' %>
+                <%= link_to 'タックル一覧', tackles_path, class: 'nav-link' %>
+                <%= link_to 'タックル登録', new_tackle_path, class: 'nav-link' %>
+                <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
+              <% else %>
+                <%= link_to 'About', about_path, class: 'nav-link' %>
+                <%= link_to "ゲストログイン（閲覧用）", guest_customer_session_path, class: 'nav-link', method: :post %>
+                <%= link_to 'ログイン', new_customer_session_path, class: 'nav-link' %>
+                <%= link_to '新規登録', new_customer_registration_path, class: 'nav-link' %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
 </header>
-
-
-
-
 
 
 

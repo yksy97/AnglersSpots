@@ -6,7 +6,7 @@ class Public::CustomersController < ApplicationController
   def show
   @customer = Customer.find(params[:id])
   @posts = @customer.posts
-  @my_posts = @customer.posts.order(created_at: :desc)
+  @my_posts = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   @post = Post.new
   end
   
@@ -21,7 +21,7 @@ class Public::CustomersController < ApplicationController
 
   def update
     if @customer.update(customer_params)
-      redirect_to posts_path, notice: "会員情報が更新されました"
+      redirect_to customer_path, notice: "会員情報が更新されました"
     else
       render "edit"
     end

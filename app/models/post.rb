@@ -57,8 +57,6 @@ class Post < ApplicationRecord
   def favorited_by?(customer)
     favorites.where(customer_id: customer.id).exists?
   end
-  
-  # private
 
 # 投稿フォーム（public/posts/index）のモデル側のバリデーション
   def validate_genre_presence
@@ -118,6 +116,15 @@ class Post < ApplicationRecord
       self.rigs << new_post_rig
     end
   end
+  
+  def self.ransackable_attributes(auth_object = nil)
+    ["body"]
+  end
+  
+  def self.ransackable_associations(auth_object = nil)
+    ["genre", "post_comments", "rig_posts", "rigs", "tackle"]
+  end
+
 
 end
 

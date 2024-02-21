@@ -56,6 +56,7 @@
            <div class="my-3">
              <%# TODO: 通知機能でうまく表示されない場合.where.notを疑うこと %>
             <h4 class="text-center mb-4">新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)</h4>
+            <% if current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).exists? %>
             <% current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).each do |notification| %>
               <div class="notification p-2 mb-2 border rounded">
                 <% case notification.notifiable_type %>
@@ -77,6 +78,9 @@
                 <% end %>
               </div>
             <% end %>
+            <% else %>
+            <p class="text-center">新着通知はありません</p>
+          <% end %>
           </div>
           </td>
         </tr>
@@ -88,5 +92,3 @@
 <!--リレーションシップスのモーダル-->
 <%= render 'public/relationships/relationships_modal', customer: @customer %>
 
-
- 
