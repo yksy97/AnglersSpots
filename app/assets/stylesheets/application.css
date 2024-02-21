@@ -26,6 +26,20 @@
   padding: 10px 0;
 }
 
+/*ロゴのデザイン*/
+.title span {
+  font-family: 'Roboto', sans-serif;
+}
+.anglers {
+  color: #fa870f;
+}
+.spots {
+  color: #0e02e8;
+}
+
+
+
+
 .nav {
   list-style: none;
   display: flex;
