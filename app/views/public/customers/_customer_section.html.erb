@@ -90,5 +90,7 @@
 </div>
 
 <!--リレーションシップスのモーダル-->
-<%= render 'public/relationships/relationships_modal', customer: @customer %>
+<div id="relationships_modal_<%= current_customer.id %>">
+  <%= render 'public/relationships/relationships_modal' %>
+</div>
 
