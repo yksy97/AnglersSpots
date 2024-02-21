@@ -119,12 +119,12 @@
                 </tbody>
               </table>
             <% else %>
-              <% if Tackle.exists? %>
+              <% if current_customer.tackles.exists? %>
                 <!-- タックルが存在する場合、セレクトボックスで選択できるようにする -->
                 <div class="form-group">
                 <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: 'form-inline' } do |f| %> 
                   <div class="input-group">
-                    <%= f.collection_select :tackle_id, Tackle.all, :id, :name, {include_blank: true}, {class: "custom-select my-1 mr-sm-2"} %>
+                    <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: true}, {class: "custom-select my-1 mr-sm-2"} %>
                     <div class="input-group-append">
                       <%= f.submit "選択", class: "btn btn-primary btn-sm my-1" %>
                     </div>
