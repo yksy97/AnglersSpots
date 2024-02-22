@@ -1,7 +1,7 @@
 
   <div class="d-block d-lg-flex align-items-center justify-content-between">
 
-    <!-- メッセージ -->
+    <!--メッセージ-->
     <div class="mb-3 mb-lg-0">
       <% japan_time = Time.current.in_time_zone('Tokyo') %>
       <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
@@ -14,29 +14,14 @@
       <p class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></p>
     </div>
 
-    <!-- 名前 -->
-    <!--<div class="col">-->
-      
-    <!--</div>-->
-
-    <!-- フォロー -->
+    <!--フォロー/フォロワーモーダル-->
     <div class="mb-3 mb-lg-0">
-      <div id="relationship-info">
-        <%= render "public/relationships/customer_info", customer: current_customer %>
-      </div>
-      <div>
-        <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-          <span style="color: black;">フォロワー</span> <span><%= current_customer.followers.count %></span>
-        <% end %>
-      </div>
+      <button id="relationship-info">
+        <%= render "public/relationships/customer_follow_modal", customer: current_customer %>
+      </button>
     </div>
 
-    <!-- フォロワー -->
-    <!--<div class="col">-->
-
-    <!--</div>-->
-
-    <!-- 新着通知 -->
+    <!--新着通知-->
     <div class="mb-3 mb-lg-0">
       <button type="button" data-toggle="modal" data-target="#notificationsModal">
         新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)
@@ -45,7 +30,7 @@
 
   </div>
 
-<!-- 新着通知モーダル -->
+<!--新着通知モーダル-->
 <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog" aria-labelledby="notificationsModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -56,11 +41,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- ここに通知のリストを動的に表示 -->
+        <!--ここに通知のリスト-->
         <% if current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).exists? %>
           <% current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).each do |notification| %>
             <div class="notification p-2 mb-2 border rounded">
-              <!-- 通知の内容を表示 -->
             </div>
           <% end %>
         <% else %>

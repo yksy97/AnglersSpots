@@ -1,4 +1,7 @@
+<!--フォローフォロワーモーダルボタン-->
 <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
   <span style="color: black;">フォロー</span>
   <span><%= customer.followings.count %></span>
+  <span style="color: black;">フォロワー</span>
+  <span><%= current_customer.followers.count %></span>
 <% end %>

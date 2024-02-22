@@ -7,32 +7,32 @@
           <div class="card-header" style="background-color: #AFDFE4;">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-block d-lg-flex align-items-center">
-                <!-- 画像 -->
+                <!--画像-->
                 <% if post.customer.image.attached? %>
                   <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
                 <% else %>
                   <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
                 <% end %>
-                <!-- 名前 -->
+                <!--名前-->
                 <strong class="mr-3">
                   <%= link_to post.customer.name, customer_path(post.customer), class: "ml-2 text-dark" %>
                 </strong>
-                <!-- フォローボタン -->
+                <!--フォローボタン-->
                 <div id="relationship-btn<%= post.customer.id %>">
                   <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
                 </div>
               </div>
             </div>
-            <!-- 投稿日 -->
+            <!--投稿日-->
             <div class="text-right">
               <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）
             </div>
           </div>
 
-          <!-- 投稿内容 -->
+          <!--投稿内容-->
         <div class="card-body pb-0">
         <div class="d-flex justify-content-between">
-          <!-- 名前 -->
+          <!--魚-->
           <h5 class="mb-0" style="color: #117a8b;">
             <i class="fa-solid fa-fish-fins mr-2"></i>
             <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-          <!-- 画像 -->
+          <!--画像-->
           <div class="my-3">
             <% if post.image.attached? %>
               <%= link_to post_path(post) do %>
@@ -55,14 +55,14 @@
           </div>
           
           <div class="card-body py-0">
-            <!-- 釣り場 -->
+            <!--釣り場-->
             <h6 class="card-text mb-0 mr-3" style="text-align: right;">
               <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
               <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
             </h6>
           </div>
 
-          <!-- 釣り方 -->
+          <!--釣り方-->
           <div class="card-body pt-3">
            <% if post.rigs.present? %>
             <p class="card-text" style="font-size: 1rem;">
