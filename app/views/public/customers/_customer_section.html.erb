@@ -1,93 +1,75 @@
-<!-- 会員情報セクション -->
-<div class="card mb-4 shadow-sm">
-  <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
-  <div class="text-center">
-    <h4><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h4>
+
+  <div class="row align-items-center">
+
+    <!-- メッセージ -->
+    <div class="col">
+      <% japan_time = Time.current.in_time_zone('Tokyo') %>
+      <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
+        <p class="mb-0">おはようございます！</p>
+      <% elsif japan_time.hour >= 12 && japan_time.hour < 18 %>
+        <p class="mb-0">こんにちは！</p>
+      <% else %>
+        <p class="mb-0">こんばんは！</p>
+      <% end %>
+    </div>
+
+    <!-- 名前 -->
+    <div class="col">
+      <p class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></p>
+    </div>
+
+    <!-- フォロー -->
+    <div class="col">
+      <div id="relationship-info">
+        <%= render "public/relationships/customer_info", customer: current_customer %>
+      </div>
+    </div>
+
+    <!-- フォロワー -->
+    <div class="col">
+      <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+        <span style="color: black;">フォロワー</span> <span><%= current_customer.followers.count %></span>
+      <% end %>
+    </div>
+
+    <!-- 新着通知 -->
+    <div class="col">
+      <button type="button" data-toggle="modal" data-target="#notificationsModal">
+        新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)
+      </button>
+    </div>
+
+  </div>
+
+<!-- 新着通知モーダル -->
+<div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="notificationsModalLabel">新着通知</p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- ここに通知のリストを動的に表示 -->
+        <% if current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).exists? %>
+          <% current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).each do |notification| %>
+            <div class="notification p-2 mb-2 border rounded">
+              <!-- 通知の内容を表示 -->
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-center">新着通知はありません</p>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
   </div>
 </div>
 
-  <div class="custom-card-body">
-    <% japan_time = Time.current.in_time_zone('Tokyo') %>
-    <div class="text-center mb-3 pt-4">
-      <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
-        <h4>おはようございます！</h4>
-      <% elsif japan_time.hour >= 12 && japan_time.hour < 18 %>
-        <h4>こんにちは！</h4>
-      <% else %>
-        <h4>こんばんは！</h4>
-      <% end %>
-    </div>
-
- 
-
-     <!-- 画像 -->
-    <div class="text-center mb-3">
-      <%= link_to customer_path(current_customer) do %>
-        <div style="display: inline-block; padding: 2px; background: #c3e0e3; border-radius: 50%; height: 154px; width: 154px;">
-          <% if current_customer.image.attached? %>
-            <%= image_tag current_customer.image, class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-          <% else %>
-            <%= image_tag 'no_image.jpg', class: "img-fluid rounded-circle", style: "height: 150px; width: 150px; object-fit: cover;" %>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-
-    <!-- フォロー/フォロワー情報 -->
-    <table class='table'>
-      <tbody>
-        <tr>
-          <th>
-            <div class="ml-3" id="relationship-info">
-              <%= render "public/relationships/customer_info", customer: current_customer %>
-            </div>
-          </th>
-          <th>
-            <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-              <span style="color: black;">フォロワー</span> <span><%= current_customer.followers.count %></span>
-            <% end %>
-          </th>
-        </tr>
-        
-
-        <!-- 新着通知 -->
-        <tr>
-          <td colspan="2">
-           <div class="my-3">
-             <%# TODO: 通知機能でうまく表示されない場合.where.notを疑うこと %>
-            <h4 class="text-center mb-4">新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)</h4>
-            <% if current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).exists? %>
-            <% current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).order(created_at: :desc).limit(15).each do |notification| %>
-              <div class="notification p-2 mb-2 border rounded">
-                <% case notification.notifiable_type %>
-                <% when "Favorite" %>
-                  <%= link_to notification.notifiable_path, class: "d-flex align-items-center text-dark text-decoration-none" do %>
-                    <i class="fas fa-heart mr-2 text-danger"></i>
-                    <span><%= notification.notifiable.customer.name %> さんがあなたの投稿にいいねしました</span>
-                  <% end %>
-                <% when "Post" %>
-                  <%= link_to post_path(notification.notifiable), class: "d-flex align-items-center text-dark text-decoration-none" do %>
-                    <i class="fas fa-upload mr-2 text-primary"></i>
-                    <span><%= notification.notifiable.customer.name %> さんが新しい投稿をしました</span>
-                  <% end %>
-                <% when "PostComment" %>
-                  <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
-                    <i class="fas fa-comments mr-2 text-warning"></i>
-                    <span><%= notification.notifiable.customer.name %> さんから投稿にコメントがありました</span>
-                  <% end %>
-                <% end %>
-              </div>
-            <% end %>
-            <% else %>
-            <p class="text-center">新着通知はありません</p>
-          <% end %>
-          </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-</div>
 
 <!--リレーションシップスのモーダル-->
 <div id="relationships_modal_<%= current_customer.id %>">
