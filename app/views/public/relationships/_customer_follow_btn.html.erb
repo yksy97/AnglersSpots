@@ -1,15 +1,15 @@
-<!--投稿一覧の「posts/_posts.html.erb」にレンダリング-->
+<!--[posts/index]投稿のフォローするボタン-->
 
-  <% if customer_signed_in? && current_customer != customer %>
-    <% if current_customer.following?(customer) %>
-      <%= link_to customer_relationships_path(customer_id: customer.id, id: current_customer.relationships.find_by(followed_id: customer.id)), 
-              remote: true, method: :delete, data: { confirm: 'フォローを解除しますか？' } do %>
-        フォロー中
-      <% end %>
-    <% else %>
-      <%= link_to customer_relationships_path(customer_id: customer), remote: true, method: :post do %>
-        フォローする
-      <% end %>
+<% if customer_signed_in? && current_customer != customer %>
+  <% if current_customer.following?(customer) %>
+    <%= link_to customer_relationships_path(customer_id: customer.id, id: current_customer.relationships.find_by(followed_id: customer.id)), 
+            remote: true, method: :delete, data: { confirm: 'フォローを解除しますか？' }, class: 'btn btn-primary btn-sm' do %>
+      フォロー中
+    <% end %>
+  <% else %>
+    <%= link_to customer_relationships_path(customer_id: customer), remote: true, method: :post, class: 'btn btn-primary btn-sm' do %>
+      フォローする
     <% end %>
   <% end %>
+<% end %>
 
