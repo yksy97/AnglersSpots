@@ -1,8 +1,8 @@
 
-  <div class="row align-items-center">
+  <div class="d-block d-lg-flex align-items-center justify-content-between">
 
     <!-- メッセージ -->
-    <div class="col">
+    <div class="mb-3 mb-lg-0">
       <% japan_time = Time.current.in_time_zone('Tokyo') %>
       <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
         <p class="mb-0">おはようございます！</p>
@@ -11,29 +11,33 @@
       <% else %>
         <p class="mb-0">こんばんは！</p>
       <% end %>
-    </div>
-
-    <!-- 名前 -->
-    <div class="col">
       <p class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></p>
     </div>
 
+    <!-- 名前 -->
+    <!--<div class="col">-->
+      
+    <!--</div>-->
+
     <!-- フォロー -->
-    <div class="col">
+    <div class="mb-3 mb-lg-0">
       <div id="relationship-info">
         <%= render "public/relationships/customer_info", customer: current_customer %>
+      </div>
+      <div>
+        <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
+          <span style="color: black;">フォロワー</span> <span><%= current_customer.followers.count %></span>
+        <% end %>
       </div>
     </div>
 
     <!-- フォロワー -->
-    <div class="col">
-      <%= link_to '#followersModal', data: { toggle: 'modal' } do %>
-        <span style="color: black;">フォロワー</span> <span><%= current_customer.followers.count %></span>
-      <% end %>
-    </div>
+    <!--<div class="col">-->
+
+    <!--</div>-->
 
     <!-- 新着通知 -->
-    <div class="col">
+    <div class="mb-3 mb-lg-0">
       <button type="button" data-toggle="modal" data-target="#notificationsModal">
         新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)
       </button>

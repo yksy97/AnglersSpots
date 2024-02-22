@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
 
 /*新規登録の入力フォームのメッセージ*/
  .form-container {
@@ -27,16 +28,21 @@
 }
 
 /*ロゴのデザイン*/
-.title span {
-  font-family: 'Roboto', sans-serif;
-}
-.anglers {
-  color: #fa870f;
-}
-.spots {
-  color: #0e02e8;
-}
+// .title span {
+//   font-family: 'Roboto', sans-serif;
+// }
+// .anglers {
+//   color: #fa870f;
+// }
+// .spots {
+//   color: #0e02e8;
+// }
 
+.logo { 
+  font-family: "Anta", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
 
 

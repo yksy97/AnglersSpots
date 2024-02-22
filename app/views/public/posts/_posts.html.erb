@@ -2,11 +2,11 @@
 <% if @posts.exists? %>
   <div class="row">
     <% @posts.each do |post| %>
-      <div class="col-md-4 mb-4">
+      <div class="col-12 col-md-6 col-lg-4 mb-2">
         <div class="card mb-4 shadow-sm">
           <div class="card-header" style="background-color: #AFDFE4;">
             <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
+              <div class="d-block d-lg-flex align-items-center">
                 <!-- 画像 -->
                 <% if post.customer.image.attached? %>
                   <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
@@ -23,58 +23,66 @@
                 </div>
               </div>
             </div>
+            <!-- 投稿日 -->
+            <div class="text-right">
+              <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）
+            </div>
           </div>
 
           <!-- 投稿内容 -->
-        <div class="card-body">
+        <div class="card-body pb-0">
         <div class="d-flex justify-content-between">
           <!-- 名前 -->
           <h5 class="mb-0" style="color: #117a8b;">
             <i class="fa-solid fa-fish-fins mr-2"></i>
-            <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark font-weight-bold" %>
+            <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
           </h5>
-          <!-- 投稿日 -->
-          <div class="d-flex align-items-center">
-            <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）
-          </div>
+          
         </div>
       </div>
 
-
-          <!-- 釣り場 -->
-          <h6 class="card-text mb-0 mr-3 mt-2" style="text-align: right;">
-            <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
-            <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
-          </h6>
-
           <!-- 画像 -->
-          <div class="d-flex justify-content-center align-items-center mt-4">
+          <div class="my-3">
             <% if post.image.attached? %>
               <%= link_to post_path(post) do %>
-                <%= image_tag post.image, class: "card-img-top img-fluid", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                <%= image_tag post.image, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
               <% end %>
             <% else %>
               <%= link_to post_path(post) do %>
-                <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid", style: "width: 150px; height: 150px; object-fit: cover;" %>
+                <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
               <% end %>
             <% end %>
           </div>
+          
+          <div class="card-body py-0">
+            <!-- 釣り場 -->
+            <h6 class="card-text mb-0 mr-3" style="text-align: right;">
+              <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
+              <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
+            </h6>
+          </div>
 
           <!-- 釣り方 -->
-          <div class="card-body">
-            <% if post.rigs.present? %>
-              <p class="card-text" style="font-size: 1rem;">
-                <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
-                <% post.rigs.each do |rig| %>
-                  <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
-                <% end %>
-              </p>
-            <% end %>
+          <div class="card-body pt-3">
+           <% if post.rigs.present? %>
+            <p class="card-text" style="font-size: 1rem;">
+              <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
+              <!--「.first()」でリグの登録順に3個並べる-->
+              <% post.rigs.first(3).each do |rig| %>
+                <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
+              <% end %>
+              <!--if式でリグの総数が3個以上の場合、4個目は「...」にする-->
+              <% if post.rigs.count > 3 %>
+                <span>...</span>
+              <% end %>
+            </p>
+          <% end %>
+
             <!--投稿本文-->
             <!--「truncate」を使うと投稿一覧に表示する文字を任意の文字数に制限できる-->
            <p class="card-text">
             <i class="fa-solid fa-pencil mr-2 mt-3"></i>
-            <%= simple_format(truncate(post.body, length: 15)) %>
+            <%= truncate(post.body, length: 15) %>
           </p>
           </div>
 
