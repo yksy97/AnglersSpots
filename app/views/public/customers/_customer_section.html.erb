@@ -81,9 +81,8 @@
 <%= render 'public/posts/NewPostModal', post: @post %>
 
 
-<!--TODO:非同期通信でどのページでもタックル登録できることを目指したが、うまくいかない-->
+
 
 <!--新規タックルモーダル-->
-<!--<div id="tackleModal_<%#= tackle.id %>">-->
-<%#= render 'public/tackles/tackles_modal', tackle: @tackle %>
-<!--</div>-->
+<%= render 'public/tackles/tackles_modal', tackle: @tackle %>
+

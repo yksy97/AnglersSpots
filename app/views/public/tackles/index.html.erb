@@ -19,47 +19,10 @@
     </div>
 
     <!-- タックル一覧 -->
+    
     <div class="col-md-8 mx-auto">
-      <div class="card">
-        <div class="card-header card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-          <h2>タックル一覧</h2>
-        </div>
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>タックル名</th>
-                <th>ロッド</th>
-                <th>リール</th>
-                <th>ライン</th>
-                <th>ベイト</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if @tackles.exists? %>
-                <% @tackles.each do |tackle| %>
-                  <tr>
-                    <td><%= tackle.name %></td>
-                    <td><%= tackle.rod %></td>
-                    <td><%= tackle.reel %></td>
-                    <td><%= tackle.line %></td>
-                    <td><%= tackle.bait %></td>
-                    <td>
-                      <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
-                      <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-                    </td>
-                  </tr>
-                <% end %>
-              <% else %>
-                <tr>
-                  <td colspan="6" class="text-center">登録されたタックルはありません</td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-          <%= paginate @tackles %>
-        </div>
+      <div id="tackle-lists">
+      <%= render 'public/tackles/tackles_index', tackles: @tackles %>
       </div>
     </div>
   </div>
