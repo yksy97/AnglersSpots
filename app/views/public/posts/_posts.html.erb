@@ -6,17 +6,16 @@
         <div class="card mb-4 shadow">
           <div class="card-header mt-0 mb-0" style="background-color: white;">
             <div class="d-flex justify-content-between align-items-center">
-              <!-- 魚の名前 -->
+              <!--魚の名前-->
               <h5 class="mb-0" style="color: #117a8b;">
                 <%= link_to post.genre.name, post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
               </h5>
-              <!-- 投稿日と釣り場 -->
+              <!--投稿日と釣り場-->
               <div class="d-flex flex-column align-items-end">
                 <div class="text-right" style="font-size: 0.9rem;">
                   <%= time_ago_in_words(post.created_at) %>前
                 </div>
                 <div class="text-right" style="font-size: 0.9rem;">
-                  <!--<i class="fas fa-anchor mr-2" style="color: #717375;"></i>-->
                   ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
                 </div>
               </div>
@@ -28,7 +27,6 @@
             <% if post.rigs.present? %>
               <p class="card-text" style="font-size: 0.9rem;">
                 <% post.rigs.first(3).each do |rig| %>
-                  <!-- ＃に色をつける -->
                   <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
                 <% end %>
                 <% if post.rigs.count > 4 %>
@@ -39,7 +37,7 @@
           </div>
 
 
-          <!-- 画像 -->
+          <!--魚の画像-->
           <div class="my-3">
             <% if post.image.attached? %>
               <%= link_to post_path(post) do %>
@@ -52,12 +50,12 @@
             <% end %>
           </div>
 
-          <!-- 投稿者の名前とフォローボタン -->
+          <!--投稿者とフォローボタン-->
           <div class="card-body pt-0 pb-0">
             <div class="d-flex justify-content-between align-items-center">
-              <!-- 左側のコンテンツ (画像と会員名) -->
+              <!-- 画像と会員名 -->
               <div class="d-flex align-items-center">
-                <!-- 画像 -->
+                <!-- プロフィール画像 -->
                 <% if post.customer.image.attached? %>
                   <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
                 <% else %>
@@ -68,22 +66,29 @@
                   <%= link_to post.customer.name, customer_path(post.customer), class: "text-dark" %>
                 </strong>
               </div>
-              <!-- 右側のコンテンツ (フォローボタン) -->
-              <div id="relationship-btn<%= post.customer.id %>">
-                <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
-              </div>
+              <!--フォローボタン-->
+              <% if customer_signed_in? && current_customer != post.customer %>
+                <div id="relationship-btn<%= post.customer.id %>">
+                  <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
+                </div>
+              <% else %>
+                <!--自分の投稿に「フォローするボタン」と同じサイズの余白を入れることでボタンによる段差を解消-->
+                <div style="height: 31px; width: 76px;">
+                  <!--「btn-sm」相当の余白-->
+                </div>
+              <% end %>
             </div>
-            <!-- 投稿本文 -->
+            <!--本文-->
             <p class="card-text mt-2">
               <%= truncate(post.body, length: 15) %>
             </p>
-            <!-- いいねとコメント -->
+            <!--いいねとコメント-->
             <div class="d-flex justify-content-between align-items-center mt-2">
-              <!-- いいね -->
+              <!--いいね-->
               <h6 style="padding-right: 0.5rem;">
                 <%= render 'public/favorites/btn', post: post %>
               </h6>
-              <!-- コメント数 -->
+              <!--コメント数-->
               <h6 style="padding-left: 0.5rem;">
                 <% if post.post_comments.count > 0 %>
                   <i class="fas fa-comments text-warning" style="margin-right: 0.3rem;"></i>

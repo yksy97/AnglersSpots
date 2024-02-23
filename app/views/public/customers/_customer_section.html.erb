@@ -11,21 +11,43 @@
       <% else %>
         <p class="mb-0">こんばんは！</p>
       <% end %>
-      <p class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></p>
+      <p class="mb-0">今日は<%= l japan_time, format: :custom_short %>です</p>
     </div>
 
     <!--フォロー/フォロワーモーダル-->
     <div class="mb-3 mb-lg-0">
+      <p class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></p>
       <button id="relationship-info">
         <%= render "public/relationships/customer_follow_modal", customer: current_customer %>
       </button>
+      
+
+
     </div>
 
     <!--新着通知-->
     <div class="mb-3 mb-lg-0">
-      <button type="button" data-toggle="modal" data-target="#notificationsModal">
-        新着通知 (<%= current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>)
-      </button>
+       <div class="text-center mb-3">
+        <button type="button"  data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
+      </div>
+      
+<!--新着通知-->
+<% notifications_count = current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>
+<% if notifications_count > 0 %>
+  <!--通知あり-->
+  <div type="button" data-toggle="modal" data-target="#notificationsModal" style="color: yellow;">
+    <i class="fa-regular fa-bell"></i>
+    <span style="margin-left: 0.3rem;"><%= notifications_count %></span>
+  </div>
+<% else %>
+  <!--通知なし-->
+  <div type="button" data-toggle="modal" data-target="#notificationsModal" style="color: grey;">
+    <i class="fa-regular fa-bell"></i>
+  </div>
+<% end %>
+
+    
+    
     </div>
 
   </div>
@@ -64,3 +86,8 @@
   <%= render 'public/relationships/relationships_modal' %>
 </div>
 
+
+
+
+<!-- 新規登録モーダル -->
+<%= render 'public/posts/NewPostModal' %>

@@ -21,11 +21,6 @@
       </div>
     </div>
   </div>
-  <!-- 新規投稿モーダルボタン -->
-      <div class="text-center mb-3">
-        <%= paginate @posts %>
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
-      </div>
     <!--投稿一覧-->
     <%= render "public/posts/posts", posts: @posts %>
     <%= paginate @posts %>
@@ -39,7 +34,7 @@
 
 
 <!-- 新規登録モーダル -->
-<%= render 'public/posts/NewPostModal' %>
+<!--<%#= render 'public/posts/NewPostModal' %>-->
 
 <%= javascript_pack_tag 'input_image' %>
 
