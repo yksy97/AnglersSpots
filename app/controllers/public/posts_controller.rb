@@ -29,24 +29,30 @@ class Public::PostsController < ApplicationController
   end
 
   def create
-    @post = current_customer.posts.build(post_params)
+  @post = current_customer.posts.build(post_params)
 
-    if params[:post][:new_genre_name].present?
-      genre = Genre.find_or_create_by(name: params[:post][:new_genre_name])
-      @post.genre_id = genre.id
-    end
+  if params[:post][:new_genre_name].present?
+    genre = Genre.find_or_create_by(name: params[:post][:new_genre_name])
+    @post.genre_id = genre.id
+  end
 
+  respond_to do |format|
     if @post.save
       @post.save_rigs(params[:post][:rig_list])
-      redirect_to posts_path, notice: "投稿が完了しました"
+      format.html { redirect_to posts_path, notice: "投稿が完了しました" }
+      format.js
     else
       @posts = Post.includes(:customer, :genre).order(created_at: :desc)
       @my_posts = current_customer.posts.order(created_at: :desc)
       @genres = Genre.order(:name)
       @tackles = Tackle.all
-      render :index
+
+      format.html { render :index }
+      format.js
     end
   end
+  end
+
 
   def genre
     genre = Genre.find(params[:id])

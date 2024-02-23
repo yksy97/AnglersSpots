@@ -12,12 +12,11 @@
     </div>
   </div>
   <!--投稿一覧-->
- <%= render "public/posts/posts", posts: @posts %>
+  <div id="new-posts">
+ <%= render "public/posts/posts", post: @post %>
+ </div>
     <%= paginate @posts %>
 </div>
-
-<!-- 新規登録モーダル -->
-<!--<%#= render 'public/posts/NewPostModal' %>-->
 
 <%= javascript_pack_tag 'input_image' %>
 

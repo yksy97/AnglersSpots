@@ -10,14 +10,18 @@ class Public::TacklesController < ApplicationController
     @tackles = current_customer.tackles.order(created_at: :desc).page(params[:page]).per(5)
   end
   
-  def create
-    @tackle = current_customer.tackles.build(tackle_params)
+def create
+  @tackle = current_customer.tackles.build(tackle_params)
+  respond_to do |format|
     if @tackle.save
-      redirect_to tackles_path, notice: 'タックルが登録されました'
+      format.js
+      format.html { redirect_to tackles_path, notice: 'タックルが登録されました' }
     else
-      render :new
+      format.js 
+      format.html { render :new }
     end
   end
+end
 
   def edit
     @tackle = Tackle.find(params[:id])
