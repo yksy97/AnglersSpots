@@ -6,9 +6,9 @@
         <div class="card mb-4 shadow">
           <div class="card-header mt-0 mb-0" style="background-color: white;">
             <div class="d-flex justify-content-between align-items-center">
-              <!--魚の名前-->
-              <h5 class="mb-0" style="color: #117a8b;">
-                <%= link_to post.genre.name, post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
+              <!--魚の名前　10文字より長い名前は省略形-->
+             <h5 class="mb-0" style="color: #117a8b;">
+                <%= link_to truncate(post.genre.name, length: 10), post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
               </h5>
               <!--投稿日と釣り場-->
               <div class="d-flex flex-column align-items-end">

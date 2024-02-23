@@ -16,7 +16,7 @@
       </div>
 
       <!--会員名と新着通知、フォロー/フォロワー数-->
-      <div class="col-md-3">
+      <div class="col-sm-6 col-md-3">
         <div class="d-flex align-items-center mb-2">
           <!--会員名-->
           <p class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></p>
@@ -41,7 +41,7 @@
       </div>
 
       <!-- 新規投稿ボタンとタックル登録ボタン -->
-      <div class="col-md-3">
+      <div class="col-sm-6 col-md-3">
         <div class="mb-2 text-center">
           <button type="button" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
         </div>
@@ -51,10 +51,10 @@
       </div>
 
       <!-- 検索フォーム -->
-     <div class="col-md-3">
+     <div class="col-sm-6 col-md-3 mt-3">
       <%= search_form_for @q, url: searches_path, class: 'form-inline' do |f| %>
         <div class="input-group">
-          <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワードを入力" %>
+          <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワード" %>
           <div class="input-group-append">
             <%= f.submit '検索', class: 'btn btn-primary' %>
           </div>
