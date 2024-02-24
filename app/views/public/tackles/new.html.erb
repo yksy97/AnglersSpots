@@ -23,35 +23,36 @@
 <!--カードボディ-->
 <div class="card-body">
   <%= form_with model: @tackle, local: true do |form| %>
-<!--タックル-->
-<div class="form-group">
-  <%= form.label :name, "タックル名" %>
-  <%= form.text_field :name, class: "form-control", required: true %>
-</div>
-<!--ロッド-->
-<div class="form-group">
-  <%= form.label :rod, "ロッド" %>
-  <%= form.text_field :rod, class: "form-control" %>
-</div>
-<!--リール-->
-<div class="form-group">
-  <%= form.label :reel, "リール" %>
-  <%= form.text_field :reel, class: "form-control" %>
-</div>
-<!--ライン-->
-<div class="form-group">
-  <%= form.label :line, "ライン" %>
-  <%= form.text_field :line, class: "form-control" %>
-</div>
-<!--ベイト-->
-<div class="form-group">
-  <%= form.label :bait, "ベイト" %>
-  <%= form.text_field :bait, class: "form-control" %>
-</div>
-
-<%= form.submit "登録する", class: "btn btn-primary" %>
-<!--２５行目の閉じタグ-->
-<% end %>
+    <%= hidden_field_tag :post_id, params[:post_id] %>
+    <!--タックル-->
+    <div class="form-group">
+      <%= form.label :name, "タックル名" %>
+      <%= form.text_field :name, class: "form-control", required: true %>
+    </div>
+    <!--ロッド-->
+    <div class="form-group">
+      <%= form.label :rod, "ロッド" %>
+      <%= form.text_field :rod, class: "form-control" %>
+    </div>
+    <!--リール-->
+    <div class="form-group">
+      <%= form.label :reel, "リール" %>
+      <%= form.text_field :reel, class: "form-control" %>
+    </div>
+    <!--ライン-->
+    <div class="form-group">
+      <%= form.label :line, "ライン" %>
+      <%= form.text_field :line, class: "form-control" %>
+    </div>
+    <!--ベイト-->
+    <div class="form-group">
+      <%= form.label :bait, "ベイト" %>
+      <%= form.text_field :bait, class: "form-control" %>
+    </div>
+    
+    <%= form.submit "登録する", class: "btn btn-primary" %>
+    <!--２５行目の閉じタグ-->
+  <% end %>
 
 <div class="mt-3">
   <h5><%= link_to 'タックル一覧はこちら', tackles_path, class: "text-dark" %></h5>

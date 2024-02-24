@@ -15,6 +15,7 @@ has_many :posts
     ["posts"]
   end
 
+
   private
 
   # ジャンル名の前後の空白を削除し、アルファベットの場合は小文字に変換

@@ -138,7 +138,7 @@
   </div>
   <!--そもそもタックルが存在してない場合、新規登録を促すリンクを表示-->
   <% else %>
-  <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark mt-2' %>
+  <%= link_to 'タックル登録はこちらから', new_tackle_path( post_id: @post.id ), class: 'btn btn-link text-dark mt-2' %>
   <% end %>
   <!--112行目の閉じタグ-->
   <% end %>

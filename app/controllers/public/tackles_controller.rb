@@ -15,8 +15,12 @@ def create
   @tackle = current_customer.tackles.build(tackle_params)
   respond_to do |format|
     if @tackle.save
-     format.js
-     format.html { redirect_to tackles_path, notice: 'タックルが登録されました' }
+      format.js
+      if Post.find_by_id(params[:post_id])
+        format.html { redirect_to post_path(params[:post_id]), notice: 'タックルが登録されました' }
+      else
+        format.html { redirect_to tackles_path, notice: 'タックルが登録されました' }
+      end
     else
       format.js 
       format.html { render :new }

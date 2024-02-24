@@ -1,67 +1,67 @@
-  <!--会員詳細の編集モーダル -->
-  <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: #AFDFE4">
-          <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" style="background-color: #f0f9fa;">
-          <%= form_with model: customer, local: true do |f| %>
-            <!--名前-->
-            <div class="form-group">
-              <%= f.label :name, "名前" %>
-              <%= f.text_field :name, class: "form-control" %>
-            </div>
-            <!--メールアドレス-->
-            <div class="form-group">
-              <%= f.label :email, "メールアドレス" %>
-              <%= f.email_field :email, class: "form-control" %>
-            </div>
-            
-            <!--画像-->
-            <div class="form-group">
-              <label for="inputCustomerFile">プロフィール画像</label>
-              <div class="input-group customer-drop-area">
-                <div class="custom-file">
-                  <%= f.file_field :image, class: "custom-file-input", id:"inputCustomerFile" %>
-                  <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択</label>
-                </div>
+<!--会員詳細の編集モーダル -->
+<div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #AFDFE4">
+        <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="background-color: #f0f9fa;">
+        <%= form_with model: customer, local: true do |f| %>
+          <!--名前-->
+          <div class="form-group">
+            <%= f.label :name, "名前" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <!--メールアドレス-->
+          <div class="form-group">
+            <%= f.label :email, "メールアドレス" %>
+            <%= f.email_field :email, class: "form-control" %>
+          </div>
+          
+          <!--画像-->
+          <div class="form-group">
+            <label for="inputCustomerFile">プロフィール画像</label>
+            <div class="input-group customer-drop-area">
+              <div class="custom-file">
+                <%= f.file_field :image, class: "custom-file-input", id:"inputCustomerFile" %>
+                <label class="custom-file-label" for="inputCustomerFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択</label>
               </div>
             </div>
-            
-            <!--魚-->
-            <div class="form-group">
-              <%= f.label :favorite_fish, "好きな魚" %>
-              <%= f.text_field :favorite_fish, class: "form-control" %>
-            </div>
-            
-            <!--釣り方-->
-            <div class="form-group">
-              <%= f.label :favorite_rig, "好きな釣り方" %>
-              <%= f.text_field :favorite_rig, class: "form-control" %>
-            </div>
-            
-            <!--場所-->
-            <div class="form-group">
-              <%= f.label :favorite_location, "好きな場所" %>
-              <%= f.text_field :favorite_location, class: "form-control" %>
-            </div>
-            
-            <!--自己紹介-->
-            <div class="form-group">
-              <%= f.label :introduction, "自己紹介" %>
-              <%= f.text_area :introduction, class: "form-control" %>
-            </div>
+          </div>
+          
+          <!--魚-->
+          <div class="form-group">
+            <%= f.label :favorite_fish, "好きな魚" %>
+            <%= f.text_field :favorite_fish, class: "form-control" %>
+          </div>
+          
+          <!--釣り方-->
+          <div class="form-group">
+            <%= f.label :favorite_rig, "好きな釣り方" %>
+            <%= f.text_field :favorite_rig, class: "form-control" %>
+          </div>
+          
+          <!--場所-->
+          <div class="form-group">
+            <%= f.label :favorite_location, "好きな場所" %>
+            <%= f.text_field :favorite_location, class: "form-control" %>
+          </div>
+          
+          <!--自己紹介-->
+          <div class="form-group">
+            <%= f.label :introduction, "自己紹介" %>
+            <%= f.text_area :introduction, class: "form-control" %>
+          </div>
 
-            <div class="modal-footer">
-              <%= f.submit "更新", class: "btn btn-success" %>
-              <%= link_to "退会手続き", customers_confirm_path, class: "btn btn-danger" %>
-            </div>
-          <% end %>
-        </div>
+          <div class="modal-footer">
+            <%= f.submit "更新", class: "btn btn-success" %>
+            <%= link_to "退会手続き", customers_confirm_path, class: "btn btn-danger" %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
+</div>

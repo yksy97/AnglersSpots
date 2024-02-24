@@ -32,8 +32,12 @@ class Public::GenresController < ApplicationController
   end
 
   def destroy
-    @genre.destroy
-    redirect_to genres_path, notice: '魚が削除されました。'
+    if @genre.posts.blank?
+      @genre.destroy
+      redirect_to genres_path, notice: '魚が削除されました。'
+    else
+      redirect_to genres_path, notice: 'failed'
+    end
   end
 
   private
