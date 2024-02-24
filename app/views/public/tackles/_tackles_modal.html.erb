@@ -14,7 +14,7 @@
 <!--モーダルボディ-->
 <div class="modal-body">
 <!-- フォーム -->
-<%= form_with model: tackle, remote: true do |form| %>
+<%= form_with model: Tackle.new, remote: true do |form| %>
 <!--タックル-->
 <div class="form-group">
 <%= form.label :name, "タックル名" %>

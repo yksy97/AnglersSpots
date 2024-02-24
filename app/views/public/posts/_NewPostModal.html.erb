@@ -12,7 +12,7 @@
 
 <!--モーダルボディ-->
 <div class="modal-body" style="background-color: #f0f9fa;">
-<%= form_with model: post, url: posts_path, remote: true, html: { id: "NewPostForm", novalidate: '' } do |f| %>
+<%= form_with model: Post.new, url: posts_path, remote: true, html: { id: "NewPostForm", novalidate: '' } do |f| %>
 <div class="form-group">
   <label class="d-block mb-2">魚</label>
   <div class="btn-group" role="group" aria-label="Genre Buttons">
