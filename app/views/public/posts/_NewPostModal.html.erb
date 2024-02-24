@@ -59,21 +59,22 @@
   </div>
 </div>
 
-<!--TODO: tackles.any?で必ずエラーが出る-->
-<!-- タックルフォール-->
-<!--<div class="form-group">-->
-<!--  <%#= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>-->
-<!-- <%# if @tackles.any? %>-->
-<!--  <div class="alert alert-info" role="alert">-->
-<!--    登録したタックルから選択できます-->
-<!--  </div>-->
-<!--<%# else %>-->
-<!--  <%#= link_to 'タックル登録はこちら', new_tackle_path %>-->
-<!--<%# end %>-->
-<!--  <div class="custom-select-wrapper">-->
-<!--    <%#= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, class: "custom-select" %>-->
-<!--  </div>-->
-<!--</div>-->
+ <!--タックルフォーム-->
+<div class="form-group">
+  <%= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>
+  <!--会員が登録したタックルの存在を確認する条件分岐-->
+ <% if current_customer.tackles.any? %>
+  <div class="alert alert-info" role="alert">
+    登録したタックルから選択できます
+  </div>
+   <div class="custom-select-wrapper">
+    <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, class: "custom-select" %>
+  </div>
+  <!--タックルがない場合-->
+<% else %>
+  <%= link_to 'タックル登録はこちら', new_tackle_path %>
+<% end %>
+</div>
 
 <!--感想フォーム-->
 <div class="form-group">
