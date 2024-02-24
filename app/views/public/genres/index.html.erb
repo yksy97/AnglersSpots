@@ -38,22 +38,22 @@
 </div>
 </div>
 
-<!-- 魚種一覧のグリッド表示 -->
+<!--魚種一覧のグリッド表示-->
 <div class="row">
   <% @genres.each_with_index do |genre, index| %>
   <div class="col-md-3 col-sm-6">
     <div class="card mb-4">
-      <div class="card-header text-center" style="background-color: #AFDFE4;">
-        <%= truncate(genre.name, length: 10) %>
+      <!--カードヘッダー-->
+      <div class="card-header d-flex justify-content-between flex-nowrap" style="background-color: #AFDFE4;">
+        <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm p-1 m-1', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
+        <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm  p-1 m-1' %>
       </div>
-      <div class="card-body d-flex justify-content-center flex-nowrap" style="background-color: #f0f9fa;">
-        <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm m-1', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
-        <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm m-1' %>
+      <!--カードボディ-->
+      <div class="card-body text-center" style="background-color: #f0f9fa;">
+         <h4><%= truncate(genre.name, length: 10) %></4>
       </div>
     </div>
   </div>
-  <!-- 5行目20個まで表示する -->
-  <% break if index == 19 %>
   <% end %>
 </div>
 
