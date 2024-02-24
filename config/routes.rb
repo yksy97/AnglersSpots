@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   # ゲストログイン用のルーティングを追加
   devise_scope :customer do
     post 'customers/guest_sign_in', to: 'public/sessions#guest_sign_in', as: :guest_customer_session
+    # バリデーション[POST]などに失敗してリダイレクトされた場合にそのURLでリロード[GET]するとエラーになる問題の対策
+    # 新規登録画面・ログイン画面のバリデーションエラー後に発生する
+    # ブラウザのリロードは、基本的に[GET]になるので上記の画面で更新すると[GET]のルーティングがないのでエラー発生してしまう
+    get 'customers', to: 'public/registrations#new'
   end
   
   # 管理者用ゲストログイン用のルーティングを追加

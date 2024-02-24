@@ -93,7 +93,7 @@ end
 def ensure_correct_customer
 @post = Post.find(params[:id])
 unless @post.customer == current_customer
-  redirect_to posts_path, alert: '権限がありません。'
+  redirect_to posts_path, alert: '権限がありません'
 end
 
 end
