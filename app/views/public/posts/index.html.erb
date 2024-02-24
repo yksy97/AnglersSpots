@@ -11,13 +11,15 @@
       </div>
     </div>
   </div>
-  <!--投稿一覧-->
-  <div id="new-posts">
- <%= render "public/posts/posts", post: @post %>
- </div>
-    <%= paginate @posts %>
+
+<!--投稿一覧-->
+<div id="new-posts">
+　<%= render "public/posts/posts", post: @post %>
+</div>
+　<%= paginate @posts %>
 </div>
 
+<!--javascript/packs-->
 <%= javascript_pack_tag 'input_image' %>
 
 

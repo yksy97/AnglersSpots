@@ -1,94 +1,98 @@
 <!-- 新規登録モーダル -->
 <div class="modal fade" id="NewPostModal" tabindex="-1" role="dialog" aria-labelledby="NewPostModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #AFDFE4">
-        <h5 class="modal-title" id="NewPostModalLabel">新規投稿</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <div class="modal-body" style="background-color: #f0f9fa;">
-        <%= form_with model: post, url: posts_path, remote: true, html: { id: "NewPostForm", novalidate: '' } do |f| %>
-          <div class="form-group">
-            <label class="d-block mb-2">魚</label>
-            <div class="btn-group" role="group" aria-label="Genre Buttons">
-              <button type="button" id="newGenreBtn" class="btn btn-primary rounded mr-2">新規</button>
-              <button type="button" id="existingGenreBtn" class="btn btn-success rounded">既存</button>
-            </div>
-            <small class="form-text text-muted">過去に投稿した魚は既存から選択できます</small>
-          </div>
-          <!--魚フォーム-->
-          <div id="newGenreInput" class="mb-3" style="display: none;">
-            <%= f.label :new_genre_name, "新規の魚" %>
-            <%= f.text_field :new_genre_name, class: "form-control" %>
-          </div>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<!--モーダルヘッダー-->
+<div class="modal-header" style="background-color: #AFDFE4">
+  <h5 class="modal-title" id="NewPostModalLabel">新規投稿</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-          <div id="existingGenreSelect" class="mb-3" style="display: none;">
-            <%= f.label :genre_id, "魚を選択" %>
-            <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: true}, class: "custom-select" %>
-          </div>
-          <!--釣り方フォーム-->
-          <div class="form-group">
-            <%= f.label :rig_list, "釣り方" %>
-            <%= f.text_field :rig_list, class: "form-control", required: true %>
-            <div class="invalid-feedback">入力してください</div>
-            <small class="form-text text-muted">スペースを開けると複数の単語を投稿できます。例：ジギング　夕まずめ</small>
-          </div>
-          <!--釣り場フォーム-->
-          <div class="form-group">
-            <%= f.label :location, "釣り場" %>
-            <%= f.text_field :location, class: "form-control", required: true %>
-            <div class="invalid-feedback">入力してください</div>
-            <small class="form-text text-muted">例：東京湾、相模湾、瀬戸内海、男女群島</small>
-          </div>
-          <!--画像フォーム-->
-          <div class="form-group">
-            <label for="inputFile">画像</label>
-            <div class="input-group drop-area">
-              <div class="custom-file">
-                <%= f.file_field :image, class: "custom-file-input", id: "inputFile" %>
-                <label class="custom-file-label" for="inputFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
-              </div>
-            </div>
-          </div>
-          
-          
-          <!--TODO: tackles.any?で必ずエラーが出る-->
-            <!-- タックル-->
-        <!--<div class="form-group">-->
-        <!--  <%#= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>-->
-        <!-- <%# if @tackles.any? %>-->
-        <!--  <div class="alert alert-info" role="alert">-->
-        <!--    登録したタックルから選択できます-->
-        <!--  </div>-->
-        <!--<%# else %>-->
-        <!--  <%#= link_to 'タックル登録はこちら', new_tackle_path %>-->
-        <!--<%# end %>-->
-        <!--  <div class="custom-select-wrapper">-->
-        <!--    <%#= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, class: "custom-select" %>-->
-        <!--  </div>-->
-        <!--</div>-->
+<!--モーダルボディ-->
+<div class="modal-body" style="background-color: #f0f9fa;">
+<%= form_with model: post, url: posts_path, remote: true, html: { id: "NewPostForm", novalidate: '' } do |f| %>
+<div class="form-group">
+  <label class="d-block mb-2">魚</label>
+  <div class="btn-group" role="group" aria-label="Genre Buttons">
+    <button type="button" id="newGenreBtn" class="btn btn-primary rounded mr-2">新規</button>
+    <button type="button" id="existingGenreBtn" class="btn btn-success rounded">既存</button>
+  </div>
+  <small class="form-text text-muted">過去に投稿した魚は既存から選択できます</small>
+</div>
 
-          
-          <!--感想フォーム-->
-          <div class="form-group">
-            <%= f.label :body, "感想" %>
-            <%= f.text_area :body, class: "form-control", required: true %>
-            <div class="invalid-feedback">入力してください</div>
-          </div>
+<!--魚フォーム-->
+<div id="newGenreInput" class="mb-3" style="display: none;">
+  <%= f.label :new_genre_name, "新規の魚" %>
+  <%= f.text_field :new_genre_name, class: "form-control" %>
+</div>
+<div id="existingGenreSelect" class="mb-3" style="display: none;">
+  <%= f.label :genre_id, "魚を選択" %>
+  <%= f.collection_select :genre_id, Genre.order(:name), :id, :name, {include_blank: true}, class: "custom-select" %>
+</div>
 
-          <div class="modal-footer" style="background-color: #f0f9fa;">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <%= f.submit "投稿", class: "btn btn-primary", id: "submitBtn" %>
-          </div>
+<!--釣り方フォーム-->
+<div class="form-group">
+  <%= f.label :rig_list, "釣り方" %>
+  <%= f.text_field :rig_list, class: "form-control", required: true %>
+  <div class="invalid-feedback">入力してください</div>
+  <small class="form-text text-muted">スペースを開けると複数の単語を投稿できます。例：ジギング　夕まずめ</small>
+</div>
 
-          
-        <% end %>
-      </div>
+<!--釣り場フォーム-->
+<div class="form-group">
+  <%= f.label :location, "釣り場" %>
+  <%= f.text_field :location, class: "form-control", required: true %>
+  <div class="invalid-feedback">入力してください</div>
+  <small class="form-text text-muted">例：東京湾、相模湾、瀬戸内海、男女群島</small>
+</div>
+
+<!--画像フォーム-->
+<div class="form-group">
+  <label for="inputFile">画像</label>
+  <div class="input-group drop-area">
+    <div class="custom-file">
+      <%= f.file_field :image, class: "custom-file-input", id: "inputFile" %>
+      <label class="custom-file-label" for="inputFile" data-browse="参照">ここに画像をドラッグ&ドロップでも選択できます</label>
     </div>
   </div>
 </div>
 
+<!--TODO: tackles.any?で必ずエラーが出る-->
+<!-- タックルフォール-->
+<!--<div class="form-group">-->
+<!--  <%#= f.label :tackle_id, "タックル", class: 'd-block mb-2' %>-->
+<!-- <%# if @tackles.any? %>-->
+<!--  <div class="alert alert-info" role="alert">-->
+<!--    登録したタックルから選択できます-->
+<!--  </div>-->
+<!--<%# else %>-->
+<!--  <%#= link_to 'タックル登録はこちら', new_tackle_path %>-->
+<!--<%# end %>-->
+<!--  <div class="custom-select-wrapper">-->
+<!--    <%#= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, class: "custom-select" %>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--感想フォーム-->
+<div class="form-group">
+  <%= f.label :body, "感想" %>
+  <%= f.text_area :body, class: "form-control", required: true %>
+  <div class="invalid-feedback">入力してください</div>
+</div>
+<div class="modal-footer" style="background-color: #f0f9fa;">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+  <%= f.submit "投稿", class: "btn btn-primary", id: "submitBtn" %>
+</div>
+
+<!--15行目の閉じタグ-->
+<% end %>
+<!--14行目のボディ閉じタグ-->
+</div>
+
+</div>
+</div>
+</div>
+<!--javascript/packs-->
 <%= javascript_pack_tag 'new_post_form' %>
