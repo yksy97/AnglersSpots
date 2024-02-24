@@ -30,6 +30,7 @@
       <ul class="nav">
         <% if admin_signed_in? %>
           <%= link_to '会員一覧', admin_customers_path, class: 'btn btn-success btn-lg mr-3' %>
+          <%= link_to 'コメント一覧', admin_post_comments_path, class: 'btn btn-success btn-lg mr-3' %>
           <%= link_to '管理者ログアウト', destroy_admin_session_path, method: :delete, class: 'btn btn-primary btn-lg' %>
         <% elsif customer_signed_in? %>
           <%= link_to 'About', about_path, class: 'nav-link' %>

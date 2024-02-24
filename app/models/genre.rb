@@ -1,4 +1,5 @@
 class Genre < ApplicationRecord
+belongs_to :customer
 has_many :posts
 # 魚がもしアルファベットで入力された場合に、大文字と小文字の区別をなくす＝case_sensitive: false
   validates :name, uniqueness: { case_sensitive: false }, presence: true, length: { maximum: 50 }

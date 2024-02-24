@@ -18,17 +18,21 @@ Rails.application.routes.draw do
     sessions: 'admin/sessions'
   }
 
-  namespace :admin do
-    resources :customers, only: [:index] do
-      member do
-        patch :retire
-        patch :revive
-      end
-      resources :posts, only: [:index, :show, :destroy] do
-        resources :post_comments, only: [:destroy]
-      end
+ namespace :admin do
+  resources :customers, only: [:index] do
+    member do
+      patch :retire
+      patch :revive
+    end
+    resources :posts, only: [:index, :show, :destroy] do
+      resources :post_comments, only: [:index, :destroy]
     end
   end
+
+  # 全てのコメントを一覧表示
+  resources :post_comments, only: [:index, :destroy]
+end
+
 
 # 顧客用Deviseルーティング
   devise_for :customers, skip: [:passwords], controllers: {

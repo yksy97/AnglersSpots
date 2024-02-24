@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
 
   create_table "genres", force: :cascade do |t|
     t.string "name"
+    t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

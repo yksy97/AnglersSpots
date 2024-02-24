@@ -3,17 +3,16 @@ class Public::GenresController < ApplicationController
   before_action :set_genre, only: [:edit, :update, :destroy]
 
   def index
-    @genres = Genre.all.order(created_at: :desc).page(params[:page]).per(20)
-    @genre = Genre.new
+    @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(20)
+    @genre = current_customer.genres.new
   end
-  
-  
+    
   def create
-    @genre = Genre.new(genre_params)
+    @genre = current_customer.genres.new(genre_params)
     if @genre.save
       redirect_to genres_path, notice: '新しい魚が登録されました'
     else
-      @genres = Genre.all.order(:name)
+      @genres = current_customer.genres.order(:name).page(params[:page]).per(20)
       render :index
     end
   end
@@ -32,18 +31,25 @@ class Public::GenresController < ApplicationController
   end
 
   def destroy
-    if @genre.posts.blank?
-      @genre.destroy
-      redirect_to genres_path, notice: '魚が削除されました'
-    else
-      redirect_to genres_path, notice: '関連する投稿が存在します'
-    end
+    @genre.destroy
+    redirect_to genres_path, notice: '魚が削除されました'
   end
+
+
+# TODO: これだと魚と関連する投稿の削除を防ぎ、魚種がnilになることを防ぐが、現状投稿と関連してないすべてのジャンルが削除できない
+  # def destroy
+  #   if @genre.posts.blank?
+  #     @genre.destroy
+  #     redirect_to genres_path, notice: '魚が削除されました'
+  #   else
+  #     redirect_to genres_path, notice: '関連する投稿が存在します'
+  #   end
+  # end
 
   private
 
   def set_genre
-    @genre = Genre.find(params[:id])
+    @genre = current_customer.genres.find(params[:id])
   end
 
   def genre_params
