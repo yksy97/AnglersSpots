@@ -1,53 +1,72 @@
-<div class="card">
-<!--カードヘッダー-->
-<div class="card-header card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-  <h2>タックル一覧</h2>
-</div>
-
-<!--カードボディ-->
-<div class="card-body">
-<table class="table">
-  <tbody>
-  <% if tackles.exists? %>
+<% if tackles.exists? %>
   <% tackles.each do |tackle| %>
-  <tr>
-    <td><strong>タックル名</strong></td>
-    <td><%= tackle.name %></td>
-  </tr>
-  <tr>
-    <td><strong>ロッド</strong></td>
-    <td><%= tackle.rod %></td>
-  </tr>
-  <tr>
-    <td><strong>リール</strong></td>
-    <td><%= tackle.reel %></td>
-  </tr>
-  <tr>
-    <td><strong>ライン</strong></td>
-    <td><%= tackle.line %></td>
-  </tr>
-  <tr>
-    <td><strong>ベイト</strong></td>
-    <td><%= tackle.bait %></td>
-  </tr>
-  <tr>
-    <td colspan="2">
-    <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
-    <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-    </td>
-  </tr>
-  
-  <% unless tackle == tackles.last %>
-  <tr class="divider"><td colspan="2"><hr></td></tr>
-  <% end %>
-  <% end %>
-  <% else %>
-  <tr>
-    <td colspan="2" class="text-center">登録されたタックルはありません</td>
-  </tr>
-  <% end %>
-  </tbody>
-</table>
-<%= paginate tackles %>
-</div>
-</div>
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <!--カードヘッダー-->
+        <div class="card-header" style="background-color: #AFDFE4">
+          <h5 class="card-title m-0"><%= tackle.name %></h5>
+        </div>
+        
+        <!--カードボディ-->
+        <div class="card-body" style="background-color: #f0f9fa;">
+        <!--ロッド-->
+        <div class="row mb-3">
+          <div class="col-sm-2">
+            <strong>ロッド</strong>
+          </div>
+          <div class="col-sm-8">
+            <%= tackle.rod %>
+          </div>
+        </div>
+      
+        <!--リール-->
+        <div class="row mb-3">
+          <div class="col-sm-2">
+            <strong>リール</strong>
+          </div>
+          <div class="col-sm-8">
+            <%= tackle.reel %>
+          </div>
+        </div>
+      
+        <!--ライン-->
+        <div class="row mb-3">
+          <div class="col-sm-2">
+            <strong>ライン</strong>
+          </div>
+          <div class="col-sm-8">
+            <%= tackle.line %>
+          </div>
+        </div>
+      
+        <!--ベイト-->
+        <div class="row mb-3">
+          <div class="col-sm-2">
+            <strong>ベイト</strong>
+          </div>
+          <div class="col-sm-8">
+            <%= tackle.bait %>
+          </div>
+        </div>
+      
+        <!--編集・削除-->
+        <div class="d-flex justify-content-between">
+          <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
+          <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+<!--タックルが偶数個の場合、行を区切るために使用する-->
+<% if tackles.index(tackle).odd? && !tackle.equal?(tackles.last) %>
+  <div class="w-100"></div> <!--このdivは新しい行を開始するために使用する-->
+<% end %>
+
+<% end %>
+<% else %>
+  <div class="col-12">
+    <p class="text-center">登録されたタックルはありません</p>
+  </div>
+<% end %>

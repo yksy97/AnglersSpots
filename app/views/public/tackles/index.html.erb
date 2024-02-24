@@ -12,15 +12,13 @@
     </div>
   </div>
 
-<!--1行目の閉じタグ-->
-</div>
-
 <!-- タックル一覧 -->
-<div class="col-md-6 mx-auto">
-  <div id="tackle-lists">
+<div class="container mt-5 mx-auto">
+  <div class="row" id="tackle-lists">
     <%= render 'public/tackles/tackles_index', tackles: @tackles %>
   </div>
+  <%= paginate @tackles %>
 </div>
 
 </div>
-</div>
+
