@@ -1,53 +1,69 @@
 <div class="container mt-5">
-<div class="row">
-<div class="col-md-12">
-<div class="card mb-4 shadow-sm">
-<div class="card-body">
-<div class="row">
-<!--会員情報-->
-<%= render 'public/customers/customer_section', customer: current_customer %>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <div class="row">
+            <!--会員情報-->
+            <%= render 'public/customers/customer_section', customer: current_customer %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   
 <!-- 投稿詳細 -->
-<div class="col-md-10 mx-auto">
+<div class="col-md-8 mx-auto">
 <div class="card">
-   
 <div class="card-header" style="background-color: white;">
 
-<!--名前と自己紹介-->      
-<div class="d-flex justify-content-between align-items-center">
-<div>
-<h3><%= @post.customer.name %></h3>
-<div><%= truncate(@customer.introduction, length: 15, omission: '...') %></div>
+<!--投稿日-->
+<div class="row align-items-center my-2">
+  <div class="col text-left">
+    <% if current_customer == @post.customer %>
+    <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
+    <% end %>
+  </div>
+  <div class="col text-right">
+    <small>
+      <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i>
+      <%= l @post.created_at, format: :custom_long %>
+    </small>
+  </div>
+</div>
+
+<!--会員名とフォローボタン-->
+<div class="row align-items-center my-2">
+  <div class="col">
+    <h3><%= @post.customer.name %></h3>
+    <div><%= truncate(@customer.introduction, length: 15, omission: '...') %></div>
+  </div>
+  <div class="col text-right">
+    <!--フォローボタンの有無によるボタンサイズの違いによる段差を解消-->
+    <% if customer_signed_in? && (current_customer != @post.customer) %>
+    <div id="relationship-btn<%= @post.customer.id %>">
+      <%= render 'public/relationships/customer_follow_btn', customer: @post.customer %>
+    </div>
+    <% else %>
+    <!--btn-sm相当の余白を作り差異解消-->
+    <div style="height: 31px; width: 76px;"></div>
+    <% end %>
+  </div>
+</div>
+
 <!--釣り方-->
-<p class="mb-0">
-<i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
-<% @post.rigs.each do |rig| %>
-<span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
-<% end %>
-</p>
+<div class="row">
+  <div class="col">
+    <p class="mb-0">
+      <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
+      <% @post.rigs.each do |rig| %>
+      <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
+      <% end %>
+    </p>
+  </div>
 </div>
-</div>
-      
-<!-- 投稿日 -->
-<div class="text-right mb-2">
-<small><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l @post.created_at, format: :custom_long %></small>
-</div>
-<!--フォローボタン-->
-<% if customer_signed_in? && (current_customer != @post.customer) %>
-<div id="relationship-btn<%= @post.customer.id %>">
-<%= render 'public/relationships/customer_follow_btn', customer: @post.customer %>
-</div>
-<% else %>
-<!--自分の投稿に「フォローするボタン」と同じサイズの余白を入れることでボタンによる段差を解消-->
-<div style="height: 31px; width: 76px;">
-<!--「btn-sm」相当の余白-->
-</div>
-<% end %>
+
+<!--18行目のヘッダー閉じタグ-->
 </div>
 
 <div class="card-body">
@@ -65,198 +81,198 @@
 <% end %>
 </div>
           
-<div>
-<% if current_customer == @post.customer %>
-<%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
-<% end %>
-</div>
-          
-<!-- 魚 -->
-<div>
-<h2 class="mb-0 ml-0">
-<!-- nil guard -->
-<% if @post.genre.name %>
-
-<%= @post.genre.name %>
-<% else %>
-<!-- もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す -->
-<%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
-<% end %>
-</h2>
-
-<!-- 釣り場 -->
-<p class="text-left ml-2">
-<i class="fas fa-anchor mr-2" style="color: #717375;"></i>
-<%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %>
-</p>
-</div>
-          
-
-
-
-          
-
-
-          <!-- タックル情報 -->
-          <div class="mb-3">
-            <h5 class="mb-2 mt-4">タックル情報</h5>
-            <% if @post.tackle %>
-              <table class="table">
-                 <tbody>
-                  <tr>
-                    <th style="width: 80px;">ロッド</th>
-                    <td><%= @post.tackle.rod %></td>
-                  </tr>
-                  <tr>
-                    <th style="width: 80px;">リール</th>
-                    <td><%= @post.tackle.reel %></td>
-                  </tr>
-                  <tr>
-                    <th style="width: 80px;">ライン</th>
-                    <td><%= @post.tackle.line %></td>
-                  </tr>
-                  <tr>
-                    <th style="width: 80px;">ベイト</th>
-                    <td><%= @post.tackle.bait %></td>
-                  </tr>
-                </tbody>
-              </table>
-            <% else %>
-              <% if current_customer.tackles.exists? %>
-                <!-- タックルが存在する場合、セレクトボックスで選択できるようにする -->
-                <div class="form-group">
-                <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: 'form-inline' } do |f| %> 
-                  <div class="input-group">
-                    <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, {class: "custom-select my-1 mr-sm-2"} %>
-                    <div class="input-group-append">
-                      <%= f.submit "選択", class: "btn btn-primary btn-sm my-1" %>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-              <% else %>
-                <!-- タックルプリセットが存在しない場合、新規登録を促すリンクを表示 -->
-                <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark mt-2' %>
-              <% end %>
-            <% end %>
-          </div>
-          
-
-          <!-- 感想 -->
-          <div class="mb-3">
-            <h5 class="mb-2"></h5>
-            <p>
-              <i class="fa-solid fa-pencil mr-2"></i>
-              <%= simple_format(@post.body, class: "m-0") %>
-            </p>
-          </div>
-
-          <!-- コメントフォーム -->
-          <%= form_with model: [@post, @post.post_comments.build], local: true, html: { class: 'needs-validation', novalidate: '' } do |f| %>
-            <div class="form-group">
-              <%= f.label :comment, "コメント" %>
-              <%= f.text_area :comment, class: 'form-control', rows: 3, required: true %>
-              <div class="invalid-feedback">コメントを入力してください。</div>
-            </div>
-            <%= f.submit "コメントを投稿", class: "btn btn-primary" %>
-          <% end %>
-
-          <hr>
-
-          <!-- コメントとリプライ一覧 -->
-          <h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
-          <div id="comments">
-            <% if @post.post_comments.where(parent_id: nil).order(created_at: :desc).exists? %>
-            <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
-              <div class="comment mb-3">
-                <!-- プロフィール画像 -->
-                <div class="d-flex align-items-center">
-                  <% if comment.customer.image.attached? %>
-                    <%= link_to customer_path(comment.customer) do %>
-                      <%= image_tag comment.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-                    <% end %>
-                  <% else %>
-                    <%= link_to customer_path(comment.customer) do %>
-                      <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-                    <% end %>
-                  <% end %>
-                  <div>
-                    <span><%= comment.customer.name %>さん</span>
-                  </div>
-                </div>
-
-                <!-- コメント本文 -->
-                <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
-                  <span><%= simple_format(comment.comment, {}, wrapper_tag: "span") %></span>
-                  <% if comment.customer == current_customer %>
-                    <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
-                  <% end %>
-                </div>
-
-                <!-- コメント日時と返信 -->
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                  <p><%= link_to "返信", "#", class: "btn btn-primary btn-sm reply-link", data: { comment_id: comment.id } %></p>
-                  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
-                </div>
-              </div>
-
-              <!-- リプライフォーム -->
-              <div id="reply-form-<%= comment.id %>" class="reply-form" style="display: none;">
-                <%= form_with model: [@post, @post.post_comments.build(parent_id: comment.id)], local: true do |f| %>
-                  <%= f.hidden_field :parent_id %>
-                  <%= f.text_area :comment, placeholder: "返信を記入してください", class: 'form-control', rows: 2 %>
-                  <%= f.submit "投稿", class: "btn btn-sm btn-primary" %>
-                  <button type="button" class="btn btn-sm btn-secondary close-reply-form" data-comment-id="<%= comment.id %>">閉じる</button>
-                <% end %>
-              </div>
-
-              <!-- リプライ一覧 -->
-              <% if comment.replies.order(created_at: :desc).exists? %>
-              <% comment.replies.order(created_at: :desc).each do |reply| %>
-                <div class="reply ml-4 pl-3 mt-2">
-                  <div class="comment mb-3">
-                    <!-- プロフィール画像 -->
-                    <div class="d-flex align-items-center">
-                      <% if reply.customer.image.attached? %>
-                        <%= link_to customer_path(reply.customer) do %>
-                          <%= image_tag reply.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-                        <% end %>
-                      <% else %>
-                        <%= link_to customer_path(reply.customer) do %>
-                          <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-                        <% end %>
-                      <% end %>
-                      <div>
-                        <span><%= reply.customer.name %>さん</span>
-                      </div>
-                    </div>
-
-                    <!-- リプライ本文 -->
-                    
-                    <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
-                      <span><%= simple_format(reply.comment, {}, wrapper_tag: "span") %></span>
-                      <% if reply.customer == current_customer %>
-                        <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
-                      <% end %>
-                    </div>
-
-                    <!-- リプライ日時 -->
-                    <div class="d-flex justify-content-end align-items-center mt-2">
-                      <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-              <% else %>
-              <p class="text-center">リプライはありません</p>
-            <% end %>
-            <% end %>
-            <% else %>
-            <p class="text-center">コメントはありません</p>
-          <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
+<!--魚と釣り場-->
+<div class="row align-items-center my-2">
+  <!--魚種-->
+  <div class="col">
+    <h2 class="mb-0 ml-0">
+    <!-- nil guard -->
+    <% if @post.genre.name %>
+    <%= @post.genre.name %>
+    <% else %>
+    <!--もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す-->
+    <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+    <% end %>
+    </h2>
   </div>
+  
+  <!--釣り場-->
+  <div class="col">
+    <h5 class="text-left ml-2">
+      ＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %>
+    </h5>
+  </div>
+</div>
+
+<!--タックル情報-->
+<div class="mb-3">
+  <h5 class="mb-2 mt-4">タックル情報</h5>
+  <% if @post.tackle %>
+  <table class="table">
+    <tbody>
+    <tr>
+      <th style="width: 80px;">ロッド</th>
+      <td><%= @post.tackle.rod %></td>
+    </tr>
+    <tr>
+      <th style="width: 80px;">リール</th>
+      <td><%= @post.tackle.reel %></td>
+    </tr>
+    <tr>
+      <th style="width: 80px;">ライン</th>
+      <td><%= @post.tackle.line %></td>
+    </tr>
+    <tr>
+      <th style="width: 80px;">ベイト</th>
+      <td><%= @post.tackle.bait %></td>
+    </tr>
+    </tbody>
+  </table>
+  <% else %>
+  <% if current_customer.tackles.exists? %>
+  <!--タックルが存在する場合、セレクトボックスで選択できるようにする-->
+  <div class="form-group">
+    <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: 'form-inline' } do |f| %> 
+    <div class="input-group">
+    <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, {class: "custom-select my-1 mr-sm-2"} %>
+    <div class="input-group-append">
+    <%= f.submit "選択", class: "btn btn-primary btn-sm my-1" %>
+    </div>
+    </div>
+    <% end %>
+  </div>
+  <% else %>
+  <!--タックルプリセットが存在しない場合、新規登録を促すリンクを表示-->
+  <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark mt-2' %>
+  <% end %>
+  <% end %>
+</div>
+          
+<!--感想-->
+<div class="mb-3">
+  <h5>感想</h5>
+  <%= simple_format(@post.body, class: "m-0") %>
+</div>
+
+<!--コメントフォーム-->
+<%= form_with model: [@post, @post.post_comments.build], local: true, html: { class: 'needs-validation', novalidate: '' } do |f| %>
+<div class="form-group">
+  <%= f.label :comment, "コメント" %>
+  <%= f.text_area :comment, class: 'form-control', rows: 3, required: true %>
+  <div class="invalid-feedback">コメントを入力してください。</div>
+</div>
+<%= f.submit "コメントする", class: "btn btn-primary" %>
+<% end %>
+
+<hr>
+
+<!--コメントとリプライ一覧-->
+<h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
+<div id="comments">
+<% if @post.post_comments.where(parent_id: nil).order(created_at: :desc).exists? %>
+<% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
+<div class="comment mb-3">
+<!--プロフィール画像-->
+<div class="d-flex align-items-center">
+<% if comment.customer.image.attached? %>
+<%= link_to customer_path(comment.customer) do %>
+<%= image_tag comment.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+<% end %>
+<% else %>
+<%= link_to customer_path(comment.customer) do %>
+<%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+<% end %>
+<% end %>
+<div>
+<span><%= comment.customer.name %>さん</span>
+</div>
+</div>
+
+<!--コメント本文-->
+<div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+<span><%= simple_format(comment.comment, {}, wrapper_tag: "span") %></span>
+<% if comment.customer == current_customer %>
+<%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
+<% end %>
+</div>
+
+<!--コメント日時と返信-->
+<div class="d-flex justify-content-between align-items-center mt-2">
+  <p><%= link_to "返信", "#", class: "btn btn-primary btn-sm reply-link", data: { comment_id: comment.id } %></p>
+  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
+</div>
+
+<!--174行目のcomments閉じタグ-->
+</div>
+
+<!--リプライフォーム-->
+<div id="reply-form-<%= comment.id %>" class="reply-form" style="display: none;">
+  <%= form_with model: [@post, @post.post_comments.build(parent_id: comment.id)], local: true do |f| %>
+  <%= f.hidden_field :parent_id %>
+  <%= f.text_area :comment, placeholder: "返信を記入してください", class: 'form-control mb-2', rows: 2 %>
+  <div class="row">
+  <div class="col text-left">
+  <%= f.submit "投稿", class: "btn btn-sm btn-primary" %>
+  </div>
+  <div class="col text-right">
+  <button type="button" class="btn btn-sm btn-secondary close-reply-form" data-comment-id="<%= comment.id %>">閉じる</button>
+  </div>
+  </div>
+  <% end %>
+</div>
+
+
+<!--リプライ一覧-->
+<% if comment.replies.order(created_at: :desc).exists? %>
+<% comment.replies.order(created_at: :desc).each do |reply| %>
+<div class="reply ml-4 pl-3 mt-2">
+<div class="comment mb-3">
+<!--プロフィール画像-->
+<div class="d-flex align-items-center">
+<% if reply.customer.image.attached? %>
+<%= link_to customer_path(reply.customer) do %>
+<%= image_tag reply.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+<% end %>
+<% else %>
+<%= link_to customer_path(reply.customer) do %>
+<%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+<% end %>
+<% end %>
+<div>
+<span><%= reply.customer.name %>さん</span>
+</div>
+</div>
+
+<!--リプライ本文-->
+<div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+  <span><%= simple_format(reply.comment, {}, wrapper_tag: "span") %></span>
+  <% if reply.customer == current_customer %>
+  <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
+  <% end %>
+</div>
+
+<!--リプライ投稿日-->
+<div class="d-flex justify-content-end align-items-center mt-2">
+  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
+</div>
+</div>
+</div>
+<% end %>
+<% else %>
+<p class="text-center">リプライはありません</p>
+<% end %>
+<% end %>
+<% else %>
+<p class="text-center">コメントはありません</p>
+<% end %>
+</div>
+
+<!--69行目のボディ閉じタグ-->
+</div>
+
+</div>
+</div>
+</div>
+
+<!--javascript/packs-->
 <%= javascript_pack_tag 'reply' %>
