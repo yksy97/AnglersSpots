@@ -1,9 +1,10 @@
+<!--リレーションシップモーダルのフォロワー一覧-->
 <% if current_customer.followers.exists? %>
-<% current_customer.followers.each do |follower| %>
   <tr>
     <th>名前</th>
     <th></th>
   </tr>
+<% current_customer.followers.each do |follower| %>
   <tr>
     <td><%= link_to follower.name, customer_path(follower), class: 'text-dark' %> さん</td>
     <td id="follow_btn_<%= current_customer.id %>">
@@ -16,5 +17,7 @@
   </tr>
 <% end %>
 <% else %>
-  <p class="text-center">フォロワーがいません</p>
+   <tr>
+    <td colspan="2" class="text-center">フォロワーがいません</td>
+  </tr>
 <% end %>

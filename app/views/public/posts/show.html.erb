@@ -25,10 +25,10 @@
     <% end %>
   </div>
   <div class="col text-right">
-    <small>
+    <h6>
       <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i>
       <%= l @post.created_at, format: :custom_long %>
-    </small>
+    </h6>
   </div>
 </div>
 
@@ -55,9 +55,8 @@
 <div class="row">
   <div class="col">
     <p class="mb-0">
-      <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
       <% @post.rigs.each do |rig| %>
-      <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
+      <span class="mr-2" style="color: #4d992f;" >＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
       <% end %>
     </p>
   </div>
@@ -85,21 +84,20 @@
 <div class="row align-items-center my-2">
   <!--魚種-->
   <div class="col">
-    <h2 class="mb-0 ml-0">
+      <h5>魚種</h5>
     <!-- nil guard -->
     <% if @post.genre.name %>
-      <%= @post.genre.name %>
+      <h2 class="mb-0"><%= @post.genre.name %></h2>
     <% else %>
-      <!--もし魚が選択されずに投稿された場合、このメッセージを表示して魚の登録を促す-->
+      <!--もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す-->
       <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
     <% end %>
-    </h2>
   </div>
   
   <!--釣り場-->
   <div class="col">
-    <h5 class="text-left ml-2">
-      ＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %>
+     <h5>釣り場</h5>
+      <h3 class="mb-0">＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
     </h5>
   </div>
 </div>

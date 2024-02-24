@@ -36,10 +36,10 @@
               <% elsif customer_signed_in? %>
                 <%= link_to 'About', about_path, class: 'nav-link' %>
                 <%= link_to '会員情報', customer_path(current_customer), class: 'nav-link' %>
-                <%= link_to '通知一覧', notifications_path, class: 'nav-link' %>
                 <%= link_to '投稿一覧', posts_path, class: 'nav-link' %>
                 <%= link_to '魚種一覧', genres_path, class: 'nav-link' %>
                 <%= link_to 'タックル一覧', tackles_path, class: 'nav-link' %>
+                <%= link_to '通知一覧', notifications_path, class: 'nav-link' %>
                 <%= link_to 'ログアウト', destroy_customer_session_path, method: :delete, class: 'nav-link' %>
               <% else %>
                 <%= link_to 'About', about_path, class: 'nav-link' %>
@@ -78,9 +78,9 @@
   <!-- BootstrapのJavaScript -->
   <%= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.slim.min.js' %>
   <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' %>
-  <!--CDNの-->
+  <!--CDN-->
   <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' %>
-  <!--トップまで戻るボタン(app/javascript/packs参照)-->
+  <!--トップまで戻るボタン(app/javascript/packs)-->
   <%= javascript_pack_tag 'toggle_switch' %>
 </body>
 </html>
