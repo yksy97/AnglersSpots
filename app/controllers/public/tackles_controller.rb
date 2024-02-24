@@ -8,6 +8,7 @@ end
 
 def index
   @tackles = current_customer.tackles.order(created_at: :desc).page(params[:page]).per(5)
+  @tackle = Tackle.new
 end
 
 def create
@@ -32,7 +33,7 @@ def update
     if @tackle.update(tackle_params)
     redirect_to tackles_path, notice: 'タックルが更新されました'
     else
-    render :edit
+    render :index
     end
 end
 

@@ -1,5 +1,5 @@
 <!--投稿一覧-->
-$("#relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
+$(".relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
 <!--会員情報-->
 $("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal', customer: current_customer) %>");
 <!--モーダルのリレーションシップボタン-->

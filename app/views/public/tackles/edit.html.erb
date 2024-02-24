@@ -3,66 +3,67 @@
     <div class="col-md-12">
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <div class="row justify-content-between">
+          <div class="row">
             <!--会員情報-->
-            <div class="col-md-8">
-              <%= render 'public/customers/customer_section', customer: current_customer %>
-            </div>
-            <!--検索フォーム-->
-            <div class="col-md-4">
-              <%= search_form_for @q, url: searches_path, class: 'form-inline d-flex justify-content-end' do |f| %>
-                <%= f.label :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, "検索ワード", class: 'sr-only' %>
-                <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワードを入力" %>
-                <%= f.submit '検索', class: 'btn btn-primary ml-2' %>
-              <% end %>
-            </div>
+             <%= render 'public/customers/customer_section', customer: current_customer %>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-    <!-- タックル編集 -->
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-          <h3>タックル編集</h3>
-        </div>
-        <div class="card-body">
-          <%= form_with model: @tackle, local: true do |form| %>
-            <div class="form-group">
-              <%= form.label :name, "プリセット名" %>
-              <%= form.text_field :name, class: "form-control", value: @tackle.name, required: true %>
-            </div>
+<!-- タックル編集 -->
+<div class="col-md-8 mx-auto">
+<div class="card">
 
-            <div class="form-group">
-              <%= form.label :rod, "ロッド" %>
-              <%= form.text_field :rod, class: "form-control", value: @tackle.rod %>
-            </div>
+<!--カードヘッダー-->
+<div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+  <h3>タックル編集</h3>
+</div>
 
-            <div class="form-group">
-              <%= form.label :reel, "リール" %>
-              <%= form.text_field :reel, class: "form-control", value: @tackle.reel %>
-            </div>
-
-            <div class="form-group">
-              <%= form.label :line, "ライン" %>
-              <%= form.text_field :line, class: "form-control", value: @tackle.line %>
-            </div>
-
-            <div class="form-group">
-              <%= form.label :bait, "ベイト" %>
-              <%= form.text_field :bait, class: "form-control", value: @tackle.bait %>
-            </div>
-
-            <%= form.submit "更新する", class: "btn btn-primary" %>
-          <% end %>
-          
-          <div class="mt-3">
-            <h5><%= link_to 'タックル一覧はこちら', tackles_path, class: "text-dark" %></h5>
-          </div>
-        </div>
-      </div>
-    </div>
+<!--カードボディ-->
+<div class="card-body">
+  <%= form_with model: @tackle, local: true do |form| %>
+  <div class="form-group">
+  <%= form.label :name, "プリセット名" %>
+  <%= form.text_field :name, class: "form-control", value: @tackle.name, required: true %>
+  </div>
+  
+  <!--ロッド-->
+  <div class="form-group">
+  <%= form.label :rod, "ロッド" %>
+  <%= form.text_field :rod, class: "form-control", value: @tackle.rod %>
+  </div>
+  
+  <!--リール-->
+  <div class="form-group">
+  <%= form.label :reel, "リール" %>
+  <%= form.text_field :reel, class: "form-control", value: @tackle.reel %>
+  </div>
+  
+  <!--ライン-->
+  <div class="form-group">
+  <%= form.label :line, "ライン" %>
+  <%= form.text_field :line, class: "form-control", value: @tackle.line %>
+  </div>
+  
+  <!--ベイト-->
+  <div class="form-group">
+  <%= form.label :bait, "ベイト" %>
+  <%= form.text_field :bait, class: "form-control", value: @tackle.bait %>
+  </div>
+  
+  <%= form.submit "更新する", class: "btn btn-primary" %>
+  <% end %>
+  
+  <div class="mt-3">
+  <h5><%= link_to 'タックル一覧はこちら', tackles_path, class: "text-dark" %></h5>
   </div>
 </div>
+
+</div>
+</div>
+
+
+</div>
+

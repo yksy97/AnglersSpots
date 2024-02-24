@@ -83,16 +83,16 @@
 <!--魚と釣り場-->
 <div class="row align-items-center my-2">
   <!--魚種-->
-  <div class="col">
-      <h5>魚種</h5>
-    <!-- nil guard -->
-    <% if @post.genre.name %>
+ <div class="col">
+    <h5>魚種</h5>
+    <% if @post.genre.present? %>
       <h2 class="mb-0"><%= @post.genre.name %></h2>
     <% else %>
-      <!--もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す-->
+      <!-- もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す -->
       <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
     <% end %>
-  </div>
+</div>
+
   
   <!--釣り場-->
   <div class="col">

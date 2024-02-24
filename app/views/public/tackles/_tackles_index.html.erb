@@ -6,41 +6,48 @@
 
 <!--カードボディ-->
 <div class="card-body">
-  <table class="table">
-    <thead>
-      <tr>
-      <th>タックル名</th>
-      <th>ロッド</th>
-      <th>リール</th>
-      <th>ライン</th>
-      <th>ベイト</th>
-      <th></th>
-      </tr>
-    </thead>
+<table class="table">
   <tbody>
-    <!--タックルが存在すればタックルを表示し、存在しなければメッセージ-->
-    <% if tackles.exists? %>
-    <% tackles.each do |tackle| %>
-    <tr>
-      <td><%= tackle.name %></td>
-      <td><%= tackle.rod %></td>
-      <td><%= tackle.reel %></td>
-      <td><%= tackle.line %></td>
-      <td><%= tackle.bait %></td>
-      <td>
-        <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
-        <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-      </td>
-    </tr>
-    <% end %>
-    <% else %>
-    <tr>
-    <td colspan="6" class="text-center">登録されたタックルはありません</td>
-    </tr>
-    <!--21行目の閉じタグ-->
-    <% end %>
+  <% if tackles.exists? %>
+  <% tackles.each do |tackle| %>
+  <tr>
+    <td><strong>タックル名</strong></td>
+    <td><%= tackle.name %></td>
+  </tr>
+  <tr>
+    <td><strong>ロッド</strong></td>
+    <td><%= tackle.rod %></td>
+  </tr>
+  <tr>
+    <td><strong>リール</strong></td>
+    <td><%= tackle.reel %></td>
+  </tr>
+  <tr>
+    <td><strong>ライン</strong></td>
+    <td><%= tackle.line %></td>
+  </tr>
+  <tr>
+    <td><strong>ベイト</strong></td>
+    <td><%= tackle.bait %></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+    <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
+    <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+    </td>
+  </tr>
+  
+  <% unless tackle == tackles.last %>
+  <tr class="divider"><td colspan="2"><hr></td></tr>
+  <% end %>
+  <% end %>
+  <% else %>
+  <tr>
+    <td colspan="2" class="text-center">登録されたタックルはありません</td>
+  </tr>
+  <% end %>
   </tbody>
-  </table>
+</table>
 <%= paginate tackles %>
 </div>
 </div>

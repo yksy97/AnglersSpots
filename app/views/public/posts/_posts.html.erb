@@ -9,9 +9,13 @@
 <div class="card-header mt-0 mb-0" style="background-color: white;">
   <div class="d-flex justify-content-between align-items-center">
     <!--魚の名前　10文字より長い名前は省略形-->
-    <h5 class="mb-0" style="color: #117a8b;">
-      <%#= link_to truncate(post.genre.name, length: 10), post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
-    </h5>
+    <% if post.genre.present? %>
+      <h5 class="mb-0" style="color: #117a8b;">
+        <%= link_to truncate(post.genre.name, length: 10), post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
+      </h5>
+    <% else %>
+      <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+    <% end %>
     <!--投稿日と釣り場-->
     <div class="d-flex flex-column align-items-end">
       <div class="text-right" style="font-size: 0.9rem;">
@@ -78,7 +82,7 @@
   <!--TODO: 非同期通信がうまくいってない-->
   <!--フォローボタン-->
   <% if customer_signed_in? && current_customer != post.customer %>
-    <div id="relationship-btn<%= post.customer.id %>">
+    <div class="relationship-btn<%= post.customer.id %>">
       <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
     </div>
   <% else %>
