@@ -12,70 +12,77 @@
     </div>
   </div>
 
-    <!-- 全通知カード -->
-    <div class="col-md-8 mx-auto">
-      <!-- いいね通知カード -->
-      <div class="card mb-4">
-        <div class="card-header" style="background-color: #AFDFE4;">
-          <h3 class="mb-0 text-center">いいね通知</h3>
-        </div>
-        <div class="card-body">
-          <% if @notifications.where(notifiable_type: 'Favorite').where.not(customer_id: current_customer.id).exists? %>
-            <% @notifications.where(notifiable_type: 'Favorite').where.not(customer_id: current_customer.id).each do |notification| %>
-              <div class="notification p-2 mb-2 border rounded">
-                <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
-                  <i class="fas fa-heart mr-2 text-danger"></i>
-                  <span><%= notification.notifiable.customer.name %> さんがあなたの投稿にいいねしました</span>
-                <% end %>
-              </div>
-            <% end %>
-          <% else %>
-            <p class="text-center">いいね通知はありません</p>
-          <% end %>
-        </div>
+  <!--通知カード-->
+  <div class="col-md-8 mx-auto">
+    <!--いいね-->
+    <div class="card mb-4">
+      <!--カードヘッダー-->
+      <div class="card-header" style="background-color: #AFDFE4;">
+        <h3 class="mb-0 text-center">いいね通知</h3>
       </div>
-
-      <!-- コメント通知カード -->
-      <div class="card mb-4">
-        <div class="card-header" style="background-color: #AFDFE4;">
-          <h3 class="mb-0 text-center">コメント通知</h3>
-        </div>
-        <div class="card-body">
-          <% if @notifications.where(notifiable_type: 'PostComment').where.not(customer_id: current_customer.id).exists? %>
-            <% @notifications.where(notifiable_type: 'PostComment').where.not(customer_id: current_customer.id).each do |notification| %>
-              <div class="notification p-2 mb-2 border rounded">
-                <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
-                  <i class="fas fa-comments mr-2 text-warning"></i>
-                  <span><%= notification.notifiable.customer.name %> さんからコメントがありました</span>
-                <% end %>
-              </div>
-            <% end %>
-          <% else %>
-            <p class="text-center">コメント通知はありません</p>
+      <!--カードボディ-->
+      <div class="card-body">
+        <% if @notifications.where(notifiable_type: 'Favorite').where.not(customer_id: current_customer.id).exists? %>
+          <% @notifications.where(notifiable_type: 'Favorite').where.not(customer_id: current_customer.id).each do |notification| %>
+          <div class="notification p-2 mb-2 border rounded">
+          <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
+          <i class="fas fa-heart mr-2 text-danger"></i>
+          <span><%= notification.notifiable.customer.name %> さんがあなたの投稿にいいねしました</span>
           <% end %>
-        </div>
-      </div>
-
-      <!-- フォロー中の会員の投稿通知カード -->
-      <div class="card mb-4">
-        <div class="card-header" style="background-color: #AFDFE4;">
-          <h3 class="mb-0 text-center">フォロー中の投稿通知</h3>
-        </div>
-        <div class="card-body">
-          <% if @notifications.where(notifiable_type: 'Post').where.not(customer_id: current_customer.id).exists? %>
-            <% @notifications.where(notifiable_type: 'Post').where.not(customer_id: current_customer.id).each do |notification| %>
-              <div class="notification p-2 mb-2 border rounded">
-                <%= link_to post_path(notification.notifiable), class: "d-flex align-items-center text-dark text-decoration-none" do %>
-                  <i class="fas fa-upload mr-2 text-primary"></i>
-                  <span><%= notification.notifiable.customer.name %> さんが新しい投稿をしました</span>
-                <% end %>
-              </div>
-            <% end %>
-          <% else %>
-            <p class="text-center">フォロー中の投稿通知はありません</p>
+          </div>
           <% end %>
-        </div>
+          <% else %>
+          <p class="text-center">いいね通知はありません</p>
+        <% end %>
       </div>
     </div>
+  
+    <!--コメント-->
+    <div class="card mb-4">
+      <!--カードヘッダー-->
+      <div class="card-header" style="background-color: #AFDFE4;">
+        <h3 class="mb-0 text-center">コメント通知</h3>
+      </div>
+      <!--カードボディ-->
+      <div class="card-body">
+        <% if @notifications.where(notifiable_type: 'PostComment').where.not(customer_id: current_customer.id).exists? %>
+        <% @notifications.where(notifiable_type: 'PostComment').where.not(customer_id: current_customer.id).each do |notification| %>
+        <div class="notification p-2 mb-2 border rounded">
+          <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
+          <i class="fas fa-comments mr-2 text-warning"></i>
+          <span><%= notification.notifiable.customer.name %> さんからコメントがありました</span>
+        <% end %>
+        </div>
+        <% end %>
+        <% else %>
+        <p class="text-center">コメント通知はありません</p>
+        <% end %>
+      </div>
+    </div>
+    
+    <!--フォロー中の会員の投稿-->
+    <div class="card mb-4">
+      <!--カードヘッダー-->
+      <div class="card-header" style="background-color: #AFDFE4;">
+        <h3 class="mb-0 text-center">フォロー中の投稿通知</h3>
+      </div>
+      <!--カードボディ-->
+      <div class="card-body">
+        <% if @notifications.where(notifiable_type: 'Post').where.not(customer_id: current_customer.id).exists? %>
+        <% @notifications.where(notifiable_type: 'Post').where.not(customer_id: current_customer.id).each do |notification| %>
+        <div class="notification p-2 mb-2 border rounded">
+          <%= link_to post_path(notification.notifiable), class: "d-flex align-items-center text-dark text-decoration-none" do %>
+          <i class="fas fa-upload mr-2 text-primary"></i>
+          <span><%= notification.notifiable.customer.name %> さんが新しい投稿をしました</span>
+          <% end %>
+        </div>
+        <% end %>
+        <% else %>
+        <p class="text-center">フォロー中の投稿通知はありません</p>
+        <% end %>
+      </div>
+    </div>
+    
   </div>
+</div>
 </div>

@@ -15,6 +15,7 @@
 <!-- 投稿詳細 -->
 <div class="col-md-8 mx-auto">
 <div class="card">
+<!--カードヘッダー-->
 <div class="card-header" style="background-color: white;">
 
 <!--投稿日-->
@@ -64,26 +65,22 @@
 
 <!--18行目のヘッダー閉じタグ-->
 </div>
-
-<div class="card-body">
   
+<!--カードボディ-->
+<div class="card-body">        
 <!-- 画像 -->
 <div class="my-3">
-<% if @post.image.attached? %>
-  <%= link_to post_path(@post) do %>
+  <% if @post.image.attached? %>
     <%= image_tag @post.image, class: "img-fluid", style: "width: 100%; height: auto; object-fit: cover;" %>
-  <% end %>
   <% else %>
-    <%= link_to post_path(@post) do %>
     <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: auto; object-fit: cover;" %>
   <% end %>
-<% end %>
 </div>
-          
+
 <!--魚と釣り場-->
 <div class="row align-items-center my-2">
   <!--魚種-->
- <div class="col">
+  <div class="col">
     <h5>魚種</h5>
     <% if @post.genre.present? %>
       <h2 class="mb-0"><%= @post.genre.name %></h2>
@@ -91,13 +88,11 @@
       <!-- もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す -->
       <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
     <% end %>
-</div>
-
-  
+  </div>
   <!--釣り場-->
   <div class="col">
-     <h5>釣り場</h5>
-      <h3 class="mb-0">＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
+   <h5>釣り場</h5>
+    <h3 class="mb-0">＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
     </h5>
   </div>
 </div>
