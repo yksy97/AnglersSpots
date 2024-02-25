@@ -56,9 +56,9 @@
             <%= f.text_area :introduction, class: "form-control" %>
           </div>
 
-          <div class="modal-footer">
+          <div class="modal-footer d-flex justify-content-between">
             <%= f.submit "更新", class: "btn btn-success" %>
-            <%= link_to "退会手続き", customers_confirm_path, class: "btn btn-danger" %>
+            <%= link_to "退会手続", customers_confirm_path, class: "btn btn-danger" %>
           </div>
         <% end %>
       </div>

@@ -5,7 +5,7 @@
 
 <!--カードヘッダー-->
 <div class="modal-header" style="background-color: #AFDFE4">
-  <h5 class="modal-title" id="favoritesModalLabel">いいねした投稿</h5>
+  <h5 class="modal-title" id="favoritesModalLabel">いいねをつけた投稿一覧</h5>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -13,13 +13,16 @@
 
 <!--カードボディ-->
 <div class="modal-body" style="background-color: #f0f9fa;">
-<% @favorites.each do |favorite| %>
-<%= link_to favorite.post.title, post_path(favorite.post) %><br>
-<% end %>
-<div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+  <% if @favorites.present? %>
+    <% @favorites.each do |favorite| %>
+      <h6><%= link_to favorite.title, post_path(favorite) %></h6>
+    <% end %>
+  <% else %>
+    <p>いいねをつけた投稿がありません</p>
+  <% end %>
 </div>
-</div>
+
+
 
 </div>
 </div>

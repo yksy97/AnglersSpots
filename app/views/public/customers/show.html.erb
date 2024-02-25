@@ -16,15 +16,6 @@
 <div class="col-md-4">
 <!--会員詳細-->
 <%= render 'customer_details', customer: @customer %>
-
-<% if !@customer.guest_customer? && current_customer == @customer %>
-<!--編集モーダルボタン-->
-<div class="text-center">
-<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#EditCustomerModal">
-プロフィールを編集
-</button>
-</div>
-<% end %>
 </div>
 
 <!-- タックルと投稿一覧 -->
@@ -194,7 +185,9 @@
   <% end %>
   </div>
   <% else %>
-  <p class="text-center">投稿はありません</p>
+  <div class="text-center">
+  <p>投稿はありません</p>
+  </div>
   <% end %>
         
   </div>

@@ -21,14 +21,17 @@
 <div class="row align-items-center my-2">
   <div class="col text-left">
     <div class="d-flex align-items-center">
-      <!-- タイトル -->
+      <!--タイトル-->
       <h4 class="mb-0">『 <%= truncate(@post.title, length: 20) %> 』</h4>
-    
-      <!-- 編集ボタン -->
+      <!--編集ボタン-->
       <% if current_customer == @post.customer %>
         <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success btn-sm ml-3' %>
+        <!--「mx-2」の隙間を作る-->
+        <span class="mx-2"></span>
+        <!--削除ボタン-->
+        <%= link_to '削除', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
       <% end %>
-  </div>
+    </div>
   </div>
   <div class="col text-right">
     <h6>
@@ -36,6 +39,7 @@
     </h6>
   </div>
 </div>
+
 
 <!--会員名とフォローボタン-->
 <div class="row align-items-center my-2">

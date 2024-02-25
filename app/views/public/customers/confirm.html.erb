@@ -14,8 +14,7 @@
       退会する場合は、「退会する」をクリックしてください
     </p>
     <div class="text-center">
-      <!--退会しないボタンのリンクを後で、ユーザー編集画面のリンクに変える-->
-      <%= link_to "退会しない", root_path, class: "btn btn-primary mb-3" %>
+      <%= link_to "退会しない", customer_path(current_customer), class: "btn btn-primary mb-3" %>
       <%= link_to "退会する", customers_withdraw_path, method: :patch, class: "btn btn-danger mb-3", data: { confirm: "本当に退会しますか？" } %>
     </div>
   </div>
