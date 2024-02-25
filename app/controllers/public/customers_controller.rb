@@ -7,7 +7,6 @@ class Public::CustomersController < ApplicationController
   @customer = Customer.find(params[:id])
   @posts = @customer.posts
   @my_posts = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
-  # @favorites = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   @post = Post.new
   end
   
