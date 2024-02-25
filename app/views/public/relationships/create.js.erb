@@ -1,8 +1,8 @@
-<!--投稿一覧「class」-->
-$("#relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
-<!--会員情報「id」-->
-$("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_info', customer: current_customer) %>");
-
-$("#modal_follow_btn_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/modal_follow_btn') %>");
-
+<!--投稿一覧-->
+$(".relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
+<!--会員情報-->
+$("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal', customer: current_customer) %>");
+<!--モーダルのリレーションシップボタン-->
+$("#modal_follow_btn_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal_btn_list') %>");
+<!--モーダルのリレーションシップリスト-->
 $("#relationships_modal_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/relationships_modal') %>")

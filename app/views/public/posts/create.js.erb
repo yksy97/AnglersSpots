@@ -1,0 +1,13 @@
+<!--新規投稿モーダルの非同期通信化-->
+
+<!--テキストエリアの値を初期化-->
+$("textarea").val("");
+
+<!--インプット要素の値を初期化-->
+$("input").val("");
+
+<!--Modalクラスのモーダルを閉じる（hide）-->
+$('#NewPostModal').modal('hide')
+
+<!--JavaScriptファイル内にHTMLを挿入するときに実行結果をエスケープする-->
+$('.new-posts').html("<%= escape_javascript(render 'public/posts/NewPostModal'), post: @post) %>")

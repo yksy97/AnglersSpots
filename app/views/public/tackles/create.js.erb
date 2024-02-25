@@ -1,0 +1,13 @@
+<!--タックル登録モーダルの非同期通信-->
+
+<!--テキストエリアの値を初期化-->
+$("textarea").val("");
+
+<!--インプット要素の値を初期化-->
+$("input").val("");
+
+<!--Modalクラスのモーダルを閉じる（hide）-->
+$('#tackleModal').modal('hide')
+
+<!--JavaScriptファイル内にHTMLを挿入するときに実行結果をエスケープする-->
+$('.tackle-lists').html("<%= escape_javascript(render 'public/tackles/tackles_index'), tackles: @tackles) %>")

@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
     t.string "favorite_rig"
     t.string "favorite_location"
     t.string "encrypted_password", default: "", null: false
-    t.boolean "is_deleted", default: true, null: false
+    t.boolean "is_deleted", default: false, null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
 
   create_table "genres", force: :cascade do |t|
     t.string "name"
+    t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -104,11 +105,12 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
   end
 
   create_table "posts", force: :cascade do |t|
+    t.string "title"
     t.text "body"
     t.integer "tackle_id"
     t.string "location"
     t.integer "customer_id"
-    t.integer "genre_id"
+    t.string "genre_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -9,7 +9,7 @@ class DeviseCreateCustomers < ActiveRecord::Migration[6.1]
       t.string :favorite_rig
       t.string :favorite_location
       t.string :encrypted_password, null: false, default: ""
-      t.boolean :is_deleted, null: false, default: "true"
+      t.boolean :is_deleted, null: false, default: "false"
       
 
       # Recoverable

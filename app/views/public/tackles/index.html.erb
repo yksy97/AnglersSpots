@@ -1,70 +1,24 @@
 <div class="container mt-5">
-  <div class="d-flex justify-content-end">
-    <div class="mb-3">
-      <%= search_form_for @q, url: searches_path, class: 'form-inline' do |f| %>
-        <%= f.label :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, "検索ワード", class: 'sr-only' %>
-        <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワードを入力" %>
-        <%= f.submit '検索', class: 'btn btn-primary ml-2' %>
-      <% end %>
-    </div>
-  </div>
-
   <div class="row">
-    <div class="col-md-4 d-flex flex-column">
-      <!-- 会員情報セクション -->
-      <div>
-        <%= render 'public/customers/customer_section', customer: current_customer %>
-      </div>
-
-      <!-- 新規タックル登録ボタン -->
-      <div class="text-center mt-auto">
-        <%= link_to '新規タックル登録', new_tackle_path, class: 'btn btn-primary btn-lg' %>
-      </div>
-    </div>
-
-    <!-- タックル一覧 -->
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-          <h2>タックル一覧</h2>
-        </div>
+    <div class="col-md-12">
+      <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>プリセット名</th>
-                <th>ロッド</th>
-                <th>リール</th>
-                <th>ライン</th>
-                <th>ベイト</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if @tackles.exists? %>
-                <% @tackles.each do |tackle| %>
-                  <tr>
-                    <td><%= tackle.name %></td>
-                    <td><%= tackle.rod %></td>
-                    <td><%= tackle.reel %></td>
-                    <td><%= tackle.line %></td>
-                    <td><%= tackle.bait %></td>
-                    <td>
-                      <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
-                      <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-                    </td>
-                  </tr>
-                <% end %>
-              <% else %>
-                <tr>
-                  <td colspan="6" class="text-center">登録されたタックルはありません</td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-          <%= paginate @tackles %>
+          <div class="row">
+            <!--会員情報-->
+             <%= render 'public/customers/customer_section', customer: current_customer %>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+<!-- タックル一覧 -->
+<div class="container mt-5 mx-auto">
+  <div class="row" id="tackle-lists">
+    <%= render 'public/tackles/tackles_index', tackles: @tackles %>
+  </div>
+  <%= paginate @tackles %>
 </div>
+
+</div>
+

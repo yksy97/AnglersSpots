@@ -3,7 +3,6 @@ class Post < ApplicationRecord
   # 「optional: true」は、PostとGenreの関連付け）を任意で行えるようにするオプション
   # 会員が新しい魚で投稿したとき、Genreの指定がない状態でもPostの作成が可能になる
   # ＝ 全てのPostがGenreに属する必要はないので、魚（ジャンル）が未分類のPostも許容される
-  belongs_to :genre
   # 「optional: true」にした場合は、nill guardとして<% if @post.tackle %><% end %>の記述をする
   belongs_to :tackle, optional: true
   has_many :post_comments, dependent: :destroy
@@ -18,7 +17,7 @@ class Post < ApplicationRecord
   has_many :rigs, through: :rig_posts
   # コールバック一連（リグの編集）
   # フォームヘルパー内でリグの編集（追加と削除）をしようとしたとき、
-  # 動作が上手くいかない＆リグがテキストにならないことが起因して質問した結果
+  # 動作が上手くいかない＆リグがテキストにならないことから質問
   # attr_accessorとattributeは大体同じ働きだが、attributeの方がメンテナンスが高い（けど難しい）
   attr_accessor :rig_list
   after_find :rigs_to_rig_list
@@ -43,6 +42,8 @@ class Post < ApplicationRecord
   end  
   
   validate :validate_genre_presence
+  #タイトルの文字数制限は、「 , length: { maximum: 20 }」
+  validates :title, presence: true
   validates :body, presence: true, length: { maximum: 500 }
   validates :location, presence: true
   
@@ -61,14 +62,14 @@ class Post < ApplicationRecord
 # 投稿フォーム（public/posts/index）のモデル側のバリデーション
   def validate_genre_presence
     # 既存の魚が選択されていない、かつ新しい魚が空の場合エラーを追加
-    if genre_id.blank? && new_genre_name.blank?
+    if genre_name.blank? && new_genre_name.blank?
       errors.add(:base, '既存の魚種を選択するか、新規の魚種名を入力してください')
     end
 
     # 新規の魚は、その名前でジャンルが存在するかチェックし、存在しなければ新規ジャンルで作成
     unless new_genre_name.blank?
       new_genre = Genre.find_or_create_by(name: new_genre_name)
-      self.genre_id = new_genre.id # 新規作成または見つかったジャンルをPostに関連付ける
+      self.genre_name = new_genre.name # 新規作成または見つかったジャンルをPostに関連付ける
     end
   end
     
@@ -77,7 +78,7 @@ class Post < ApplicationRecord
     if image.attached?
       image
     else
-      '/assets/no_image.jpg'
+      'no_image.jpg'
     end
   end
   
@@ -118,11 +119,11 @@ class Post < ApplicationRecord
   end
   
   def self.ransackable_attributes(auth_object = nil)
-    ["body"]
+    ["body", "genre_name"]
   end
   
   def self.ransackable_associations(auth_object = nil)
-    ["genre", "post_comments", "rig_posts", "rigs", "tackle"]
+    ["post_comments", "rig_posts", "rigs", "tackle"]
   end
 
 

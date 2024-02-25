@@ -24,6 +24,7 @@ class Customer < ApplicationRecord
   has_many :posts
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :genres
   has_one_attached :image
   
   # フォロー

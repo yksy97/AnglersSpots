@@ -1,91 +1,139 @@
+<!--投稿の有無の条件分岐-->
 <% if @posts.exists? %>
+<div class="row">
 <% @posts.each do |post| %>
-  <div class="card mb-4 shadow-sm">
-    <div class="card-header" style="background-color: #AFDFE4;">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-          <!-- 画像 -->
-          <% if post.customer.image.attached? %>
-            <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
-          <% else %>
-            <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 30px; height: 30px; object-fit: cover;" %>
-          <% end %>
-          <!-- 名前 -->
-          <strong class="mr-3">
-            <%= link_to post.customer.name, customer_path(post.customer), class: "ml-2 text-dark" %>
-          </strong>
-          <!-- フォローボタン -->
-          <div id="relationship-btn<%= post.customer.id %>">
-            <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
-          </div>
-        </div>
-        <!-- 投稿日 -->
-        <div class="d-flex align-items-center">
-          <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l post.created_at, format: :custom_short %>（<%= time_ago_in_words(post.created_at) %>前）
-        </div>
-      </div>
-    </div>
-
-    <!-- 投稿内容 -->
-    <div class="card-body" style="display: flex; justify-content: center;">
-      <div class="content">
-        <h5 class="mb-0" style="font-size: 2rem; color: #117a8b;">
-          <i class="fa-solid fa-fish-fins mr-2"></i>
-          <%= link_to post.genre ? post.genre.name : '', post_path(post), class: "text-dark font-weight-bold" %>
-        </h5>
-      </div>
-    </div>
-
-    <!-- 釣り場 -->
-    <h6 class="card-text mb-0 mr-3 mt-2" style="text-align: right;">
-      <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
-      <%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
-    </h6>
-
-    <!-- 画像 -->
-    <div class="d-flex justify-content-center align-items-center mt-4">
-      <% if post.image.attached? %>
-        <%= link_to post_path(post) do %>
-          <%= image_tag post.image, class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover;" %>
-        <% end %>
+<div class="col-12 col-md-6 col-lg-4 mb-2">
+<div class="card mb-4 shadow">
+  
+<!--カードヘッダー-->
+<div class="card-header mt-0 mb-0" style="background-color: white;">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <!--タイトル、10文字まで表示-->
+      <h5>
+        <%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %>
+      </h5>
+      <!--魚の名前、10文字まで表示-->
+      <% if post.genre_name.present? %>
+        <h6 class="mb-0" style="font-size: 1rem;">
+          <%= link_to truncate(post.genre_name, length: 10), posts_path(genre_name: post.genre_name), class: "text-dark"%>
+        </h6>
       <% else %>
-        <%= link_to post_path(post) do %>
-          <%= image_tag 'no_image.jpg', class: "card-img-top img-fluid", style: "max-height: 300px; object-fit: cover;" %>
-        <% end %>
+        <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
       <% end %>
     </div>
 
-    <!-- 釣り方 -->
-    <div class="card-body">
-      <% if post.rigs.present? %>
-        <p class="card-text" style="font-size: 1rem;">
-          <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
-          <% post.rigs.each do |rig| %>
-            <span class="mr-2">＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
-          <% end %>
-        </p>
-      <% end %>
-      <!--投稿本文-->
-      <p class="card-text">
-        <i class="fa-solid fa-pencil mr-2 mt-3"></i>
-        <div>
-          <%= simple_format(post.body, class: "m-0") %>
-        </div>
-      </p>
-    </div>
-
-    <!--いいねとコメント-->
-    <div class="card-footer d-flex justify-content-between align-items-center">
-      <h6>
-        <%= render 'public/favorites/btn', post: post %>
-      </h6>
-      <h6>
-        <i class="fas fa-comments mr-2 text-warning"></i>
-        <%= post.post_comments.count %> 件
-      </h6>
+    <!-- 投稿日と釣り場 -->
+    <div class="d-flex flex-column align-items-end">
+      <div class="text-right" style="font-size: 0.9rem;">
+        <%= time_ago_in_words(post.created_at) %>前
+      </div>
+      <div class="text-right" style="font-size: 0.9rem;">
+        ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
+      </div>
     </div>
   </div>
+</div>
+
+<!--カードボディ-->
+<div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
+  <!-- 釣り方 -->
+  <!--釣り方の有無の条件分岐-->
+  <% if post.rigs.present? %>
+    <p class="card-text" style="font-size: 0.9rem;">
+      <% post.rigs.first(3).each do |rig| %>
+        <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
+      <% end %>
+      <!--釣り方の表示数の指定-->
+      <% if post.rigs.count > 4 %>
+        <span>...</span>
+      <% end %>
+    </p>
+  <% end %>
+</div>
+
+<!--魚の画像-->
+<div class="my-3">
+  <% if @post.image.attached? %>
+    <%= link_to post_path(post) do %>
+      <%= image_tag post.image, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
     <% end %>
   <% else %>
-  <p class="text-center">投稿はありません</p>
+    <%= link_to post_path(post) do %>
+      <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
+    <% end %>
+  <% end %>
+</div>
+
+<!--投稿者とフォローボタン-->
+<div class="card-body pt-0 pb-0">
+<div class="d-flex justify-content-between align-items-center">
+  
+  <!-- 投稿者 -->
+  <div class="d-flex align-items-center">
+    <!-- プロフィール画像 -->
+    <% if post.customer.image.attached? %>
+      <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
+    <% else %>
+      <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
+    <% end %>
+    <!-- 会員名 -->
+    <strong class="ml-2">
+      <%= link_to post.customer.name, customer_path(post.customer), class: "text-dark" %>
+    </strong>
+  </div>
+  
+  <!--フォローボタン-->
+  <% if customer_signed_in? && current_customer != post.customer %>
+    <div class="relationship-btn<%= post.customer.id %>">
+      <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
+    </div>
+  <% else %>
+    <!--自分の投稿に「フォローするボタン」と同じサイズの余白を入れることでボタンによる段差を解消-->
+    <div style="height: 31px; width: 76px;">
+    <!--「btn-sm」相当の余白-->
+    </div>
+  <% end %>
+
+<!--62行目の閉じタグ-->
+</div>
+
+<!--感想-->
+<p class="card-text mt-2">
+  <%= truncate(post.body, length: 15) %>
+</p>
+<!--いいねとコメント-->
+<div class="d-flex justify-content-between align-items-center mt-2">
+  <!--いいね-->
+  <h6 style="padding-right: 0.5rem;">
+    <%= render 'public/favorites/btn', post: post %>
+  </h6>
+  <!--コメント数-->
+  <h6 style="padding-left: 0.5rem;">
+    <% if post.post_comments.count > 0 %>
+    <i class="fas fa-comments text-warning" style="margin-right: 0.3rem;"></i>
+    <% else %>
+    <i class="fas fa-comments text-secondary" style="margin-right: 0.3rem;"></i>
+    <% end %>
+    <%= post.post_comments.count %>
+  </h6>
+</div>
+
+<!--61行目の閉じタグ-->
+</div>
+
+</div>
+<!--５行目の閉じタグ-->
+</div>
+
+<% end %>
+
+<!--3行目の閉じタグ-->
+</div>
+
+<!--投稿が存在しない場合-->
+<% else %>
+<p class="text-center">投稿はありません</p>
+
+<!--1行目の閉じタグ-->
 <% end %>

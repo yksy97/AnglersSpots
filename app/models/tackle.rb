@@ -11,5 +11,10 @@ class Tackle < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["posts"]
   end
-
+  
+  before_destroy :delete_posts_tackle_id
+  
+  def delete_posts_tackle_id
+    Post.where(tackle_id: self.id).update_all(tackle_id: nil)
+  end
 end

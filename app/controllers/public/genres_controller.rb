@@ -3,17 +3,17 @@ class Public::GenresController < ApplicationController
   before_action :set_genre, only: [:edit, :update, :destroy]
 
   def index
-    @genres = Genre.all.order(created_at: :desc).page(params[:page]).per(10)
-    @genre = Genre.new
+    @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(20)
+    @genre = current_customer.genres.new
+    # @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   end
-  
-  
+    
   def create
-    @genre = Genre.new(genre_params)
+    @genre = current_customer.genres.new(genre_params)
     if @genre.save
-      redirect_to genres_path, notice: '新しい魚が登録されました。'
+      redirect_to genres_path, notice: '新しい魚が登録されました'
     else
-      @genres = Genre.all.order(:name)
+      @genres = current_customer.genres.order(:name).page(params[:page]).per(20)
       render :index
     end
   end
@@ -24,7 +24,7 @@ class Public::GenresController < ApplicationController
 
   def update
     if @genre.update(genre_params)
-      redirect_to genres_path, notice: '魚が更新されました。'
+      redirect_to genres_path, notice: '魚が更新されました'
     else
       @genres = Genre.all.order(:name)
       render :index
@@ -33,13 +33,13 @@ class Public::GenresController < ApplicationController
 
   def destroy
     @genre.destroy
-    redirect_to genres_path, notice: '魚が削除されました。'
+    redirect_to genres_path, notice: '魚が削除されました'
   end
 
   private
 
   def set_genre
-    @genre = Genre.find(params[:id])
+    @genre = current_customer.genres.find(params[:id])
   end
 
   def genre_params

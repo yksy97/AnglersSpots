@@ -7,6 +7,7 @@ class Public::CustomersController < ApplicationController
   @customer = Customer.find(params[:id])
   @posts = @customer.posts
   @my_posts = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+  # @favorites = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   @post = Post.new
   end
   
@@ -54,7 +55,7 @@ class Public::CustomersController < ApplicationController
   def ensure_guest_customer
   @customer = Customer.find(params[:id])
   if @customer.guest_customer?
-    redirect_to customer_path(current_customer), alert: 'ゲストカスタマーはプロフィールを編集できません。'
+    redirect_to customer_path(current_customer), alert: 'ゲストカスタマーはプロフィールを編集できません'
   end
   end
   
