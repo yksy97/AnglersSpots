@@ -9,7 +9,7 @@ end
 def index
   @tackles = current_customer.tackles.order(created_at: :desc).page(params[:page]).per(5)
   @tackle = Tackle.new
-  @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+  # @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
 end
 
 def create
@@ -31,7 +31,7 @@ end
 
 def edit
   @tackle = Tackle.find(params[:id])
-  @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+  # @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
 end
 
 def update

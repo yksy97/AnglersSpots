@@ -14,9 +14,9 @@
 <!--カードボディ-->
 <div class="modal-body" style="background-color: #f0f9fa;">
   <% if @favorites.present? %>
-    <% @favorites.each do |favorite| %>
-      <h6><%= link_to favorite.title, post_path(favorite) %></h6>
-    <% end %>
+    <div id="favorites">
+      <%= render 'public/favorites/index', favorites: @favorites %>
+    </div>
   <% else %>
     <p class="text-center">いいねをつけた投稿がありません</p>
   <% end %>

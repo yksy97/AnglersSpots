@@ -13,13 +13,15 @@ def index
     @posts = Rig.find(params[:rig_id]).posts.includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
   elsif params[:location]
     @posts = Post.where(location: params[:location]).includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
+  elsif params[:genre_name]
+    @posts = Post.where(genre_name: params[:genre_name]).includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
   else
     @posts = Post.includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
   end
   @post = Post.new
   @genres = Genre.order(:name)
   @tackles = Tackle.all
-  @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+  # @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
 end
 
 def show
@@ -27,7 +29,7 @@ def show
   @customer = @post.customer
   @post_comment = PostComment.new
   @post_comments = @post.post_comments.order(created_at: :desc)
-  @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+  # @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
 end
 
 def create

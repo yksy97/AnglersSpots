@@ -78,7 +78,7 @@ class Post < ApplicationRecord
     if image.attached?
       image
     else
-      '/assets/no_image.jpg'
+      'no_image.jpg'
     end
   end
   

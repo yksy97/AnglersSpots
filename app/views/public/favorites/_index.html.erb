@@ -1,0 +1,3 @@
+<% favorites.each do |favorite| %>
+  <h6><%= link_to favorite.post.title, post_path(favorite) %></h6>
+<% end %>

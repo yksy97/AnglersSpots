@@ -5,7 +5,7 @@ class Public::GenresController < ApplicationController
   def index
     @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(20)
     @genre = current_customer.genres.new
-    @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+    # @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   end
     
   def create
