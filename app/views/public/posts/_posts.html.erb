@@ -7,33 +7,32 @@
   
 <!--カードヘッダー-->
 <div class="card-header mt-0 mb-0" style="background-color: white;">
- <div class="d-flex justify-content-between align-items-center">
-  <div>
-    
-    <!--タイトル、10文字の制限を適用-->
-    <h5><%= truncate(post.title, length: 10) %></h5>
-    
-    <!--魚の名前　10文字より長い名前は省略形-->
-    <% if post.genre_name.present? %>
-      <h5 class="mb-0" style="color: #117a8b;">
-        <%= link_to truncate(post.genre_name, length: 10), post_path(post), class: "text-dark font-weight-bold", style: "font-size: calc(10px + .5vw)" %>
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <!--タイトル、10文字まで表示-->
+      <h5>
+        <%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %>
       </h5>
-    <% else %>
-      <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
-    <% end %>
-
-  </div>
-
-  <!--投稿日と釣り場-->
-  <div class="d-flex flex-column align-items-end">
-    <div class="text-right" style="font-size: 0.9rem;">
-      <%= time_ago_in_words(post.created_at) %>前
+      <!--魚の名前、10文字まで表示-->
+      <% if post.genre_name.present? %>
+        <h6 class="mb-0" style="font-size: 1rem;">
+          <%= link_to truncate(post.genre_name, length: 10), posts_path(genre_name: post.genre_name), class: "text-dark"%>
+        </h6>
+      <% else %>
+        <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+      <% end %>
     </div>
-    <div class="text-right" style="font-size: 0.9rem;">
-      ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
+
+    <!-- 投稿日と釣り場 -->
+    <div class="d-flex flex-column align-items-end">
+      <div class="text-right" style="font-size: 0.9rem;">
+        <%= time_ago_in_words(post.created_at) %>前
+      </div>
+      <div class="text-right" style="font-size: 0.9rem;">
+        ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <!--カードボディ-->

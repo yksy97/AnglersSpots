@@ -5,6 +5,7 @@ class Public::GenresController < ApplicationController
   def index
     @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(20)
     @genre = current_customer.genres.new
+    @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   end
     
   def create
@@ -34,17 +35,6 @@ class Public::GenresController < ApplicationController
     @genre.destroy
     redirect_to genres_path, notice: '魚が削除されました'
   end
-
-
-# TODO: これだと魚と関連する投稿の削除を防ぎ、魚種がnilになることを防ぐが、現状投稿と関連してないすべてのジャンルが削除できない
-  # def destroy
-  #   if @genre.posts.blank?
-  #     @genre.destroy
-  #     redirect_to genres_path, notice: '魚が削除されました'
-  #   else
-  #     redirect_to genres_path, notice: '関連する投稿が存在します'
-  #   end
-  # end
 
   private
 

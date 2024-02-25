@@ -3,6 +3,7 @@ class Public::NotificationsController < ApplicationController
   
   def index
     @notifications = current_customer.notifications.order(created_at: :desc)
+    @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def update

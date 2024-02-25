@@ -22,13 +22,6 @@
   <small class="form-text text-muted">過去に投稿した魚は既存から選択できます</small>
 </div>
 
-<!--タイトルフォーム-->
-<div class="form-group">
-  <%= f.label :title, "タイトル" %>
-  <%= f.text_field :title, class: "form-control", required: true %>
-  <div class="invalid-feedback">入力してください</div>
-</div>
-
 <!--魚種フォーム-->
 <div id="newGenreInput" class="mb-3" style="display: none;">
   <%= f.label :new_genre_name, "新規の魚" %>
@@ -37,6 +30,13 @@
 <div id="existingGenreSelect" class="mb-3" style="display: none;">
   <%= f.label :genre_name, "魚を選択" %>
   <%= f.collection_select :genre_name, Genre.order(:name), :name, :name, {include_blank: true}, class: "custom-select" %>
+</div>
+
+<!--タイトルフォーム-->
+<div class="form-group">
+  <%= f.label :title, "投稿のタイトル" %>
+  <%= f.text_field :title, class: "form-control", required: true %>
+  <div class="invalid-feedback">入力してください</div>
 </div>
 
 <!--釣り方フォーム-->

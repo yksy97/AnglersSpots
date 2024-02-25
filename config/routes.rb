@@ -56,7 +56,7 @@ scope module: :public do
 
   resources :posts, only: [:new, :index, :show, :edit, :create, :destroy, :update] do
     resources :post_comments, only: [:create, :edit, :destroy, :update]
-    resource :favorites, only: [:create, :destroy]
+    resource :favorites, only: [:index, :create, :destroy]
     member do
       patch 'tackle_selection', to: 'posts#tackle_selection'
     end

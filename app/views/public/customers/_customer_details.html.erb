@@ -31,13 +31,13 @@
       <% end %>
 
       <!--魚-->
-      <p class="mb-2" style="word-break: break-all;"><strong>好きな魚：</strong><%= customer.favorite_fish %></p>
+      <p class="mb-2" style="word-break: break-all;"><strong>好きな魚</strong><%= simple_format(customer.favorite_fish) %></p>
 
       <!--釣り方-->
-      <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り方：</strong><%= customer.favorite_rig %></p>
+      <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り方</strong><%= simple_format(customer.favorite_rig) %></p>
 
       <!--釣り場-->
-      <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り場：</strong><%= customer.favorite_location %></p>
+      <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り場</strong><%= simple_format(customer.favorite_location) %></p>
 
       <!--自己紹介-->
       <p class="mb-2"><strong>自己紹介</strong></p>

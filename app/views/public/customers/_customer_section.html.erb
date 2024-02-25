@@ -34,6 +34,11 @@
     <i class="fa-regular fa-bell ml-2"></i>
   </div>
   <% end %>
+  
+   <!-- いいねモーダルボタン、左側に隙間を設ける -->
+  <a href="#" data-toggle="modal" data-target="#favoritesModal" style="margin-left: 10px;">
+    <i class="fas fa-heart" style="color: red;"></i>
+  </a>
 
 <!--20行目の閉じタグ-->
 </div>
@@ -84,3 +89,4 @@
 <!--新規タックルモーダル-->
 <%= render 'public/tackles/tackles_modal' %>
 
+<%= render "public/favorites/favorites_modal", fovorites: @favorites %>

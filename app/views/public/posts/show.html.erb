@@ -17,15 +17,21 @@
 <div class="card">
 <!--カードヘッダー-->
 <div class="card-header" style="background-color: white;">
-
-<!--投稿日-->
+<!--投稿日とタイトル-->
 <div class="row align-items-center my-2">
   <div class="col text-left">
-    <h5><%= truncate(@post.title, length: 10) %></h5>
+    <div class="d-flex align-items-center">
+      <!-- タイトル -->
+      <h4 class="mb-0">『 <%= truncate(@post.title, length: 20) %> 』</h4>
+    
+      <!-- 編集ボタン -->
+      <% if current_customer == @post.customer %>
+        <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success btn-sm ml-3' %>
+      <% end %>
+  </div>
   </div>
   <div class="col text-right">
     <h6>
-      <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i>
       <%= l @post.created_at, format: :custom_long %>
     </h6>
   </div>
@@ -33,9 +39,10 @@
 
 <!--会員名とフォローボタン-->
 <div class="row align-items-center my-2">
-  <div class="col">
+  <div class="col ml-3">
+    <!--会員名-->
     <h5><%= @post.customer.name %></h5>
-    <div><%= truncate(@customer.introduction, length: 15, omission: '...') %></div>
+    <p><%= truncate(@customer.introduction, length: 15, omission: '...') %></p>
   </div>
   <div class="col text-right">
     <!--フォローボタンの有無によるボタンサイズの違いによる段差を解消-->
@@ -66,13 +73,6 @@
   
 <!--カードボディ-->
 <div class="card-body">       
-
-<div class="col text-left">
-    <% if current_customer == @post.customer %>
-    <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
-    <% end %>
-  </div>
-  
 <!-- 画像 -->
 <div class="my-3">
   <% if @post.image.attached? %>
@@ -97,7 +97,7 @@
   <!--釣り場-->
   <div class="col">
    <h5>釣り場</h5>
-    <h3 class="mb-0">＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
+    <h3 class="mb-0"><%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
     </h5>
   </div>
 </div>

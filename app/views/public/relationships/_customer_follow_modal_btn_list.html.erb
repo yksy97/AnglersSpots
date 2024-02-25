@@ -1,23 +1,20 @@
 <!--リレーションシップモーダルのフォロワー一覧-->
 <% if current_customer.followers.exists? %>
-  <tr>
-    <th>名前</th>
-    <th></th>
-  </tr>
-<% current_customer.followers.each do |follower| %>
-  <tr>
-    <td><%= link_to follower.name, customer_path(follower), class: 'text-dark' %> さん</td>
-    <td id="follow_btn_<%= current_customer.id %>">
-      <% if current_customer.following?(follower) %>
-        <%= link_to 'フォロー解除', customer_relationships_path(follower), method: :delete, remote: true, class: 'btn btn-danger btn-sm' %>
-      <% else %>
-        <%= link_to 'フォローする', customer_relationships_path(follower), method: :post, remote: true, class: 'btn btn-primary btn-sm' %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
+  <% current_customer.followers.each do |follower| %>
+    <tr>
+      <td><%= link_to follower.name, customer_path(follower), class: 'text-dark' %> さん</td>
+      <td><%= link_to '詳細', customer_path(follower), class: 'btn btn-sm btn-outline-primary' %></td>
+      <td id="follow_btn_<%= follower.id %>">
+        <% if current_customer.following?(follower) %>
+          <%= link_to 'フォロー解除', customer_relationships_path(follower), method: :delete, remote: true, class: 'btn btn-danger btn-sm' %>
+        <% else %>
+          <%= link_to 'フォローする', customer_relationships_path(follower), method: :post, remote: true, class: 'btn btn-primary btn-sm' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
 <% else %>
-   <tr>
-    <td colspan="2" class="text-center">フォロワーがいません</td>
+  <tr>
+    <td colspan="3" class="text-center">フォロワーがいません</td>
   </tr>
 <% end %>

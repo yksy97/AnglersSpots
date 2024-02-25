@@ -42,22 +42,26 @@
 <div class="row">
   <% @genres.each_with_index do |genre, index| %>
     <div class="col-md-3 col-sm-6">
-      <div class="card mb-4">
-        <!--カードヘッダー-->
-        <div class="card-header d-flex justify-content-between flex-nowrap" style="background-color: #AFDFE4;">
-          <% if genre.customer == current_customer %>
-            <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm p-1 m-1', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
-            <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm  p-1 m-1' %>
-          <% end %>
-        </div>
+      <div class="card mb-4 shadow" style="background-color: white; height: 100%;">
         <!--カードボディ-->
-        <div class="card-body text-center" style="background-color: #f0f9fa;">
-          <h4><%= truncate(genre.name, length: 10) %></h4>
+        <div class="card-body text-center d-flex flex-column justify-content-around" style="background-color: white;">
+          <!--魚の名前-->
+          <h4 class="my-4"><%= truncate(genre.name, length: 10) %></h4>
+
+          <!--編集・削除ボタン-->
+          <div class="mt-0 d-flex justify-content-between">
+            <% if genre.customer == current_customer %>
+              <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
+              <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
   <% end %>
 </div>
+
+
 
 <div class="row">
   <div class="col-12 d-flex justify-content-center">

@@ -1,0 +1,26 @@
+<!-- いいね一覧モーダル -->
+<div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+
+<!--カードヘッダー-->
+<div class="modal-header" style="background-color: #AFDFE4">
+  <h5 class="modal-title" id="favoritesModalLabel">いいねした投稿</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<!--カードボディ-->
+<div class="modal-body" style="background-color: #f0f9fa;">
+<% @favorites.each do |favorite| %>
+<%= link_to favorite.post.title, post_path(favorite.post) %><br>
+<% end %>
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+</div>
+</div>
+
+</div>
+</div>
+</div>

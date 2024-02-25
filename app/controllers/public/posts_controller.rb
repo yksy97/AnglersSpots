@@ -19,6 +19,7 @@ def index
   @post = Post.new
   @genres = Genre.order(:name)
   @tackles = Tackle.all
+  @favorites = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
 end
 
 def show
