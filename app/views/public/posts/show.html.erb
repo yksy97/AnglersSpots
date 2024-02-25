@@ -21,9 +21,7 @@
 <!--投稿日-->
 <div class="row align-items-center my-2">
   <div class="col text-left">
-    <% if current_customer == @post.customer %>
-    <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
-    <% end %>
+    <h5><%= truncate(@post.title, length: 10) %></h5>
   </div>
   <div class="col text-right">
     <h6>
@@ -36,7 +34,7 @@
 <!--会員名とフォローボタン-->
 <div class="row align-items-center my-2">
   <div class="col">
-    <h3><%= @post.customer.name %></h3>
+    <h5><%= @post.customer.name %></h5>
     <div><%= truncate(@customer.introduction, length: 15, omission: '...') %></div>
   </div>
   <div class="col text-right">
@@ -67,7 +65,14 @@
 </div>
   
 <!--カードボディ-->
-<div class="card-body">        
+<div class="card-body">       
+
+<div class="col text-left">
+    <% if current_customer == @post.customer %>
+    <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
+    <% end %>
+  </div>
+  
 <!-- 画像 -->
 <div class="my-3">
   <% if @post.image.attached? %>
@@ -82,8 +87,8 @@
   <!--魚種-->
   <div class="col">
     <h5>魚種</h5>
-    <% if @post.genre.present? %>
-      <h2 class="mb-0"><%= @post.genre.name %></h2>
+    <% if @post.genre_name.present? %>
+      <h2 class="mb-0"><%= @post.genre_name %></h2>
     <% else %>
       <!-- もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す -->
       <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>

@@ -27,7 +27,7 @@
       <div class="content">
         <h5 class="mb-0" style="font-size: 2rem; color: #117a8b;">
           <i class="fa-solid fa-fish-fins mr-2"></i>
-          <%= link_to post.genre ? post.genre.name : '', admin_customer_post_path(post.customer, post), class: "text-dark font-weight-bold" %>
+          <%= link_to post.genre_name ? post.genre_name : '', admin_customer_post_path(post.customer, post), class: "text-dark font-weight-bold" %>
         </h5>
       </div>
     </div>

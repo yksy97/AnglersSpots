@@ -10,11 +10,11 @@ end
 
 def index
   if params[:rig_id]
-    @posts = Rig.find(params[:rig_id]).posts.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(5)
+    @posts = Rig.find(params[:rig_id]).posts.includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
   elsif params[:location]
-    @posts = Post.where(location: params[:location]).includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(5)
+    @posts = Post.where(location: params[:location]).includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
   else
-    @posts = Post.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(5)
+    @posts = Post.includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
   end
   @post = Post.new
   @genres = Genre.order(:name)
@@ -31,8 +31,8 @@ end
 def create
   @post = current_customer.posts.build(post_params)
 if params[:post][:new_genre_name].present?
-  genre = Genre.find_or_create_by(name: params[:post][:new_genre_name])
-  @post.genre_id = genre.id
+  genre = Genre.find_or_create_by(name: params[:post][:new_genre_name], customer_id: current_customer.id )
+  @post.genre_name = genre.name
 end
 # 非同期通信
 respond_to do |format|
@@ -41,8 +41,8 @@ respond_to do |format|
     format.html { redirect_to posts_path, notice: "投稿が完了しました" }
     format.js
   else
-  @posts = Post.includes(:customer, :genre).order(created_at: :desc)
-  @my_posts = current_customer.posts.order(created_at: :desc)
+  @posts = Post.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(5)
+  @my_posts = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
   @genres = Genre.order(:name)
   @tackles = Tackle.all
   format.html { render :index }
@@ -87,7 +87,7 @@ end
 private
 
 def post_params
-  params.require(:post).permit(:body, :image, :genre_id, :location, :tackle_id, :rig_list)
+  params.require(:post).permit(:title, :body, :image, :genre_name, :location, :tackle_id, :rig_list)
 end
 
 def ensure_correct_customer

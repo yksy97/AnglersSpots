@@ -105,11 +105,12 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
   end
 
   create_table "posts", force: :cascade do |t|
+    t.string "title"
     t.text "body"
     t.integer "tackle_id"
     t.string "location"
     t.integer "customer_id"
-    t.integer "genre_id"
+    t.string "genre_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
