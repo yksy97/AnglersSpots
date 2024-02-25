@@ -3,19 +3,9 @@
     <div class="col-md-12">
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <div class="row justify-content-between">
+          <div class="row">
             <!--会員情報-->
-            <div class="col-md-8">
-              <%= render 'public/customers/customer_section', customer: current_customer %>
-            </div>
-            <!--検索フォーム-->
-            <div class="col-md-4">
-              <%= search_form_for @q, url: searches_path, class: 'form-inline d-flex justify-content-end' do |f| %>
-                <%= f.label :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, "検索ワード", class: 'sr-only' %>
-                <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワードを入力" %>
-                <%= f.submit '検索', class: 'btn btn-primary ml-2' %>
-              <% end %>
-            </div>
+             <%= render 'public/customers/customer_section', customer: current_customer %>
           </div>
         </div>
       </div>
@@ -23,135 +13,77 @@
   </div>
 
 
-    <!-- 投稿編集セクション -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header" style="background-color: #AFDFE4;">
-          <h2 class="mb-0 text-center">
-            <i class="fa-solid fa-fish-fins mr-2" style="color: #117a8b;"></i>
-            <%= @post.genre.name %>
-          </h2>
+        <div class="card-header text-center" style="background-color: #AFDFE4">
+          <h2><%= @post.genre_name %>の編集</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-color: #f0f9fa;">
           <%= form_with model: @post, local: true do |form| %>
 
+            <!-- 投稿日 -->
+            <div class="form-group">
+              <label>投稿日</label>
+              <h6 class="form-text"><%= l @post.created_at, format: :custom_long %></h6>
+            </div>
+
+            <!-- タイトル -->
+            <div class="form-group">
+              <%= form.label :title, 'タイトル' %>
+              <%= form.text_field :title, class: 'form-control' %>
+            </div>
+
             <!-- 画像 -->
-            <div class="drop-area form-group text-center mb-3">
-              <% if @post.image.attached? %>
-                <%= image_tag @post.image, class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
-              <% else %>
-                <%= image_tag 'no_image.jpg', class: "img-fluid", style: "max-height: 300px; object-fit: cover;" %>
-              <% end %>
-              
-              <div class="form-group d-flex align-items-center mb-3">
-                <i class="fa-solid fa-camera mr-3" style="color: #117a8b;"></i>
-                <div class="custom-file">
-                  <%= form.file_field :image, class: 'custom-file-input', id: "PostsEditInputFile" %>
-                  <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">ここに画像をドラッグ&ドロップまたは選択してください</label>
-                </div>
+            <div class="customer-edit-drop-area form-group">
+              <label for="PostsEditInputFile">画像</label>
+              <div class="custom-file">
+                <%= form.file_field :image, class: 'custom-file-input', id: "PostsEditInputFile" %>
+              <label class="custom-file-label" for="PostsEditInputFile" data-browse="参照">画像を選択してください</label>
               </div>
             </div>
 
-
             <!-- 釣り場 -->
-            <div class="form-group d-flex align-items-center">
-              <i class="fas fa-anchor mr-2" style="color: #717375;"></i>
-              <%= form.text_field :location, class: 'form-control ml-2' %>
+            <div class="form-group">
+              <%= form.label :location, '釣り場' %>
+              <%= form.text_field :location, class: 'form-control' %>
             </div>
 
             <!-- 釣り方 -->
-            <div class="form-group d-flex align-items-center">
-              <i class="fa-solid fa-tags mr-2" style="color: #4d992f;"></i>
-              <%# @post.rigs.each do |rig| %>
-              <%= form.text_field :rig_list, class: 'form-control ml-2' %>
-              <%# end %>
+            <div class="form-group">
+              <%= form.label :rig_list, '釣り方' %>
+              <%= form.text_field :rig_list, class: 'form-control' %>
             </div>
 
             <!-- タックル情報 -->
-            <div class="form-group d-flex align-items-center">
-              <i class="fa-solid fa-gear mr-2" style="color: #3131d6;"></i>
+            <div class="form-group">
+              <%= form.label :tackle_id, 'タックル情報' %>
               <% if current_customer.tackles.exists? %>
-                <!-- タックルが存在する場合、セレクトボックスで選択できるようにする -->
-                <div class="ml-2 mr-auto">
-                <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: "d-flex align-items-center w-100" } do |f| %>
-                  <%= f.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, { class: "custom-select w-auto" } %>
-                <% end %>
-                
-                  <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark' %>
-                </div>
+                <%= form.collection_select :tackle_id, current_customer.tackles, :id, :name, {include_blank: "タックル未選択"}, {class: "custom-select"} %>
               <% else %>
-                <!-- タックルプリセットが存在しない場合、新規登録を促すリンクを表示 -->
-                <div class="ml-auto">
-                  <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link text-dark' %>
-                </div>
+                <%= link_to 'タックル登録はこちらから', new_tackle_path, class: 'btn btn-link' %>
               <% end %>
             </div>
 
-
             <!-- 感想 -->
             <div class="form-group">
-              <i class="fa-solid fa-pencil mr-2" style="color: #000;"></i>
+              <%= form.label :body, '感想' %>
               <%= form.text_area :body, class: 'form-control', rows: 5 %>
             </div>
 
-            <!-- 投稿日 -->
-            <div class="form-group d-flex align-items-center">
-              <small><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l @post.created_at, format: :custom_long %></small>
-            </div>
-            
-            <div class="d-flex justify-content-around mt-3">
-            <!-- 更新ボタン -->
-            <div class="text-center">
-              <%= form.submit '更新する', class: 'btn btn-success' %>
-            </div>
-            <!-- 削除ボタン -->
-            <div class="text-center">
+            <!-- ボタン -->
+            <div class="form-group text-center">
+              <%= form.submit '更新する', class: 'btn btn-primary mr-2' %>
               <%= link_to '削除する', @post, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
-              </div>
             </div>
+
           <% end %>
         </div>
       </div>
     </div>
-    </div>
   </div>
 </div>
 
-
-<script>
-// 画像のドラッグ&ドロップ
-document.addEventListener('DOMContentLoaded', function() {
-  var dropArea = document.querySelector('.drop-area');
-  var inputFile = document.getElementById('PostsEditInputFile');
-
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, preventDefaults, false);
-  });
-
-  function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  // ドロップ時の処理
-  dropArea.addEventListener('drop', handleDrop, false);
-
-  function handleDrop(e) {
-    var dt = e.dataTransfer;
-    var files = dt.files;
-
-    inputFile.files = files;
-
-    // ファイル名を表示
-    var fileName = files[0].name;
-    dropArea.querySelector('.custom-file-label').innerText = fileName;
-  }
-
-  // ファイル選択時の処理
-  inputFile.addEventListener('change', function(e) {
-    var files = inputFile.files;
-    var fileName = files[0].name;
-    dropArea.querySelector('.custom-file-label').innerText = fileName;
-  });
-});
-</script>
+<!--javascript/packs-->
+<%= javascript_pack_tag 'input_customer_image_edit' %>

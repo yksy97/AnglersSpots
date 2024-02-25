@@ -17,17 +17,23 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
-      <% @comments.each do |comment| %>
-      <tr>
-        <td class="break-word"><%= comment.comment %></td>
-        <td class="break-word"><%= comment.customer.email %></td>
-        <td>
-        <%= link_to '削除', admin_post_comment_path(comment), method: :delete, data: { confirm: 'このコメントを削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
+      <tbody>
+        <% if @comments.empty? %>
+          <tr>
+            <td colspan="3" class="text-center">コメントがありません</td>
+          </tr>
+        <% else %>
+          <% @comments.each do |comment| %>
+            <tr>
+              <td class="break-word"><%= comment.comment %></td>
+              <td class="break-word"><%= comment.customer.email %></td>
+              <td>
+                <%= link_to '削除', admin_post_comment_path(comment), method: :delete, data: { confirm: 'このコメントを削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
   </table>
 
 </div>
