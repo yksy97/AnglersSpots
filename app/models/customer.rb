@@ -11,7 +11,7 @@ class Customer < ApplicationRecord
       # セキュアなランダムパスワードを生成
       customer.password = SecureRandom.urlsafe_base64
       # 任意の名前を設定（必要に応じて変更可能）
-      customer.name = "ゲストカスタマー"
+      customer.name = "ゲスト"
       # その他の必要な初期設定があればここに記述
     end
   end
