@@ -28,6 +28,8 @@
   
   <!--カードボディ-->
   <div class="card-body">
+    <% if @customer.tackles.exists? %>
+     <% @customer.tackles.limit(5).each do |tackle| %>
     <table class="table">
       <thead>
         <tr>
@@ -39,8 +41,6 @@
         </tr>
       </thead>
       <tbody>
-      <% if @customer.tackles.exists? %>
-      <% @customer.tackles.limit(5).each do |tackle| %>
       <tr>
         <td><%= tackle.name %></td>
         <td><%= tackle.rod %></td>
