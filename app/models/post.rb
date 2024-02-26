@@ -15,9 +15,10 @@ class Post < ApplicationRecord
   # throughを利用して、rig_postsを通してtagsとの関連付け(中間テーブル)
   #   Post.riggsとすれば、Postに紐付けられたTagの取得が可能
   has_many :rigs, through: :rig_posts
-  # コールバック一（リグの編集）
-  # フォームヘルパー内でリグの編集（追加と削除）をしようとしたとき、
-  # 動作が上手くいかない＆リグがテキストにならないことから質問
+  
+  # rigの編集に必要なコールバック
+  # 投稿詳細の編集画面において、フォームヘルパーの中でリグの編集を行うには工夫が必要
+  # 何もしてないとrig自体がテキストにもならない
   # attr_accessorとattributeは大体同じ働きだが、attributeの方がメンテナンスが高い（けど難しい）
   attr_accessor :rig_list
   
