@@ -1,66 +1,61 @@
-<!--会員情報-->
+<!-- 会員情報 -->
 <div class="container">
-<div class="row align-items-start justify-content-between">
-  
-<!--あいさつ-->
-<div class="col-md">
-  <% japan_time = Time.current.in_time_zone('Tokyo') %>
-  <h5 class="mb-2">今日は<%= l japan_time, format: :custom_short %>です</h5>
-  <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
-  <h5 class="mb-0">おはようございます！</h5>
-  <% elsif japan_time.hour >= 12 && japan_time.hour < 18 %>
-  <h5 class="mb-0">こんにちは！</h5>
-  <% else %>
-  <h5 class="mb-0">こんばんは！</h5>
-  <% end %>
-</div>
-
-<div class="col-md-6 col-lg-3">
-<div class="d-flex align-items-center mb-2">
-
-<!--会員名-->
-<h5 class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h5>
-
-<!--20行目の閉じタグ-->
-</div>
-<!--リレーションシップス一覧のモーダル-->
-<div id="relationship-info">
-  <%= render "public/relationships/customer_follow_modal", customer: current_customer %>
-</div>
-<!--19行目の閉じタグ-->
-</div>
-
-<!-- 新規投稿ボタンとタックル登録ボタン -->
-<div class="col-md-6 col-lg-3">
-  <div class="d-flex">
-    <!-- 新規投稿ボタン -->
-    <button type="button" class="btn btn-primary btn-sm mt-3 mr-3 post-button" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
-    <!-- タックル登録ボタン -->
-    <button type="button" class="btn btn-primary btn-sm mt-3 tackle-button" data-toggle="modal" data-target="#tackleModal">タックル登録</button>
-  </div>
-</div>
-
-
-<!-- 検索フォーム -->
-<div class="col-md-6 col-lg-3 mt-3">
-  <%= search_form_for @q, url: searches_path, class: 'form-inline' do |f| %>
-  <div class="input-group">
-    <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワード" %>
-    <div class="input-group-append">
-      <%= f.submit '検索', class: 'btn btn-primary' %>
+  <div class="row align-items-start justify-content-between">
+    
+    <!-- あいさつ -->
+    <div class="col-md">
+      <% japan_time = Time.current.in_time_zone('Tokyo') %>
+      <h5 class="mb-2">今日は<%= l japan_time, format: :custom_short %>です</h5>
+      <% if japan_time.hour >= 5 && japan_time.hour < 12 %>
+        <h5 class="mb-0">おはようございます！</h5>
+      <% elsif japan_time.hour >= 12 && japan_time.hour < 18 %>
+        <h5 class="mb-0">こんにちは！</h5>
+      <% else %>
+        <h5 class="mb-0">こんばんは！</h5>
+      <% end %>
     </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="d-flex align-items-center mb-2">
+        <!-- 会員名 -->
+        <h5 class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h5>
+      </div>
+      <!-- リレーションシップス一覧のモーダル -->
+      <div id="relationship-info">
+        <%= render "public/relationships/customer_follow_modal", customer: current_customer %>
+      </div>
+    </div>
+
+    <!-- 新規投稿ボタンとタックル登録ボタン -->
+    <div class="col-md-6 col-lg-3">
+      <div class="d-flex">
+        <!-- 新規投稿ボタン -->
+        <button type="button" class="btn btn-primary btn-sm mt-3 mr-3 post-button" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
+        <!-- タックル登録ボタン -->
+        <button type="button" class="btn btn-primary btn-sm mt-3 tackle-button" data-toggle="modal" data-target="#tackleModal">タックル登録</button>
+      </div>
+    </div>
+
+    <!-- 検索フォーム -->
+    <div class="col-md-6 col-lg-3 mt-3">
+      <%= search_form_for @q, url: searches_path, class: 'form-inline' do |f| %>
+        <div class="input-group">
+          <%= f.search_field :rigs_name_or_post_comments_comment_or_genre_name_or_tackle_name_or_tackle_rod_or_tackle_reel_or_tackle_line_or_tackle_bait_cont, class: 'form-control', placeholder: "検索ワード" %>
+          <div class="input-group-append">
+            <%= f.submit '検索', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
   </div>
-  <% end %>
 </div>
 
-</div>
-</div>
-
-<!--リレーションシップスのモーダル-->
+<!-- リレーションシップスのモーダル -->
 <%= render 'public/relationships/relationships_modal' %>
 
 <!-- 新規投稿モーダル -->
 <%= render 'public/posts/NewPostModal' %>
 
-<!--新規タックルモーダル-->
+<!-- 新規タックルモーダル -->
 <%= render 'public/tackles/tackles_modal' %>

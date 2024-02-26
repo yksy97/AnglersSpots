@@ -1,53 +1,53 @@
-<!--タックルモーダル-->
+<!-- タックルモーダル -->
 <div class="modal fade" id="tackleModal" tabindex="-1" role="dialog" aria-labelledby="tackleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
 
-<!--モーダルヘッダー-->
-<div class="modal-header" style="background-color: #AFDFE4;">
-  <h5 class="modal-title" id="tackleModalLabel">新規タックル登録</h5>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+      <!-- モーダルヘッダー -->
+      <div class="modal-header" style="background-color: #AFDFE4;">
+        <h5 class="modal-title" id="tackleModalLabel">新規タックル登録</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
-<!--モーダルボディ-->
-<div class="modal-body" style="background-color: #f0f9fa;">
-<!-- フォーム -->
-<%= form_with model: Tackle.new, remote: true do |form| %>
-<!--タックル-->
-<div class="form-group">
-<%= form.label :name, "タックル名" %>
-<%= form.text_field :name, class: "form-control", required: true %>
-</div>
-<!--ロッド-->
-<div class="form-group">
-<%= form.label :rod, "ロッド" %>
-<%= form.text_field :rod, class: "form-control" %>
-</div>
-<!--リール-->
-<div class="form-group">
-<%= form.label :reel, "リール" %>
-<%= form.text_field :reel, class: "form-control" %>
-</div>
-<!--ライン-->
-<div class="form-group">
-<%= form.label :line, "ライン" %>
-<%= form.text_field :line, class: "form-control" %>
-</div>
-<!--ベイト-->
-<div class="form-group">
-<%= form.label :bait, "ベイト" %>
-<%= form.text_field :bait, class: "form-control" %>
-</div>
+      <!-- モーダルボディ -->
+      <div class="modal-body" style="background-color: #f0f9fa;">
+        <!-- フォーム -->
+        <%= form_with model: Tackle.new, remote: true do |form| %>
+          <!-- タックル -->
+          <div class="form-group">
+            <%= form.label :name, "タックル名" %>
+            <%= form.text_field :name, class: "form-control", required: true %>
+          </div>
+          <!-- ロッド -->
+          <div class="form-group">
+            <%= form.label :rod, "ロッド" %>
+            <%= form.text_field :rod, class: "form-control" %>
+          </div>
+          <!-- リール -->
+          <div class="form-group">
+            <%= form.label :reel, "リール" %>
+            <%= form.text_field :reel, class: "form-control" %>
+          </div>
+          <!-- ライン -->
+          <div class="form-group">
+            <%= form.label :line, "ライン" %>
+            <%= form.text_field :line, class: "form-control" %>
+          </div>
+          <!-- ベイト -->
+          <div class="form-group">
+            <%= form.label :bait, "ベイト" %>
+            <%= form.text_field :bait, class: "form-control" %>
+          </div>
 
-<div class="d-flex justify-content-between">
-<%= form.submit "登録", class: "btn btn-primary" %>
-<!--17行目の閉じタグ-->
-<% end %>
-</div>
-</div>
+          <div class="d-flex justify-content-between">
+            <%= form.submit "登録", class: "btn btn-primary" %>
+          <% end %>
+          <!-- 17行目の閉じタグ -->
+        </div>
+      </div>
 
-</div>
-</div>
+    </div>
+  </div>
 </div>

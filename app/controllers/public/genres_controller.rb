@@ -18,7 +18,6 @@ class Public::GenresController < ApplicationController
   end
 
   def edit
-    
   end
 
   def update

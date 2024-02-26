@@ -5,20 +5,19 @@
         <div class="card-body">
           <div class="row">
             <!--会員情報-->
-             <%= render 'public/customers/customer_section', customer: current_customer %>
+            <%= render 'public/customers/customer_section', customer: current_customer %>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-<!--投稿一覧-->
-<div id="new-posts">
-　<%= render "public/posts/posts", post: @post %>
-</div>
+  <!--投稿一覧-->
+  <div id="new-posts">
+    <%= render "public/posts/posts", post: @post %>
+  </div>
   <%= paginate @posts %>
 </div>
 
 <!--javascript/packs-->
 <%= javascript_pack_tag 'input_image' %>
-

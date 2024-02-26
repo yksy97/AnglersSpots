@@ -17,12 +17,12 @@
     <% end %>
 
     <div class="mt-4">
-      <!--名前-->
+      <!-- 名前 -->
       <div class="email mb-2" style="word-break: break-all;">
         <h3><%= customer.name %></h3>
       </div>
 
-      <!--メールアドレス（現在ログインしているユーザーしか見えない）-->
+      <!-- メールアドレス（現在ログインしているユーザーしか見えない） -->
       <% if customer == current_customer %>
         <p class="mb-2"><strong>Email</strong></p>
         <div class="email mb-2" style="word-break: break-all;">
@@ -30,25 +30,25 @@
         </div>
       <% end %>
 
-      <!--魚-->
+      <!-- 魚 -->
       <p class="mb-2" style="word-break: break-all;"><strong>好きな魚</strong><%= simple_format(customer.favorite_fish) %></p>
 
-      <!--釣り方-->
+      <!-- 釣り方 -->
       <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り方</strong><%= simple_format(customer.favorite_rig) %></p>
 
-      <!--釣り場-->
+      <!-- 釣り場 -->
       <p class="mb-2" style="word-break: break-all;"><strong>好きな釣り場</strong><%= simple_format(customer.favorite_location) %></p>
 
-      <!--自己紹介-->
+      <!-- 自己紹介 -->
       <p class="mb-2"><strong>自己紹介</strong></p>
       <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
         <%= simple_format(customer.introduction) %>
       </div>
-      <!--編集モーダルボタン-->
+      <!-- 編集モーダルボタン -->
       <% if !@customer.guest_customer? && current_customer == @customer %>
       <div class="text-center">
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#EditCustomerModal">
-        編集
+          編集
         </button>
       </div>
       <% end %>
