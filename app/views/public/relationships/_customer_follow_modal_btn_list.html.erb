@@ -1,4 +1,6 @@
-<!--リレーションシップモーダルのフォロワー一覧-->
+<!--「_relationships_modal.html.erb」の４７行目にレンダリング-->
+<!--「_customer_section.html」の「フォロー０　フォロワー０」のモーダル画面、フォロワー一覧の「フォローする」ボタン-->
+
 <% if current_customer.followers.exists? %>
   <% current_customer.followers.each do |follower| %>
     <tr>
