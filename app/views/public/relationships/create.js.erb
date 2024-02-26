@@ -1,8 +1,28 @@
-<!--投稿一覧-->
+<!--[ 1 ]-->
 $(".relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
-<!--会員情報-->
+<!--「relationships/_customer_follow_btn.html.erb」の記述-->
+
+<!--この非同期通信は、下記の３箇所で使われている-->
+
+<!--「posts/_posts.html.erb」の８９行目にレンダリング-->
+<!--「posts/index.html.erb」の「posts/_posts.html.erb」の投稿に表示されてる「フォローする」ボタン部分-->
+
+<!--「posts/show.html.erb」の４７行目にレンダリング-->
+<!--「posts/show.html.erb」の投稿詳細に表示されてる「フォローする」ボタン部分-->
+
+<!--「customers/show.html.erb」の１５７行目にレンダリング-->
+<!--「cusutomers/show.html.erb」の会員詳細の投稿一覧に表示されてる「フォローする」ボタン部分-->
+
+
+<!--[ 2 ]-->
 $("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal', customer: current_customer) %>");
-<!--モーダルのリレーションシップボタン-->
+<!--「rerationships/_customer_follow_modal.html.erb」の記述-->
+<!--この非同期通信は、「customers/_customer_section.html.erb」の「フォロー０　フォロワー０」のカウント部分を更新するためのもの-->
+<!--「rerationships/_customer_follow_modal.html.erb」は「customers/_customer_section.html.erb」の４７行目にレンダリング-->
+
+
+<!--[ 3 ]-->
 $("#modal_follow_btn_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal_btn_list') %>");
-<!--モーダルのリレーションシップリスト-->
-$("#relationships_modal_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/relationships_modal') %>")
+<!--「rerationships/_customer_follow_modal_btn_list.html.erb」の記述-->
+<!--この非同期通信は、「_customer_section.html」の「フォロー０　フォロワー０」のモーダル画面の、フォロワー一覧の「フォローする」ボタン-->
+<!--「rerationships/_relationships_modal.html.erb」の４５行目にレンダリング-->

@@ -1,8 +1,8 @@
-<!--投稿一覧-->
+<!--[ 1 ]-->
 $(".relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");
-<!--会員情報-->
+
+<!--[ 2 ]-->
 $("#relationship-info").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal', customer: current_customer) %>");
 
+<!--[ 3 ]-->
 $("#modal_follow_btn_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/customer_follow_modal_btn_list') %>");
-
-$("#relationships_modal_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/relationships_modal') %>")

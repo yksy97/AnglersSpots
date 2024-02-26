@@ -5,6 +5,9 @@ def create
   @favorite = current_customer.favorites.new(post_id: post.id)
   @favorite.save
   
+  # modelに記述したメゾットをここで呼び出す。なお、if end構文は1行なら、メゾットの後ろにifを書いてもOK
+  @favorite.create_notification if current_customer.id != post.customer_id
+  
   @favorites = current_customer.favorites.includes(:post).order(created_at: :desc)
   
   respond_to do |format|
