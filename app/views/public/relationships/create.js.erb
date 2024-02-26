@@ -3,6 +3,7 @@ $(".relationship-btn<%= @customer.id %>").html("<%= escape_javascript(render 'pu
 <!--「relationships/_customer_follow_btn.html.erb」の記述-->
 
 <!--この非同期通信は、下記の３箇所で使われている-->
+
 <!--「posts/_posts.html.erb」の８９行目にレンダリング-->
 <!--「posts/index.html.erb」の「posts/_posts.html.erb」の投稿に表示されてる「フォローする」ボタン部分-->
 
@@ -25,9 +26,3 @@ $("#modal_follow_btn_<%= current_customer.id %>").html("<%= escape_javascript(re
 <!--「rerationships/_customer_follow_modal_btn_list.html.erb」の記述-->
 <!--この非同期通信は、「_customer_section.html」の「フォロー０　フォロワー０」のモーダル画面の、フォロワー一覧の「フォローする」ボタン-->
 <!--「rerationships/_relationships_modal.html.erb」の４５行目にレンダリング-->
-
-
-<!--[ 4 ]-->
-$("#relationships_modal_<%= current_customer.id %>").html("<%= escape_javascript(render 'public/relationships/relationships_modal') %>")
-<!--「rerationships/_relationships_modal.html.erb」の記述-->
-<!--「customers/_customer_section.html.erb」の８３行目にレンダリング-->

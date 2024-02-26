@@ -15,11 +15,12 @@ class Post < ApplicationRecord
   # throughを利用して、rig_postsを通してtagsとの関連付け(中間テーブル)
   #   Post.riggsとすれば、Postに紐付けられたTagの取得が可能
   has_many :rigs, through: :rig_posts
-  # コールバック一連（リグの編集）
+  # コールバック一（リグの編集）
   # フォームヘルパー内でリグの編集（追加と削除）をしようとしたとき、
   # 動作が上手くいかない＆リグがテキストにならないことから質問
   # attr_accessorとattributeは大体同じ働きだが、attributeの方がメンテナンスが高い（けど難しい）
   attr_accessor :rig_list
+  
   after_find :rigs_to_rig_list
   def rigs_to_rig_list
     # rails c とbeybug使って、self.rigs.map{|o| o.name }.join(" ")の動作を確認
@@ -42,8 +43,7 @@ class Post < ApplicationRecord
   end  
   
   validate :validate_genre_presence
-  #タイトルの文字数制限は、「 , length: { maximum: 20 }」
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 500 }
   validates :location, presence: true
   

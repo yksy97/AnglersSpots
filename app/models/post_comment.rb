@@ -2,6 +2,7 @@ class PostComment < ApplicationRecord
   belongs_to :customer
   belongs_to :post
   validates :comment, presence: true
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
 # リプライ機能
 # 自己参照の関連付け

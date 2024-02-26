@@ -1,7 +1,7 @@
 <% favorites.each do |favorite| %>
 <div class="d-flex justify-content-between align-items-center mb-2">
 <h6>
-  『 <%= link_to favorite.post.title, post_path(favorite), class: "favorite-text" %> 』
+  『 <%= link_to favorite.post.title, post_path(favorite.post.id), class: "favorite-text" %> 』
   ＠ <%= link_to favorite.post.customer.name, customer_path(favorite.post.customer.id) %>
 </h6>
 </div>

@@ -22,8 +22,14 @@
       </div>
       <!--カードボディ-->
       <div class="card-body">
-        <% if @notifications.where(notifiable_type: 'Favorite').where.not(customer_id: current_customer.id).exists? %>
-          <% @notifications.where(notifiable_type: 'Favorite').where.not(customer_id: current_customer.id).each do |notification| %>
+          <!--通知のリスト-->
+          <!--自分のアクションを通知させない目的で、「where.not(customer_id: current_customer.id)」を使ってはいけない-->
+          <!--理由：通知機能は通知を受け取る側の「customer_id」が必要となるため、自分の通知は送るのも受け取るのも自分の「customer_id」であり、
+          それを「where.notで除外するとそもそも通知が反映されなくなってしまう」-->
+          <!--すなわち、通知機能において、「where.not(customer_id: current_customer.id)」では自分と他人の区別ができない-->
+          
+        <% if @notifications.where(notifiable_type: 'Favorite').any? %>
+          <% @notifications.where(notifiable_type: 'Favorite').each do |notification| %>
           <div class="notification p-2 mb-2 border rounded">
           <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
           <i class="fas fa-heart mr-2 text-danger"></i>
@@ -45,8 +51,8 @@
       </div>
       <!--カードボディ-->
       <div class="card-body">
-        <% if @notifications.where(notifiable_type: 'PostComment').where.not(customer_id: current_customer.id).exists? %>
-        <% @notifications.where(notifiable_type: 'PostComment').where.not(customer_id: current_customer.id).each do |notification| %>
+        <% if @notifications.where(notifiable_type: 'PostComment').any? %>
+        <% @notifications.where(notifiable_type: 'PostComment').each do |notification| %>
         <div class="notification p-2 mb-2 border rounded">
           <%= link_to post_path(notification.notifiable.post_id), class: "d-flex align-items-center text-dark text-decoration-none" do %>
           <i class="fas fa-comments mr-2 text-warning"></i>
@@ -68,8 +74,8 @@
       </div>
       <!--カードボディ-->
       <div class="card-body">
-        <% if @notifications.where(notifiable_type: 'Post').where.not(customer_id: current_customer.id).exists? %>
-        <% @notifications.where(notifiable_type: 'Post').where.not(customer_id: current_customer.id).each do |notification| %>
+        <% if @notifications.where(notifiable_type: 'Post').any? %>
+        <% @notifications.where(notifiable_type: 'Post').each do |notification| %>
         <div class="notification p-2 mb-2 border rounded">
           <%= link_to post_path(notification.notifiable), class: "d-flex align-items-center text-dark text-decoration-none" do %>
           <i class="fas fa-upload mr-2 text-primary"></i>

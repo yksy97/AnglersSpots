@@ -20,25 +20,6 @@
 
 <!--会員名-->
 <h5 class="mb-0"><%= link_to "#{current_customer.name} さん", customer_path(current_customer), class: "text-dark" %></h5>
-<!--通知の条件分岐-->
-<% notifications_count = current_customer.notifications.where(read: false).where.not(customer_id: current_customer.id).count %>
-  <% if notifications_count > 0 %>
-  <!--通知あり-->
-  <div type="button" data-toggle="modal" data-target="#notificationsModal" style="display: inline; color: yellow;">
-    <i class="fa-regular fa-bell ml-2" style="margin-right: 0.3rem;"></i>
-    <span style="margin-left: 0.3rem;"><%= notifications_count %></span>
-  </div>
-  <% else %>
-  <!--通知なし-->
-  <div type="button" data-toggle="modal" data-target="#notificationsModal" style="display: inline; color: grey;">
-    <i class="fa-regular fa-bell ml-2"></i>
-  </div>
-  <% end %>
-  
-   <!-- いいねモーダルボタン-->
-  <a href="#" data-toggle="modal" data-target="#favoritesModal" style="margin-left: 10px;">
-    <i class="fas fa-heart" style="color: red;"></i>
-  </a>
 
 <!--20行目の閉じタグ-->
 </div>
@@ -52,8 +33,10 @@
 <!-- 新規投稿ボタンとタックル登録ボタン -->
 <div class="col-md-6 col-lg-3">
   <div class="d-flex">
+    <!-- いいねボタン-->
+    <button type="button" class="btn btn-primary btn-sm mt-3 mr-1 post-button" data-toggle="modal" data-target="#favoritesModal">いいね</button>
     <!-- 新規投稿ボタン -->
-    <button type="button" class="btn btn-primary btn-sm mt-3 mr-3 post-button" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
+    <button type="button" class="btn btn-primary btn-sm mt-3 mr-1 post-button" data-toggle="modal" data-target="#NewPostModal">新規投稿</button>
     <!-- タックル登録ボタン -->
     <button type="button" class="btn btn-primary btn-sm mt-3 tackle-button" data-toggle="modal" data-target="#tackleModal">タックル登録</button>
   </div>
@@ -74,9 +57,6 @@
 
 </div>
 </div>
-
-<!--通知のモーダル-->
-<%= render 'public/notifications/notifications_modal' %>
 
 <!--リレーションシップスのモーダル-->
 <div id="relationships_modal_<%= current_customer.id %>">
