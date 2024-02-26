@@ -56,12 +56,14 @@ scope module: :public do
 
   resources :posts, only: [:new, :index, :show, :edit, :create, :destroy, :update] do
     resources :post_comments, only: [:create, :edit, :destroy, :update]
-    resource :favorites, only: [:index, :create, :destroy]
+    resource :favorites, only: [:create, :destroy]
     member do
       patch 'tackle_selection', to: 'posts#tackle_selection'
     end
   end
 
+  resources :favorites, only: [:index]
+  
   resources :notifications, only: [:index]
 
   resources :genres, only: [:index, :create, :edit, :update, :destroy] do

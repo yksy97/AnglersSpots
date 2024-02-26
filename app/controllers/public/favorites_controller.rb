@@ -1,5 +1,10 @@
 class Public::FavoritesController < ApplicationController
   before_action :authenticate_customer!
+
+def index
+  @favorites = current_customer.favorites.includes(:post).order(created_at: :desc)
+end
+
 def create
   post = Post.find(params[:post_id])
   @favorite = current_customer.favorites.new(post_id: post.id)

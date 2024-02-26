@@ -1,0 +1,12 @@
+<% favorites.each do |favorite| %>
+  <div class="media mb-3">
+    <div class="media-body">
+      <h5 class="mt-0">
+        <%= link_to favorite.post.title, post_path(favorite.post.id), class: "text-dark" %>
+      </h5>
+      投稿者 <%= link_to favorite.post.customer.name, customer_path(favorite.post.customer.id), class: "text-dark" %> さん
+    </div>
+  </div>
+<% end %>
+
+
