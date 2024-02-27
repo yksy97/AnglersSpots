@@ -10,13 +10,13 @@ class Public::PostsController < ApplicationController
   
   def index
     if params[:rig_id]
-      @posts = Rig.find(params[:rig_id]).posts.includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
+      @posts = Rig.find(params[:rig_id]).posts.includes(:customer).order(created_at: :desc).page(params[:page]).per(6)
     elsif params[:location]
-      @posts = Post.where(location: params[:location]).includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
+      @posts = Post.where(location: params[:location]).includes(:customer).order(created_at: :desc).page(params[:page]).per(6)
     elsif params[:genre_name]
-      @posts = Post.where(genre_name: params[:genre_name]).includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
+      @posts = Post.where(genre_name: params[:genre_name]).includes(:customer).order(created_at: :desc).page(params[:page]).per(6)
     else
-      @posts = Post.includes(:customer).order(created_at: :desc).page(params[:page]).per(5)
+      @posts = Post.includes(:customer).order(created_at: :desc).page(params[:page]).per(6)
     end
     @post = Post.new
     @genres = Genre.order(:name)
@@ -42,8 +42,8 @@ class Public::PostsController < ApplicationController
         format.html { redirect_to posts_path, notice: "投稿が完了しました" }
         format.js
       else
-        @posts = Post.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(5)
-        @my_posts = current_customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+        @posts = Post.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(6)
+        @my_posts = current_customer.posts.order(created_at: :desc).page(params[:page]).per(6)
         @genres = Genre.order(:name)
         @tackles = Tackle.all
         format.html { render :index }

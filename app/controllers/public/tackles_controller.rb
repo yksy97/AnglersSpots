@@ -7,7 +7,7 @@ class Public::TacklesController < ApplicationController
   end
 
   def index
-    @tackles = current_customer.tackles.order(created_at: :desc).page(params[:page]).per(5)
+    @tackles = current_customer.tackles.order(created_at: :desc).page(params[:page]).per(4)
     @tackle = Tackle.new
   end
 
