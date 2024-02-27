@@ -36,6 +36,7 @@ class Public::PostsController < ApplicationController
       genre = Genre.find_or_create_by(name: params[:post][:new_genre_name], customer_id: current_customer.id )
       @post.genre_name = genre.name
     end
+    # byebug
     respond_to do |format|
       if @post.save
         @post.save_rigs(params[:post][:rig_list])
