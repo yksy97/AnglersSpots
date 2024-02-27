@@ -29,7 +29,7 @@
           </div>
           <div id="existingGenreSelect" class="mb-3" style="display: none;">
             <%= f.label :genre_name, "魚を選択" %>
-            <%= f.collection_select :genre_name, Genre.order(:name), :name, :name, {include_blank: true}, class: "custom-select" %>
+            <%= f.collection_select :genre_name, current_customer.genres.order(:name), :name, :name, {include_blank: true}, class: "custom-select" %>
           </div>
 
           <!--タイトルフォーム-->
@@ -92,10 +92,7 @@
           <div class="modal-footer" style="background-color: #f0f9fa;">
             <%= f.submit "投稿", class: "btn btn-primary", id: "submitBtn" %>
           </div>
-
-          <!--15行目の閉じタグ-->
         <% end %>
-        <!--14行目のボディ閉じタグ-->
       </div>
     </div>
   </div>
