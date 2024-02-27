@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <div class="row">
-    <!--会員情報カード-->
+    <!-- 会員情報カード -->
     <div class="col-md-12">
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <!--いいね一覧-->
+    <!-- いいね一覧 -->
     <div class="col-md-8 mx-auto">
       <div class="card mb-4 shadow-sm">
         <div class="card-header" style="background-color: #AFDFE4;">
@@ -20,10 +20,10 @@
         <div class="card-body">
           <% if @favorites.present? %>
             <div id="favorites">
-            <%= render 'public/favorites/favorites_index', favorites: @favorites %>
+              <%= render 'public/favorites/favorites_index', favorites: @favorites %>
             </div>
-            <% else %>
-            <p class="text-center">いいねをつけた投稿がありません</p>
+          <% else %>
+            <p class="text-center">いいねした投稿がありません</p>
           <% end %>
         </div>
       </div>

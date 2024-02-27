@@ -5,102 +5,90 @@
         <div class="card-body">
           <div class="row">
             <!--会員情報-->
-             <%= render 'public/customers/customer_section', customer: current_customer %>
+            <%= render 'public/customers/customer_section', customer: current_customer %>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-<div class="container">
-<!--魚種登録フォーム-->
-<div class="row justify-content-center">
-<div class="col-md-12">
-<div class="card mb-3">
-
-<!--カードヘッダー-->
-<div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-　<h2>魚種登録</h2>
-</div>
-
-<!--カードボディ-->
-<div class="card-body">
-  <%= form_with model: @genre, local: true, class: 'form-inline justify-content-center' do |form| %>
-    <div class="form-group mr-2">
-    <%= form.label :name, "魚種", class: 'mr-2' %>
-    <%= form.text_field :name, class: 'form-control' %>
-    </div>
-  <%= form.submit "登録", class: 'btn btn-primary' %>
-  <% end %>
-</div>
-
-</div>
-</div>
-</div>
-
-<!--魚種一覧のグリッド表示-->
-<div class="row">
-  <% @genres.each_with_index do |genre, index| %>
-    <div class="col-md-3 col-sm-6">
-      <div class="card mb-4 shadow" style="background-color: white; height: 100%;">
-        <!--カードボディ-->
-        <div class="card-body text-center d-flex flex-column justify-content-around" style="background-color: white;">
-          <!--魚の名前-->
-          <h4 class="my-4"><%= truncate(genre.name, length: 10) %></h4>
-
-          <!--編集・削除ボタン-->
-          <div class="mt-0 d-flex justify-content-between">
-            <% if genre.customer == current_customer %>
-              <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
-              <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+  <div class="container">
+    <!--魚種登録フォーム-->
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="card mb-3">
+          <!--カードヘッダー-->
+          <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+            <h2>魚種登録</h2>
+          </div>
+          <!--カードボディ-->
+          <div class="card-body">
+            <%= form_with model: @genre, local: true, class: 'form-inline justify-content-center' do |form| %>
+              <div class="form-group mr-2">
+                <%= form.label :name, "魚種", class: 'mr-2' %>
+                <%= form.text_field :name, class: 'form-control' %>
+              </div>
+              <%= form.submit "登録", class: 'btn btn-primary' %>
             <% end %>
           </div>
         </div>
       </div>
     </div>
-  <% end %>
-</div>
 
-
-
-<div class="row">
-  <div class="col-12 d-flex justify-content-center">
-  <%= paginate @genres %>
-  </div>
-</div>
-
-<!--15行目の閉じタグ-->
-</div>
-</div>
-
-
-<!--魚種編集モーダル-->
-<% @genres.each do |genre| %>
-<div class="modal fade" id="genreModal<%= genre.id %>" tabindex="-1" role="dialog" aria-labelledby="genreModalLabel<%= genre.id %>" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      
-      <!--カードヘッダー-->
-      <div class="modal-header" style="background-color: #AFDFE4">
-        <h5 class="modal-title" id="genreModalLabel<%= genre.id %>">魚種の編集</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <!--カードボディ-->
-      <div class="modal-body" style="background-color: #f0f9fa;">
-        <%= form_with model: genre, local: true do |form| %>
-        <div class="form-group mb-0">
-          <%= form.text_field :name, class: 'form-control' %>
-          <div class="d-flex justify-content-center mt-3">
-           <%= form.submit "更新", class: 'btn btn-success' %>
-           </div>
+    <!--魚種一覧のグリッド表示-->
+    <div class="row">
+      <% @genres.each_with_index do |genre, index| %>
+        <div class="col-md-3 col-sm-6 mt-3 mb-3">
+          <div class="card mb-4 shadow" style="background-color: white; height: 100%;">
+            <!--カードボディ-->
+            <div class="card-body text-center d-flex flex-column justify-content-around" style="background-color: white;">
+              <!--魚の名前-->
+              <h4 class="my-4"><%= truncate(genre.name, length: 10) %></h4>
+              <!--編集・削除ボタン-->
+              <div class="mt-0 d-flex justify-content-between">
+                <% if genre.customer == current_customer %>
+                  <%= link_to '編集', edit_genre_path(genre), class: 'btn btn-success btn-sm', data: { toggle: 'modal', target: '#genreModal' + genre.id.to_s } %>
+                  <%= link_to '削除', genre, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
-        <% end %>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center mt-4">
+        <%= paginate @genres %>
       </div>
     </div>
   </div>
 </div>
-<% end %>
 
+<!--魚種編集モーダル-->
+<% @genres.each do |genre| %>
+  <div class="modal fade" id="genreModal<%= genre.id %>" tabindex="-1" role="dialog" aria-labelledby="genreModalLabel<%= genre.id %>" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <!--カードヘッダー-->
+        <div class="modal-header" style="background-color: #AFDFE4">
+          <h5 class="modal-title" id="genreModalLabel<%= genre.id %>">魚種の編集</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--カードボディ-->
+        <div class="modal-body" style="background-color: #f0f9fa;">
+          <%= form_with model: genre, local: true do |form| %>
+            <div class="form-group mb-0">
+              <%= form.text_field :name, class: 'form-control' %>
+              <div class="d-flex justify-content-center mt-3">
+                <%= form.submit "更新", class: 'btn btn-success' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

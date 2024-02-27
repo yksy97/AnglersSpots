@@ -4,21 +4,20 @@
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
           <div class="row">
-            <!--会員情報-->
-             <%= render 'public/customers/customer_section', customer: current_customer %>
+            <!-- 会員情報 -->
+            <%= render 'public/customers/customer_section', customer: current_customer %>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-<!-- タックル一覧 -->
-<div class="container mt-5 mx-auto">
-  <div class="row" id="tackle-lists">
-    <%= render 'public/tackles/tackles_index', tackles: @tackles %>
+  <!-- タックル一覧 -->
+  <div class="container mt-5 mx-auto">
+    <div class="row" id="tackle-lists">
+      <%= render 'public/tackles/tackles_index', tackles: @tackles %>
+    </div>
+    <%= paginate @tackles %>
   </div>
-  <%= paginate @tackles %>
-</div>
-
 </div>
 

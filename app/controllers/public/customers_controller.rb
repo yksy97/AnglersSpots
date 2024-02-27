@@ -4,10 +4,10 @@ class Public::CustomersController < ApplicationController
   before_action :ensure_guest_customer, only: [:edit, :update]
 
   def show
-  @customer = Customer.find(params[:id])
-  @posts = @customer.posts
-  @my_posts = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
-  @post = Post.new
+    @customer = Customer.find(params[:id])
+    @posts = @customer.posts
+    @my_posts = @customer.posts.order(created_at: :desc).page(params[:page]).per(5)
+    @post = Post.new
   end
   
   def index
@@ -52,11 +52,10 @@ class Public::CustomersController < ApplicationController
   end
   
   def ensure_guest_customer
-  @customer = Customer.find(params[:id])
-  if @customer.guest_customer?
-    redirect_to customer_path(current_customer), alert: 'ゲストカスタマーはプロフィールを編集できません'
+    @customer = Customer.find(params[:id])
+    if @customer.guest_customer?
+      redirect_to customer_path(current_customer), alert: 'ゲストカスタマーはプロフィールを編集できません'
+    end
   end
-  end
-  
   
 end

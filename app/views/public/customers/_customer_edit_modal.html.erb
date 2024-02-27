@@ -1,4 +1,4 @@
-<!--会員詳細の編集モーダル -->
+<!-- 会員詳細の編集モーダル -->
 <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -10,18 +10,18 @@
       </div>
       <div class="modal-body" style="background-color: #f0f9fa;">
         <%= form_with model: customer, local: true do |f| %>
-          <!--名前-->
+          <!-- 名前 -->
           <div class="form-group">
             <%= f.label :name, "名前" %>
             <%= f.text_field :name, class: "form-control" %>
           </div>
-          <!--メールアドレス-->
+          <!-- メールアドレス -->
           <div class="form-group">
             <%= f.label :email, "メールアドレス" %>
             <%= f.email_field :email, class: "form-control" %>
           </div>
           
-          <!--画像-->
+          <!-- 画像 -->
           <div class="form-group">
             <label for="inputCustomerFile">プロフィール画像</label>
             <div class="input-group customer-drop-area">
@@ -32,25 +32,25 @@
             </div>
           </div>
           
-          <!--魚-->
+          <!-- 魚 -->
           <div class="form-group">
             <%= f.label :favorite_fish, "好きな魚" %>
             <%= f.text_field :favorite_fish, class: "form-control" %>
           </div>
           
-          <!--釣り方-->
+          <!-- 釣り方 -->
           <div class="form-group">
             <%= f.label :favorite_rig, "好きな釣り方" %>
             <%= f.text_field :favorite_rig, class: "form-control" %>
           </div>
           
-          <!--場所-->
+          <!-- 場所 -->
           <div class="form-group">
             <%= f.label :favorite_location, "好きな場所" %>
             <%= f.text_field :favorite_location, class: "form-control" %>
           </div>
           
-          <!--自己紹介-->
+          <!-- 自己紹介 -->
           <div class="form-group">
             <%= f.label :introduction, "自己紹介" %>
             <%= f.text_area :introduction, class: "form-control" %>

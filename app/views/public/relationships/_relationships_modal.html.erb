@@ -1,52 +1,52 @@
 <!-- フォローフォロワーのモーダル -->
 <div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="followersModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-  
-<!--モーダルボタンー-->
-<div class="modal-header" style="background-color: #AFDFE4; display: flex; justify-content: center;">
-  <div style="flex-grow: 1; text-align: center;">
-    <h5 class="modal-title" id="followersModalLabel">フォロー / フォロワー</h5>
-  </div>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      
+      <!-- モーダルボタン -->
+      <div class="modal-header" style="background-color: #AFDFE4; display: flex; justify-content: center;">
+        <div style="flex-grow: 1; text-align: center;">
+          <h5 class="modal-title" id="followersModalLabel">フォロー / フォロワー</h5>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
-<!--モーダルボディ-->
-<div class="modal-body" style="background-color: #f0f9fa;">
-  <div class="mb-4">
-    <div><h6>フォロー</h6></div>
-    <table class="table">
-      <!--フォロー一覧-->
-      <tbody>
-        <% if current_customer.followings.exists? %>
-        <% current_customer.followings.each do |following| %>
-        <tr>
-        <td><%= link_to following.name, customer_path(following), class: 'text-dark' %> さん</td>
-        <td><%= link_to '詳細', customer_path(following), class: 'btn btn-sm btn-outline-primary' %></td>
-        </tr>
-        <% end %>
-        <% else %>
-        <tr>
-        <td colspan="2" class="text-center">フォローしている会員はいません</td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-  
-  <div class="mb-4">
-    <div><h6>フォロワー</h6></div>
-    <table class="table">
-    <!--フォロワー一覧-->
-    <tbody id="modal_follow_btn_<%= current_customer.id %>">
-    <%= render 'public/relationships/customer_follow_modal_btn_list' %>
-    </tbody>
-    </table>
-  </div>
-</div>
+      <!-- モーダルボディ -->
+      <div class="modal-body" style="background-color: #f0f9fa;">
+        <div class="mb-4">
+          <div><h6>フォロー</h6></div>
+          <table class="table">
+            <!-- フォロー一覧 -->
+            <tbody>
+              <% if current_customer.followings.exists? %>
+                <% current_customer.followings.each do |following| %>
+                  <tr>
+                    <td><%= link_to following.name, customer_path(following), class: 'text-dark' %> さん</td>
+                    <td><%= link_to '詳細', customer_path(following), class: 'btn btn-sm btn-outline-primary' %></td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td colspan="2" class="text-center">フォローしている会員はいません</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="mb-4">
+          <div><h6>フォロワー</h6></div>
+          <table class="table">
+            <!-- フォロワー一覧 -->
+            <tbody id="modal_follow_btn_<%= current_customer.id %>">
+              <%= render 'public/relationships/customer_follow_modal_btn_list' %>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-</div>
-</div>
+    </div>
+  </div>
 </div>
