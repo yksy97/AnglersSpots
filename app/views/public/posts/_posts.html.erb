@@ -55,7 +55,7 @@
 
           <!--魚の画像-->
           <div class="my-3">
-            <% if @post.image.attached? %>
+            <% if post.image.attached? %>
               <%= link_to post_path(post) do %>
                 <%= image_tag post.image, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
               <% end %>
