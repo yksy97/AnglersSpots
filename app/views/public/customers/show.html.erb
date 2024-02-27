@@ -25,41 +25,50 @@
         <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
           <h3>タックル新着</h3>
         </div>
-    
+      
         <!--カードボディ-->
         <div class="card-body">
           <% if @customer.tackles.exists? %>
-            <% @customer.tackles.limit(5).each do |tackle| %>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>名前</th>
-                    <th>ロッド</th>
-                    <th>リール</th>
-                    <th>ライン</th>
-                    <th>ベイト</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><%= tackle.name %></td>
-                    <td><%= tackle.rod %></td>
-                    <td><%= tackle.reel %></td>
-                    <td><%= tackle.line %></td>
-                    <td><%= tackle.bait %></td>
-                  </tr>
-                </tbody>
-              </table>
-            <% end %>
+            <div class="row">
+              <% @customer.tackles.order(created_at: :desc).limit(4).each_slice(2) do |tackles_slice| %>
+                <% tackles_slice.each do |tackle| %>
+                  <div class="col-md-6">
+                   <div class="card mb-3">
+                      <div class="card-header" style="background-color: white;">
+                        <%= truncate(tackle.name, length: 16, omission: '...') %>
+                      </div>
+                      <div class="card-body">
+                        <div class="card-text mb-2">
+                          <strong>ロッド</strong>
+                          <div><%= truncate(tackle.rod, length: 16, omission: '...') %></div>
+                        </div>
+                        <div class="card-text mb-2">
+                          <strong>リール</strong>
+                          <div><%= truncate(tackle.reel, length: 16, omission: '...') %></div>
+                        </div>
+                        <div class="card-text mb-2">
+                          <strong>ライン</strong>
+                          <div><%= truncate(tackle.line, length: 16, omission: '...') %></div>
+                        </div>
+                        <div class="card-text mb-2">
+                          <strong>ベイト</strong>
+                          <div><%= truncate(tackle.bait, length: 16, omission: '...') %></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
           <% else %>
             <p class="text-center">登録されたタックルはありません</p>
           <% end %>
           <div class="text-center mt-2">
-            <a href="<%= tackles_path %>" class="text-decoration-none text-dark">タックル一覧はこちらから</a>
+            <a href="<%= tackles_path %>" class="btn btn-primary">タックル一覧はこちらから</a>
           </div>
         </div>
       </div>
-  
+      
       <!-- 投稿一覧 -->
       <div class="card">
         <!--カードヘッダー-->
@@ -113,6 +122,9 @@
                             <span>...</span>
                           <% end %>
                         </p>
+                      <% else %>
+                        <!-- rigsがない場合、同じサイズの余白を表示 -->
+                        <div style="min-height: 22px;"></div>
                       <% end %>
                     </div>
                     <!--魚の画像-->

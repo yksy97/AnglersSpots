@@ -22,7 +22,7 @@
           <div class="col text-left">
             <div class="d-flex align-items-center">
               <!-- タイトル -->
-              <h4 class="mb-0">『 <%= truncate(@post.title, length: 20) %> 』</h4>
+              <h4 class="mb-0"><%= truncate(@post.title, length: 20) %></h4>
             </div>
           </div>
           <div class="col text-right">
@@ -34,9 +34,10 @@
 
         <!-- 会員名とフォローボタン -->
         <div class="row align-items-center my-2">
-          <div class="col ml-3">
+          <div class="col">
             <!-- 会員名 -->
-            <h5><%= @post.customer.name %></h5>
+            <h5><i class="fa-solid fa-user"></i><%= link_to @post.customer.name, customer_path(@post.customer), class: "text-dark" %></h5>
+            <!--自己紹介-->
             <p><%= truncate(@customer.introduction, length: 15, omission: '...') %></p>
           </div>
           <div class="col text-right">
@@ -54,7 +55,24 @@
       </div>
       
       <!-- カードボディ -->
-      <div class="card-body">       
+      <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
+        <!-- 釣り方 -->
+        <!--釣り方の有無の条件分岐-->
+        <% if @post.rigs.present? %>
+          <p class="card-text" style="font-size: 1.0rem;">
+            <% @post.rigs.first(3).each do |rig| %>
+              <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
+            <% end %>
+            <!--釣り方の表示数の指定-->
+            <% if @post.rigs.count > 4 %>
+              <span>...</span>
+            <% end %>
+          </p>
+        <% else %>
+          <!-- rigsがない場合、同じサイズの余白を表示 -->
+          <div style="min-height: 22px;"></div>
+        <% end %>
+      
         <!-- 画像 -->
         <div class="my-3">
           <% if @post.image.attached? %>
@@ -65,9 +83,10 @@
         </div>
 
         <!-- 魚と釣り場 -->
-        <div class="row align-items-center my-2">
+        <div class="card-body pt-0 pb-0">
+          <div class="d-flex justify-content-between align-items-center">
           <!-- 魚種 -->
-          <div class="col">
+          <div class="col p-1">
             <h5>魚種</h5>
             <% if @post.genre_name.present? %>
               <h2 class="mb-0"><%= @post.genre_name %></h2>
@@ -89,26 +108,33 @@
           <!-- タックルの有無の条件分岐 -->
           <!-- 投稿時にタックルが選択されていた場合、後でタックルを選択した場合 -->
           <% if @post.tackle %>
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th style="width: 80px;">ロッド</th>
-                  <td><%= @post.tackle.rod %></td>
-                </tr>
-                <tr>
-                  <th style="width: 80px;">リール</th>
-                  <td><%= @post.tackle.reel %></td>
-                </tr>
-                <tr>
-                  <th style="width: 80px;">ライン</th>
-                  <td><%= @post.tackle.line %></td>
-                </tr>
-                <tr>
-                  <th style="width: 80px;">ベイト</th>
-                  <td><%= @post.tackle.bait %></td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="card mb-4" style="background-color: white;">
+              <!--カードボディ-->
+              <div class="card-body d-flex flex-column justify-content-between" style="background-color: white;">
+                <!--タックル情報-->
+                <div>
+                  <div class="row mb-3">
+                    <div class="col-sm-2"><strong>ロッド</strong></div>
+                    <div class="col-sm-10"><%= @post.tackle.rod %></div>
+                  </div>
+          
+                  <div class="row mb-3">
+                    <div class="col-sm-2"><strong>リール</strong></div>
+                    <div class="col-sm-10"><%= @post.tackle.reel %></div>
+                  </div>
+          
+                  <div class="row mb-3">
+                    <div class="col-sm-2"><strong>ライン</strong></div>
+                    <div class="col-sm-10"><%= @post.tackle.line %></div>
+                  </div>
+          
+                  <div class="row mb-1">
+                    <div class="col-sm-2"><strong>ベイト</strong></div>
+                    <div class="col-sm-10"><%= @post.tackle.bait %></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           <% else %>
             <!-- 投稿時にタックル未選択の場合、セレクトボックスで選択できるようにする -->
             <% if current_customer.tackles.exists? %>
