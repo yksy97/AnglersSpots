@@ -137,6 +137,7 @@
             </div>
           <% else %>
             <!-- 投稿時にタックル未選択の場合、セレクトボックスで選択できるようにする -->
+            <% if current_customer == @post.customer %>
             <% if current_customer.tackles.exists? %>
               <div class="form-group">
                 <%= form_with model: @post, url: tackle_selection_post_path(@post), method: :patch, html: { class: 'form-inline' } do |f| %> 
@@ -152,8 +153,11 @@
             <% else %>
               <%= link_to 'タックル登録はこちらから', new_tackle_path( post_id: @post.id ), class: 'btn btn-link text-dark mt-2' %>
             <% end %>
+            <% else %>
+            <p>タックル情報が選択されていません</p>
           <% end %>
-        </div>
+        <% end %>
+      </div>
                   
         <!-- 感想 -->
         <div class="mb-3">
