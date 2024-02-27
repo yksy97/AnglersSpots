@@ -36,7 +36,7 @@
         <div class="row align-items-center my-2">
           <div class="col">
             <!-- 会員名 -->
-            <h5><i class="fa-solid fa-user"></i><%= link_to @post.customer.name, customer_path(@post.customer), class: "text-dark" %></h5>
+            <h5><i class="fa-solid fa-user"></i> <%= link_to @post.customer.name, customer_path(@post.customer), class: "text-dark" %></h5>
             <!--自己紹介-->
             <p><%= truncate(@customer.introduction, length: 15, omission: '...') %></p>
           </div>
@@ -283,26 +283,18 @@
                       </div>
           
                       </div>
-                      <!--230行目の閉じタグ-->
                       </div>
-
-                      <!--229行目の閉じタグ-->
                       <% end %>
                       <!--リプライがない場合-->
                       <% else %>
                       <p class="text-center">リプライはありません</p>
-                      <!--228行目の閉じタグ-->
                       <% end %>
-                      
-                      <!--172行目の閉じタグ-->
                       <% end %>
                       <!--コメントがない場合-->
                       <% else %>
                       <p class="text-center">コメントはありません</p>
-                      <!--173行目の閉じタグ-->
                       <% end %>
                     </div>
-                  <!--69行目のボディ閉じタグ-->
                 </div>
               </div>
             </div>
