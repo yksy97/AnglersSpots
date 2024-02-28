@@ -48,12 +48,15 @@ class Post < ApplicationRecord
   validates :body, presence: true, length: { maximum: 500 }
   validates :location, presence: true
   
-  # 仮想属性（フォームで一時的に使用するための属性）
-  # 「new_genre_name」 は、PostモデルのDBに保存される属性ではなく、
-  # 会員がフォームに入力した新しい魚を保持するために使用する
-  # フォームから受け取った新しい魚は、Postコントローラの createアクション内で
-  # Genreモデル(魚種の管理) の新しいレコード作成に使用され、その後この一時的な値は不要となる
-  # これにより、会員は新しい魚をシステムに追加できる
+  # 「attr_accessor」
+  # 仮想的な属性（フォームで一時的に使用するための属性）
+  # データベースやActiveRecordとは関連がない
+  # rubyの機能で、オブジェクトのインスタンス変数のgetterとsetterを自動的に生成する
+  
+  # 会員が新しい魚種をフォームに入力したとき、魚種はPostモデルのDBに保存されず、
+  # コントローラのcreateアクションで受け取った新しい魚種をGenreモデルに渡してジャンル登録を行う
+  # 投稿が終わり、新しい魚種の情報をGenreモデルに渡すとこの一時的なデータは不要となる。
+
   attr_accessor :new_genre_name
   
   def favorited_by?(customer)
