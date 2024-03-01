@@ -2,22 +2,103 @@
 <html>
 <head>
   <title>Google Map</title>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <div id="map" style="height: 400px; width: 100%;"></div>
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div id="map"></div>
 
-  <script>
-    function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
+ <script>
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 35.447753, lng: 139.649033},
+      zoom: 12
+    });
+
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // データベースから取得したスポット情報でマーカーを設置
+    <% @spots.each do |spot| %>
+      new google.maps.Marker({
+        position: {lat: <%= spot.latitude %>, lng: <%= spot.longitude %>},
+        map: map,
+        title: '<%= spot.name %>'
       });
-    }
-  </script>
+    <% end %>
 
-  <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5ou0I6tBS8UNQRt_Jr8R_r6MyoX9P3hQ&callback=initMap">
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    var markers = [];
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      // 既存のマーカーをクリア
+      markers.forEach(function(marker) {
+        marker.setMap(null);
+      });
+      markers = [];
+
+      var bounds = new google.maps.LatLngBounds();
+      places.forEach(function(place) {
+        if (!place.geometry) {
+          console.log("Returned place contains no geometry");
+          return;
+        }
+
+        var marker = new google.maps.Marker({
+          map: map,
+          title: place.name,
+          position: place.geometry.location
+        });
+        markers.push(marker);
+
+        if (place.geometry.viewport) {
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
+        }
+      });
+      map.fitBounds(bounds);
+    });
+
+    // マップをクリックした場所に新しいマーカーを設置し、古いマーカーは削除
+    google.maps.event.addListener(map, 'click', function(event) {
+      // 既存のマーカーをクリア
+      markers.forEach(function(marker) {
+        marker.setMap(null);
+      });
+      markers = [];
+
+      var marker = new google.maps.Marker({
+        position: event.latLng,
+        map: map,
+        title: "選択した位置"
+      });
+      markers.push(marker);
+
+      // オプション: クリックした位置の緯度経度情報を表示したい場合
+      console.log('Lat: ' + event.latLng.lat() + ', Lng: ' + event.latLng.lng());
+    });
+  }
 </script>
 
+
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5ou0I6tBS8UNQRt_Jr8R_r6MyoX9P3hQ&libraries=places&callback=initMap">
+  </script>
 </body>
 </html>

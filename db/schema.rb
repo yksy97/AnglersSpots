@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_18_100954) do
+ActiveRecord::Schema.define(version: 2024_03_01_152850) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -135,12 +135,25 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "tackles", force: :cascade do |t|
+  create_table "spots", force: :cascade do |t|
     t.string "name"
-    t.string "rod"
-    t.string "reel"
-    t.string "line"
-    t.string "bait"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tackle_items", force: :cascade do |t|
+    t.string "name"
+    t.string "value", null: false
+    t.integer "tackle_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tackle_id"], name: "index_tackle_items_on_tackle_id"
+  end
+
+  create_table "tackles", force: :cascade do |t|
+    t.string "name", null: false
     t.integer "customer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -150,5 +163,6 @@ ActiveRecord::Schema.define(version: 2024_02_18_100954) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "notifications", "customers"
+  add_foreign_key "tackle_items", "tackles"
   add_foreign_key "tackles", "customers"
 end
