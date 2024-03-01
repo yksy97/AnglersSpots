@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'maps/index'
   # ゲストログイン用のルーティングを追加
   devise_scope :customer do
     post 'customers/guest_sign_in', to: 'public/sessions#guest_sign_in', as: :guest_customer_session
@@ -72,5 +73,8 @@ scope module: :public do
   
   resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
   get '/searches', to: 'searches#search'
+  
+  resources :maps, only: [:index]
+  
 end
 end
