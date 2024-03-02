@@ -1,0 +1,74 @@
+<div class="container">
+  <%= form_tag(tides_graf_path, method: :get) do %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= label_tag :prefecture_code, '都道府県' %>
+          <%= select_tag(:prefecture_code, options_for_select(@areas, selected: params[:prefecture_code]), {prompt: "都道府県を選択", class: "form-control"}) %>
+        </div>
+      </div>
+      <div id="port_code_area" class="col-md-4 d-none">
+        <div class="form-group">
+          <label for="port_code">港</label>
+          <select name="port_code" id="port_code" class="form-control"></select>
+        </div>
+      </div>
+      <div id="date_area" class="col-md-4">
+        <div class="form-group">
+          <label for="date">日付</label>
+          <input type="date" id="date" name="date" value="<%= params[:date] %>" class="form-control"/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-4 mx-auto">
+          <%= submit_tag '取得', class: "btn btn-primary btn-block", name: nil %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+    $(document).ready(function () {
+      makeSelectBox();
+    });
+    
+    $('#prefecture_code').change(function () {
+      makeSelectBox();
+    })
+    
+    function makeSelectBox () {
+      if ($('#prefecture_code').val() != '') {
+        
+        $('#port_code_area').removeClass('d-none').addClass('d-block')
+      
+        $.ajax('/tides/get_port_name',
+          {
+            type: 'get',
+            data: { prefecture_code: $('#prefecture_code').val() },
+          }
+        )
+        .done(function (data) {
+          console.log(data)
+          $("#port_code > option").remove();
+          data.forEach(function(port) {
+            console.log('load!');
+            if (port[1] === <%= params[:port_code] %>) {
+              $("#port_code").append($("<option>").val(port[1]).text(port[0]).prop("selected", true));
+            } else {
+              $("#port_code").append($("<option>").val(port[1]).text(port[0]));
+            }
+          })
+          
+        })
+        .fail(function () {
+          alert('港情報の取得に失敗しました。')
+        })
+        
+      } else {
+        $('#port_code_area').removeClass('d-block').addClass('d-none')
+      }
+    }
+</script>

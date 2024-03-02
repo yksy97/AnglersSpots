@@ -76,5 +76,10 @@ scope module: :public do
   
   resources :maps, only: [:index]
   
+  get 'tides/graf', to: 'tides#graf'
+  get 'tides/get_port_name', to: 'tides#get_port_name'
+  resources :tides, only: [:index]
+  
+  
 end
 end
