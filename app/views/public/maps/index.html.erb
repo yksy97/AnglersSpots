@@ -1,20 +1,42 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>Google Map</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
     #map {
-      height: 400px;
-      width: 100%;
+      height: 500px; /* マップの高さ */
+      width: 100%; /* コンテナの幅に合わせる */
     }
+
+   
   </style>
 </head>
 <body>
-  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-  <div id="map"></div>
+  <div class="container mt-5">
+    <!-- 会員情報 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <%= render 'public/customers/customer_section', customer: current_customer %>
+          </div>
+        </div>
+      </div>
+    </div>
 
- <script>
-  function initMap() {
+    <!-- Google マップ -->
+    <div class="row">
+      <div class="col-md-12">
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 35.447753, lng: 139.649033},
       zoom: 12
@@ -93,12 +115,8 @@
       console.log('Lat: ' + event.latLng.lat() + ', Lng: ' + event.latLng.lng());
     });
   }
-</script>
-
-
-
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5ou0I6tBS8UNQRt_Jr8R_r6MyoX9P3hQ&libraries=places&callback=initMap">
   </script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5ou0I6tBS8UNQRt_Jr8R_r6MyoX9P3hQ&libraries=places&callback=initMap"></script>
 </body>
 </html>
