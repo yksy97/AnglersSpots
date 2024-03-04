@@ -74,8 +74,6 @@ scope module: :public do
   resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
   get '/searches', to: 'searches#search'
   
-  resources :maps, only: [:index]
-  
   get 'tides/graf', to: 'tides#graf'
   get 'tides/get_port_name', to: 'tides#get_port_name'
   resources :tides, only: [:index]
