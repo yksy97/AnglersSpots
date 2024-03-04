@@ -54,15 +54,15 @@
   
   <div class="container">
   <div class="row">
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-2">
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th scope="col">日出</th>
-            <th scope="col">日没</th>
-            <th scope="col">潮汐</th>
-            <th scope="col">干潮</th>
-            <th scope="col">満潮</th>
+            <th scope="col">日出(時間)</th>
+            <th scope="col">日没(時間)</th>
+            <th scope="col">潮回り</th>
+            <th scope="col">干潮(cm)</th>
+            <th scope="col">満潮(cm)</th>
           </tr>
         </thead>
         <tbody>
@@ -70,20 +70,20 @@
             <td><%= @astro_twilight[0] %></td>
             <td><%= @astro_twilight[1] %></td>
             <td><%= @tide %></td>
-            <td><%#= @edd_flood[0] %></td> <!-- 干潮時間を表示 -->
-            <td><%#= @edd_flood[1] %></td> <!-- 満潮時間を表示 -->
+            <td><%#= @edd_flood[0] %></td> <!-- 干潮を表示 -->
+            <td><%#= @edd_flood[1] %></td> <!-- 満潮を表示 -->
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-
-
+  
+    <!--GoogleMap-->
     <div id="map" class="my-3"></div>
-    
   </div>
   
-  <div class="container mt-2">
+  <!--チャート-->
+  <div class="container mt-2 mb-4">
     <canvas id="myLineChart"></canvas>
   </div>
   
@@ -163,7 +163,7 @@
       })
       .fail(function () {
         // 取得失敗時のメッセージ
-        alert('港情報の取得に失敗しました。');
+        alert('港情報の取得に失敗しました');
       })
         
     } else {
