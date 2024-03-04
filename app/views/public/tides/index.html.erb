@@ -53,30 +53,55 @@
   </style>
   
   <div class="container">
-  <div class="row">
-    <div class="col-md-12 mb-2">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">日出(時間)</th>
-            <th scope="col">日没(時間)</th>
-            <th scope="col">潮回り</th>
-            <th scope="col">干潮(cm)</th>
-            <th scope="col">満潮(cm)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= @astro_twilight[0] %></td>
-            <td><%= @astro_twilight[1] %></td>
-            <td><%= @tide %></td>
-            <td><%#= @edd_flood[0] %></td> <!-- 干潮を表示 -->
-            <td><%#= @edd_flood[1] %></td> <!-- 満潮を表示 -->
-          </tr>
-        </tbody>
-      </table>
+    <div class="row">
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card">
+          <div class="card-body">
+            <h5>日出(時間)</h5>
+            <%= @astro_twilight[0] %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5>日没(時間)</h5>
+            <%= @astro_twilight[1] %>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    
+    <div class="row mt-3">
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card">
+          <div class="card-body">
+            <h5>潮回り</h5>
+            <%= @tide %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card">
+          <div class="card-body">
+            <h5>干潮(cm)</h5>
+              <% @edd.each do |edd| %>
+                <%= "#{edd['time']} / #{edd['cm']}cm" %><br>
+              <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card">
+          <div class="card-body">
+            <h5>満潮(cm)</h5>
+              <% @flood.each_with_index do |flood, index| %>
+                <%= "#{flood['time']} / #{flood['cm']}cm" %><br>
+              <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   
     <!--GoogleMap-->
     <div id="map" class="my-3"></div>
@@ -112,6 +137,7 @@
         datasets: [
           {
             label: '潮位(cm）',
+            // 「sanitize」メゾットで、取得したデータをJavaScript内で安全に表示
             data: <%= sanitize @tides.map{|k, v| v}.to_s %>,
             borderColor: "rgba(0,0,255,.8)",
             backgroundColor: "rgba(0,0,0,0)"

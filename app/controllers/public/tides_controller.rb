@@ -48,8 +48,9 @@ class Public::TidesController < ApplicationController
     @astro_twilight = response_body['tide']['chart'][params[:date]]['sun']['astro_twilight'] # 日の出・日の入
     @location = [response_body['tide']['port']['latitude'], response_body['tide']['port']['longitude']]
     
-    # TODO:干潮と満潮のcmを表示したい
-    # @edd_flood = [response_body['tide']['chart'][params[:date]]['edd']['cm'], response_body['tide']['chart'][params[:date]]['flood']['cm']] # 干潮と満潮
+    # 干潮と満潮
+    @edd = response_body['tide']['chart'][params[:date]]['edd'].map{ |edd| edd }
+    @flood = response_body['tide']['chart'][params[:date]]['flood'].map{ |flood| flood }
     
     render 'index'
   end
