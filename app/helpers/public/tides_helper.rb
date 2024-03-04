@@ -1,0 +1,2 @@
+module Public::TidesHelper
+end

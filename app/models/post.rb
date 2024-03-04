@@ -48,30 +48,33 @@ class Post < ApplicationRecord
   validates :body, presence: true, length: { maximum: 500 }
   validates :location, presence: true
   
-  # 仮想属性（フォームで一時的に使用するための属性）
-  # 「new_genre_name」 は、PostモデルのDBに保存される属性ではなく、
-  # 会員がフォームに入力した新しい魚を保持するために使用する
-  # フォームから受け取った新しい魚は、Postコントローラの createアクション内で
-  # Genreモデル(魚種の管理) の新しいレコード作成に使用され、その後この一時的な値は不要となる
-  # これにより、会員は新しい魚をシステムに追加できる
-  attr_accessor :new_genre_name
+  # 「attr_accessor」
+  # 仮想的な属性（フォームで一時的に使用するための属性）
+  # データベースやActiveRecordとは関連がない
+  # rubyの機能で、オブジェクトのインスタンス変数（今回は「new_genre_name」）のgetterとsetterを自動的に生成する。
   
-  def favorited_by?(customer)
-    favorites.where(customer_id: customer.id).exists?
-  end
+  # 会員が新しい魚種をフォームに入力したとき、この魚種名（new_genre_name）はPostモデルのインスタンス内で一時的に保持される。
+  # フォーム送信後に、Genreモデルで新規魚種がジャンル登録される。
+  attr_accessor :new_genre_name
 
-# 投稿フォーム（public/posts/index）のモデル側のバリデーション
+  # バリデーション
   def validate_genre_presence
-    # 既存の魚が選択されていない、かつ新しい魚が空の場合エラーを追加
+    # 既存の魚種が選択されていない、かつ、新規の魚種が空欄の場合
     if genre_name.blank? && new_genre_name.blank?
       errors.add(:base, '既存の魚種を選択するか、新規の魚種名を入力してください')
     end
 
-    # 新規の魚は、その名前でジャンルが存在するかチェックし、存在しなければ新規ジャンルで作成
+    # 新規の魚種は、その名前でジャンルが存在するかチェックし、存在しなければ新規ジャンルで作成
     unless new_genre_name.blank?
       new_genre = Genre.find_or_create_by(name: new_genre_name)
-      self.genre_name = new_genre.name # 新規作成または見つかったジャンルをPostに関連付ける
+      # 新規の魚種をPostに関連付け
+      self.genre_name = new_genre.name 
     end
+  end
+  
+  # いいね
+  def favorited_by?(customer)
+    favorites.where(customer_id: customer.id).exists?
   end
     
     # no_image画像 

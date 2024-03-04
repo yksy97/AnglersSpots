@@ -1,0 +1,2 @@
+class Tide < ApplicationRecord
+end
