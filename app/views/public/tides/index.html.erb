@@ -1,0 +1,175 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&libraries=places&callback=initMap"></script>
+
+<div class="container mt-5">
+    <!-- 会員情報 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <%= render 'public/customers/customer_section', customer: current_customer %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <%= form_tag(tides_graf_path, method: :get) do %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <h4><%= label_tag :prefecture_code, '都道府県' %></h4>
+          <%= select_tag(:prefecture_code, options_for_select(@areas, selected: params[:prefecture_code]), {prompt: "都道府県を選択", class: "form-control"}) %>
+        </div>
+      </div>
+      <div id="port_code_area" class="col-md-4 d-none">
+        <div class="form-group">
+          <h4><label for="port_code">港</label></h4>
+          <select name="port_code" id="port_code" class="form-control"></select>
+        </div>
+      </div>
+      <div id="date_area" class="col-md-4">
+        <div class="form-group">
+          <h4><label for="date">日付</label></h4>
+          <input type="date" id="date" name="date" value="<%= params[:date] %>" class="form-control" required />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-4 mx-auto">
+          <%= submit_tag '潮汐情報を取得', class: "btn btn-primary btn-block", name: nil %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @tides.present? %>
+  <style>
+    #map{
+        height: 450px;
+        width: 100%;
+    }
+  </style>
+  
+  <div class="container">
+  <div class="row">
+    <div class="col-md-12 mb-2">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">日出(時間)</th>
+            <th scope="col">日没(時間)</th>
+            <th scope="col">潮回り</th>
+            <th scope="col">干潮(cm)</th>
+            <th scope="col">満潮(cm)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @astro_twilight[0] %></td>
+            <td><%= @astro_twilight[1] %></td>
+            <td><%= @tide %></td>
+            <td><%#= @edd_flood[0] %></td> <!-- 干潮を表示 -->
+            <td><%#= @edd_flood[1] %></td> <!-- 満潮を表示 -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+    <!--GoogleMap-->
+    <div id="map" class="my-3"></div>
+  </div>
+  
+  <!--チャート-->
+  <div class="container mt-2 mb-4">
+    <canvas id="myLineChart"></canvas>
+  </div>
+  
+  <script>
+    function initMap(){
+      // geocoderを初期化
+      geocoder = new google.maps.Geocoder()
+      // mapの初期位置設定
+      map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: <%= @location[0] %>, lng: <%= @location[1] %>},
+      zoom: 8
+      });
+      
+      // マーカーの表示
+      var marker = new google.maps.Marker({
+        position: {lat: <%= @location[0] %>, lng: <%= @location[1] %>},
+        map: map
+      });
+    }
+  
+    var ctx = document.getElementById("myLineChart");
+    var myLineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: <%= sanitize @tides.map{|k, v| k}.to_s %>,
+        datasets: [
+          {
+            label: '潮位(cm）',
+            data: <%= sanitize @tides.map{|k, v| v}.to_s %>,
+            borderColor: "rgba(0,0,255,.8)",
+            backgroundColor: "rgba(0,0,0,0)"
+          }
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: '潮位グラフ'
+        }
+      }
+    });
+  </script>
+<% end %>
+
+<script>
+  $(document).ready(function () {
+    makeSelectBox();
+  });
+  
+  $('#prefecture_code').change(function () {
+    makeSelectBox();
+  })
+    
+  function makeSelectBox () {
+    if ($('#prefecture_code').val() != '') {
+        
+      $('#port_code_area').removeClass('d-none').addClass('d-block'); // 港の入力欄表示
+      $('#date_area').removeClass('d-none').addClass('d-block'); // 日付の入力欄表示
+      
+      $.ajax('/tides/get_port_name',
+        {
+          type: 'get',
+          data: { prefecture_code: $('#prefecture_code').val() },
+        }
+      )
+      .done(function (data) {
+        // 取得に成功した場合
+        $("#port_code > option").remove(); // optionを空にする
+        data.forEach(function(port) { // optionの生成
+          if (port[1] === <%= params[:port_code] || 0 %>) {
+            $("#port_code").append($("<option>").val(port[1]).text(port[0]).prop("selected", true));
+          } else {
+            $("#port_code").append($("<option>").val(port[1]).text(port[0]));
+          }
+        })
+        
+      })
+      .fail(function () {
+        // 取得失敗時のメッセージ
+        alert('港情報の取得に失敗しました');
+      })
+        
+    } else {
+      $('#port_code_area').removeClass('d-block').addClass('d-none'); // 港の入力欄非表示
+      $('#date_area').removeClass('d-block').addClass('d-none'); // 日付の入力欄非表示
+    }
+  }
+</script>
+

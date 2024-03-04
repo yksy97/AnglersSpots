@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+require "csv"
+
+CSV.foreach('db/csv/code.csv', headers: true) do |row|
+  Tide.find_or_create_by(prefecture_name: row['prefecture_name'], port_name: row['port_name']) do |tide|
+    tide.prefecture_code = row['prefecture_code']
+    tide.port_code = row['port_code']
+  end
+end
