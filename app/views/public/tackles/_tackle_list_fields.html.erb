@@ -1,0 +1,16 @@
+<div class="nested-fields">
+  <div class="field form-group">
+    <%# link_to_add_associationのform_nameで指定した名前。(初期値 : f)  %>
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.collection_select(:tackle_item_id, TackleItem.order(order: :asc), :id, :name, {include_blank: '選択してください'}, {class: 'form-control', required: :true}) %>
+      </div>
+      <div class="col-md-5">
+        <%= f.text_field :item_name, class: 'form-control', required: true %>
+      </div>
+      <div class="col-md-3">
+        <%= link_to_remove_association "削除", f, class: 'btn btn-danger btn-block', data: {confirm: 'この項目を削除しますか？'} %>
+      </div>
+    </div>
+  </div>
+</div>

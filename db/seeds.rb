@@ -14,3 +14,20 @@ CSV.foreach('db/csv/code.csv', headers: true) do |row|
     tide.port_code = row['port_code']
   end
 end
+
+tackle_items = [
+  {name: 'ロッド', order: 10},
+  {name: 'リール', order: 20},
+  {name: 'ライン', order: 30},
+  {name: 'リーダー', order: 40},
+  {name: 'ルアー', order: 50},
+  {name: '針', order: 60},
+  {name: 'ウキ', order: 70},
+  {name: 'その他', order: 9999}
+]
+
+tackle_items.each do |ti|
+  TackleItem.find_or_create_by(name: ti[:name]) do |i|
+    i.order = ti[:order]
+  end
+end
