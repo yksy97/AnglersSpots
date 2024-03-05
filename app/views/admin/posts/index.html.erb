@@ -7,6 +7,7 @@
   <% end %>
   <!-- 投稿一覧セクション -->
   <div class="col-md-12">
+    <h3 class="text-center"><%= @customer.name %> さんの投稿一覧</h3>
     <%= render "admin/posts/posts", posts: @posts %>
   </div>
   <%= paginate @posts %>
