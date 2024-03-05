@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   
   # 魚種管理
   resources :genres, only: [:index, :destroy]
+  
+  # タックル管理
+  resources :tackles, only: [:index, :show, :destroy]
 
   # 全てのコメントを一覧表示
   resources :post_comments, only: [:index, :destroy]
