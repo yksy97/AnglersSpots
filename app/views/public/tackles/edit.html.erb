@@ -23,37 +23,35 @@
 
 <!--カードボディ-->
 <div class="card-body" style="background-color: #f0f9fa;">
-  <%= form_with model: @tackle, local: true do |form| %>
+  <%= form_with model: @tackle, local: true do |f| %>
   <div class="form-group">
-  <%= form.label :name, "プリセット名" %>
-  <%= form.text_field :name, class: "form-control", value: @tackle.name, required: true %>
+  <%= f.label :name, "プリセット名" %>
+  <%= f.text_field :name, class: "form-control", value: @tackle.name, required: true %>
   </div>
   
-  <!--ロッド-->
   <div class="form-group">
-  <%= form.label :rod, "ロッド" %>
-  <%= form.text_field :rod, class: "form-control", value: @tackle.rod %>
+    <%= link_to_add_association 'アイテム追加',
+                                # form_withのformタグ変数
+                                f,
+                                # フォームのデータを追加するモデル名
+                                :tackle_lists,
+                                # 追加するフォームの部分テンプレート
+                                partial: "public/tackles/tackle_list_fields",
+                                # オプション
+                                data: {
+                                  # フォームを追加する場所の指定
+                                  association_insertion_node: '#tackle_list_edit_forms',
+                                }
+    %>
   </div>
   
-  <!--リール-->
-  <div class="form-group">
-  <%= form.label :reel, "リール" %>
-  <%= form.text_field :reel, class: "form-control", value: @tackle.reel %>
+  <div id="tackle_list_edit_forms">
+    <%= f.fields_for :tackle_lists do |f| %>
+      <% render 'public/tackles/tackle_list_fields', f: f %>
+    <% end %>
   </div>
   
-  <!--ライン-->
-  <div class="form-group">
-  <%= form.label :line, "ライン" %>
-  <%= form.text_field :line, class: "form-control", value: @tackle.line %>
-  </div>
-  
-  <!--ベイト-->
-  <div class="form-group">
-  <%= form.label :bait, "ベイト" %>
-  <%= form.text_field :bait, class: "form-control", value: @tackle.bait %>
-  </div>
-  
-  <%= form.submit "更新する", class: "btn btn-primary" %>
+  <%= f.submit "更新する", class: "btn btn-primary" %>
   <% end %>
   
   <div class="mt-3">

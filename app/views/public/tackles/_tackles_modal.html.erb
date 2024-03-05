@@ -14,35 +14,33 @@
       <!-- モーダルボディ -->
       <div class="modal-body" style="background-color: #f0f9fa;">
         <!-- フォーム -->
-        <%= form_with model: Tackle.new, remote: true do |form| %>
+        <%= form_with model: Tackle.new, remote: true do |f| %>
           <!-- タックル -->
           <div class="form-group">
-            <%= form.label :name, "タックル名" %>
-            <%= form.text_field :name, class: "form-control", required: true %>
-          </div>
-          <!-- ロッド -->
-          <div class="form-group">
-            <%= form.label :rod, "ロッド" %>
-            <%= form.text_field :rod, class: "form-control" %>
-          </div>
-          <!-- リール -->
-          <div class="form-group">
-            <%= form.label :reel, "リール" %>
-            <%= form.text_field :reel, class: "form-control" %>
-          </div>
-          <!-- ライン -->
-          <div class="form-group">
-            <%= form.label :line, "ライン" %>
-            <%= form.text_field :line, class: "form-control" %>
-          </div>
-          <!-- ベイト -->
-          <div class="form-group">
-            <%= form.label :bait, "ベイト" %>
-            <%= form.text_field :bait, class: "form-control" %>
+            <%= f.label :name, "タックル名" %>
+            <%= f.text_field :name, class: "form-control", required: true %>
           </div>
 
+          <div class="form-group">
+            <%= link_to_add_association 'アイテム追加',
+                                        # form_withのformタグ変数
+                                        f,
+                                        # フォームのデータを追加するモデル名
+                                        :tackle_lists,
+                                        # 追加するフォームの部分テンプレート
+                                        partial: "public/tackles/tackle_list_fields",
+                                        # オプション
+                                        data: {
+                                          # フォームを追加する場所の指定
+                                          association_insertion_node: '#tackle_list_forms',
+                                        }
+            %>
+          </div>
+          
+          <div id="tackle_list_forms"></div>
+          
           <div class="d-flex justify-content-between">
-            <%= form.submit "登録", class: "btn btn-primary" %>
+            <%= f.submit "登録", class: "btn btn-primary" %>
           <% end %>
         </div>
       </div>
