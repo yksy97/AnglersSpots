@@ -26,7 +26,7 @@
           <% @comments.each do |comment| %>
             <tr>
               <td class="break-word"><%= comment.comment %></td>
-              <td class="break-word"><%= comment.customer.email %></td>
+              <td class="break-word"><%= link_to comment.customer.name, admin_customer_posts_path(customer_id: comment.customer.id) %></td>
               <td class="text-center">
                 <%= link_to '管理者権限で削除', admin_post_comment_path(comment), method: :delete, data: { confirm: 'このコメントを削除しますか？' }, class: 'btn btn-danger btn-sm' %>
               </td>
