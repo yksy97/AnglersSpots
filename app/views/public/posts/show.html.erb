@@ -116,10 +116,10 @@
                   <% @post.tackle.tackle_lists.order(order: :asc).each do |tl| %>
                     <div class="row mb-3">
                       <div class="col-md-4 text-center">
-                        <%= tl.tackle_item.name %>
+                        <%= truncate(tl.tackle_item.name, length: 12, omission: '...') %>
                       </div>
                       <div class="col-md-8 text-left">
-                        <%= tl.item_name %>
+                        <%= truncate(tl.item_name, length: 12, omission: '...') %>
                       </div>
                     </div>
                   <% end %>
