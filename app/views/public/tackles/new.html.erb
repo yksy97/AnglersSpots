@@ -22,35 +22,33 @@
 
     <!--カードボディ-->
     <div class="card-body">
-      <%= form_with model: @tackle, local: true do |form| %>
+      <%= form_with model: @tackle, local: true do |f| %>
         <%= hidden_field_tag :post_id, params[:post_id] %>
         <!--タックル-->
         <div class="form-group">
-          <%= form.label :name, "タックル名" %>
-          <%= form.text_field :name, class: "form-control", required: true %>
-        </div>
-        <!--ロッド-->
-        <div class="form-group">
-          <%= form.label :rod, "ロッド" %>
-          <%= form.text_field :rod, class: "form-control" %>
-        </div>
-        <!--リール-->
-        <div class="form-group">
-          <%= form.label :reel, "リール" %>
-          <%= form.text_field :reel, class: "form-control" %>
-        </div>
-        <!--ライン-->
-        <div class="form-group">
-          <%= form.label :line, "ライン" %>
-          <%= form.text_field :line, class: "form-control" %>
-        </div>
-        <!--ベイト-->
-        <div class="form-group">
-          <%= form.label :bait, "ベイト" %>
-          <%= form.text_field :bait, class: "form-control" %>
+          <%= f.label :name, "タックル名" %>
+          <%= f.text_field :name, class: "form-control", required: true %>
         </div>
         
-        <%= form.submit "登録する", class: "btn btn-primary" %>
+        <div class="form-group">
+          <%= link_to_add_association 'アイテム追加',
+                                      # form_withのformタグ変数
+                                      f,
+                                      # フォームのデータを追加するモデル名
+                                      :tackle_lists,
+                                      # 追加するフォームの部分テンプレート
+                                      partial: "public/tackles/tackle_list_fields",
+                                      # オプション
+                                      data: {
+                                        # フォームを追加する場所の指定
+                                        association_insertion_node: '#tackle_list_new_forms',
+                                      }
+          %>
+        </div>
+        
+        <div id="tackle_list_new_forms"></div>
+        
+        <%= f.submit "登録する", class: "btn btn-primary" %>
       <% end %>
 
       <div class="mt-3">

@@ -8,27 +8,17 @@
       <!--タックル情報-->
       <div>
         <div class="mb-4" style="text-align: center;">
-          <h4 class="card-title m-0"><%= tackle.name %></h4>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-sm-2"><strong>ロッド</strong></div>
-          <div class="col-sm-8"><%= tackle.rod %></div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-sm-2"><strong>リール</strong></div>
-          <div class="col-sm-8"><%= tackle.reel %></div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-sm-2"><strong>ライン</strong></div>
-          <div class="col-sm-8"><%= tackle.line %></div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-sm-2"><strong>ベイト</strong></div>
-          <div class="col-sm-8"><%= tackle.bait %></div>
+          <h4 class="card-title"><%= tackle.name %></h4>
+          <% tackle.tackle_lists.order(order: :asc).each do |tl| %>
+            <div class="row mb-3">
+              <div class="col-md-4 text-center">
+                <%= tl.tackle_item.name %>
+              </div>
+              <div class="col-md-8 text-left">
+                <%= tl.item_name %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
 

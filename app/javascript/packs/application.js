@@ -14,6 +14,8 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application"; 
 
+require("@nathanvda/cocoon")
+
 Rails.start()
 // JSとの競合を考慮した結果、TurbolinksをONにするメリットより、OFFにするメリットが上回っているのでOFFにしました。
 // Turbolinks.start()
