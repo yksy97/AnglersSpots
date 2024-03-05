@@ -29,6 +29,9 @@ Rails.application.routes.draw do
       resources :post_comments, only: [:index, :destroy]
     end
   end
+  
+  # 魚種管理
+  resources :genres, only: [:index, :edit, :destroy]
 
   # 全てのコメントを一覧表示
   resources :post_comments, only: [:index, :destroy]
