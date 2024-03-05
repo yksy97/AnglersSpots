@@ -7,34 +7,34 @@
           <strong>注意：</strong> こちらは管理者専用画面です
         </div>
       <% end %>
-      <h1 class="mb-4 text-center">魚種一覧</h1>
+      <h1 class="mb-4 text-center">タックル一覧</h1>
       <table class="table table-striped table-bordered">
         <thead class="thead-dark">
           <tr>
             <th scope="col" class="text-center">登録者</th>
-            <th scope="col" class="text-center">魚種名</th>
+            <th scope="col" class="text-center">タックル名</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <% if @genres.any? %>
-            <% @genres.each do |genre| %>
+          <% if @tackles.any? %>
+            <% @tackles.each do |tackle| %>
               <tr>
-                <td class="break-word"><%= link_to genre.customer.name, admin_customer_posts_path(customer_id: genre.customer.id) %></td>
-                <td class="break-word"><%= genre.name %></td>
+                <td class="break-word"><%= link_to tackle.customer.name, admin_customer_posts_path(customer_id: tackle.customer.id) %></td>
+                <td class="break-word"><%= link_to tackle.name, admin_tackle_path(tackle) %></td>
                 <td class="text-center">
-                  <%= link_to '管理者権限で削除', admin_genre_path(genre), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+                  <%= link_to '管理者権限で削除', admin_tackle_path(tackle), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
                 </td>
               </tr>
             <% end %>
           <% else %>
             <tr>
-              <td colspan="3" class="text-center">魚種が登録されていません</td>
+              <td colspan="3" class="text-center">タックルが登録されていません</td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
-  <%= paginate @genres %>
+  <%= paginate @tackles %>
 </div>
