@@ -6,9 +6,9 @@
     </div>
   <% end %>
   <!-- 投稿一覧セクション -->
-  <div class="col-md-8 mx-auto">
+  <div class="col-md-12">
     <%= render "admin/posts/posts", posts: @posts %>
   </div>
-  <%#= paginate @posts %>
+  <%= paginate @posts %>
 </div>
 
