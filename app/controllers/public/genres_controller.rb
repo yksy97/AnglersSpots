@@ -3,7 +3,7 @@ class Public::GenresController < ApplicationController
   before_action :set_genre, only: [:edit, :update, :destroy]
 
   def index
-    @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(12)
+    @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(20)
     @genre = current_customer.genres.new
   end
     
@@ -12,7 +12,7 @@ class Public::GenresController < ApplicationController
     if @genre.save
       redirect_to genres_path, notice: '新しい魚が登録されました'
     else
-      @genres = current_customer.genres.order(:name).page(params[:page]).per(12)
+      @genres = current_customer.genres.order(:name).page(params[:page]).per(20)
       render :index
     end
   end
@@ -24,7 +24,7 @@ class Public::GenresController < ApplicationController
     if @genre.update(genre_params)
       redirect_to genres_path, notice: '魚が更新されました'
     else
-      @genres = Genre.all.order(:name)
+      @genres = Genre.all
       render :index
     end
   end

@@ -12,8 +12,8 @@
   <table class="table table-striped table-bordered">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">コメント内容</th>
-        <th scope="col">投稿者</th>
+        <th scope="col" class="text-center">コメント内容</th>
+        <th scope="col" class="text-center">投稿者</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -27,8 +27,8 @@
             <tr>
               <td class="break-word"><%= comment.comment %></td>
               <td class="break-word"><%= comment.customer.email %></td>
-              <td>
-                <%= link_to '削除', admin_post_comment_path(comment), method: :delete, data: { confirm: 'このコメントを削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+              <td class="text-center">
+                <%= link_to '管理者権限で削除', admin_post_comment_path(comment), method: :delete, data: { confirm: 'このコメントを削除しますか？' }, class: 'btn btn-danger btn-sm' %>
               </td>
             </tr>
           <% end %>
