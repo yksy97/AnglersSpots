@@ -1,5 +1,6 @@
 class Admin::PostsController < ApplicationController
   def index
+    @customer = Customer.find(params[:customer_id])
     @posts = Post.where(customer_id: params[:customer_id]).order(created_at: :desc).page(params[:page]).per(6)
   end
   

@@ -57,7 +57,7 @@
       <div class="col-md-4 mb-3 mb-md-0">
         <div class="card">
           <div class="card-body">
-            <h5>日出(時間)</h5>
+            <h5>日出（時間）</h5>
             <%= @astro_twilight[0] %>
           </div>
         </div>
@@ -65,7 +65,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h5>日没(時間)</h5>
+            <h5>日没（時間）</h5>
             <%= @astro_twilight[1] %>
           </div>
         </div>
@@ -84,7 +84,7 @@
       <div class="col-md-4 mb-3 mb-md-0">
         <div class="card">
           <div class="card-body">
-            <h5>干潮(cm)</h5>
+            <h5>干潮（時間/cm）</h5>
               <% @edd.each do |edd| %>
                 <%= "#{edd['time']} / #{edd['cm']}cm" %><br>
               <% end %>
@@ -94,7 +94,7 @@
       <div class="col-md-4 mb-3 mb-md-0">
         <div class="card">
           <div class="card-body">
-            <h5>満潮(cm)</h5>
+            <h5>満潮（時間/cm）</h5>
               <% @flood.each_with_index do |flood, index| %>
                 <%= "#{flood['time']} / #{flood['cm']}cm" %><br>
               <% end %>
@@ -126,6 +126,7 @@
       var marker = new google.maps.Marker({
         position: {lat: <%= @location[0] %>, lng: <%= @location[1] %>},
         map: map
+        
       });
     }
   
