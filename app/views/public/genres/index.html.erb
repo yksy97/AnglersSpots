@@ -36,6 +36,7 @@
     </div>
 
     <!--魚種一覧のグリッド表示-->
+    <% if @genres.any? %>
     <div class="row">
       <% @genres.each_with_index do |genre, index| %>
         <div class="col-md-3 col-sm-6 mt-3 mb-3">
@@ -56,6 +57,9 @@
         </div>
       <% end %>
     </div>
+    <% else %>
+      <p class="text-center">魚種が登録されていません</p>
+    <% end %>
 
     <div class="row">
       <div class="col-12 d-flex justify-content-center mt-4">
