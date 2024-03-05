@@ -1,198 +1,182 @@
 <div class="container mt-5">
-   <!-- 管理者専用アラート -->
-   <% if admin_signed_in? %>
+  <!-- 管理者専用アラート -->
+  <% if admin_signed_in? %>
     <div class="alert alert-warning" role="alert">
       <strong>注意：</strong> こちらは管理者専用画面です
     </div>
   <% end %>
   <div class="row">
-     
-<!-- 投稿詳細 -->
-<div class="col-md-8 mx-auto">
-<div class="card">
-<!--カードヘッダー-->
-<div class="card-header" style="background-color: white;">
+    <!-- 投稿詳細 -->
+    <div class="col-md-8 mx-auto">
+      <div class="card">
+        <!-- カードヘッダー -->
+        <div class="card-header" style="background-color: white;">
+          <!-- 投稿日とタイトル -->
+          <div class="row align-items-center my-2">
+            <div class="col text-left">
+              <div class="d-flex align-items-center">
+                <!-- タイトル -->
+                <h4 class="mb-0"><%= truncate(@post.title, length: 20) %></h4>
+              </div>
+            </div>
+            <div class="col text-right">
+              <!-- 投稿日 -->
+              <h6><%= l @post.created_at, format: :custom_long %></h6>
+            </div>
+          </div>
 
-<!--投稿日-->
-<div class="row align-items-center my-2">
-  <div class="col text-left">
-    <% if current_customer == @post.customer %>
-    <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success' %>
-    <% end %>
+          <!-- 会員名 -->
+          <div class="row align-items-center my-2">
+            <div class="col">
+              <h5><i class="fa-solid fa-user"></i> <%= link_to @post.customer.name, customer_path(@post.customer), class: "text-dark" %></h5>
+            </div>
+          </div>
+        </div>
+
+        <!-- カードボディ -->
+        <div class="card-body">
+          <!-- 釣り方 -->
+          <!-- 釣り方の有無の条件分岐 -->
+          <% if @post.rigs.present? %>
+            <p class="card-text" style="font-size: 1.0rem;">
+              <% @post.rigs.first(3).each do |rig| %>
+                <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
+              <% end %>
+              <!-- 釣り方の表示数の指定 -->
+              <% if @post.rigs.count > 4 %>
+                <span>...</span>
+              <% end %>
+            </p>
+          <% else %>
+            <!-- rigsがない場合、同じサイズの余白を表示 -->
+            <div style="min-height: 22px;"></div>
+          <% end %>
+          <!-- 画像 -->
+          <div class="my-3">
+            <% if @post.image.attached? %>
+              <%= image_tag @post.image, class: "img-fluid", style: "width: 100%; height: auto; object-fit: cover;" %>
+            <% else %>
+              <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: auto; object-fit: cover;" %>
+            <% end %>
+          </div>
+
+          <!-- 魚と釣り場 -->
+          <div class="row align-items-center my-2">
+            <!-- 魚種 -->
+            <div class="col">
+              <h5>魚種</h5>
+              <% if @post.genre_name.present? %>
+                <h2 class="mb-0"><%= @post.genre_name %></h2>
+              <% else %>
+                <!-- もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す -->
+                <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
+              <% end %>
+            </div>
+            <!-- 釣り場 -->
+            <div class="col">
+              <h5>釣り場</h5>
+              <h3 class="mb-0">＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
+            </div>
+          </div>
+
+          <!-- 感想 -->
+          <div class="mb-3">
+            <h5>感想</h5>
+            <%= simple_format(@post.body, class: "m-0") %>
+          </div>
+
+          <hr>
+
+          <!-- コメントとリプライ一覧 -->
+          <h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
+          <div id="comments">
+            <!-- コメントの有無の条件分岐 -->
+            <% if @post.post_comments.where(parent_id: nil).order(created_at: :desc).exists? %>
+              <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
+                <div class="comment mb-3">
+                  <!-- プロフィール画像 -->
+                  <div class="d-flex align-items-center">
+                    <% if comment.customer.image.attached? %>
+                      <%= link_to customer_path(comment.customer) do %>
+                        <%= image_tag comment.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to customer_path(comment.customer) do %>
+                        <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                      <% end %>
+                    <% end %>
+                    <div>
+                      <span><%= comment.customer.name %>さん</span>
+                    </div>
+                  </div>
+
+                  <!-- コメント本文 -->
+                  <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+                    <span><%= simple_format(comment.comment, {}, wrapper_tag: "span") %></span>
+                    <% if comment.customer == current_customer %>
+                      <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
+                    <% end %>
+                  </div>
+
+                  <!-- コメント日時と返信 -->
+                  <div class="d-flex justify-content-between align-items-center mt-2">
+                    <p><%= link_to "返信", "#", class: "btn btn-primary btn-sm reply-link", data: { comment_id: comment.id } %></p>
+                    <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
+                  </div>
+
+                  <!-- リプライ一覧 -->
+                  <!-- リプライの有無の条件分岐 -->
+                  <% if comment.replies.order(created_at: :desc).exists? %>
+                    <% comment.replies.order(created_at: :desc).each do |reply| %>
+                      <div class="reply ml-4 pl-3 mt-2">
+                        <div class="comment mb-3">
+                          <!-- リプライの投稿者 -->
+                          <div class="d-flex align-items-center">
+                            <!-- プロフィール画像 -->
+                            <% if reply.customer.image.attached? %>
+                              <%= link_to customer_path(reply.customer) do %>
+                                <%= image_tag reply.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                              <% end %>
+                            <% else %>
+                              <%= link_to customer_path(reply.customer) do %>
+                                <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
+                              <% end %>
+                            <% end %>
+                            <!-- 会員名 -->
+                            <div>
+                              <span><%= reply.customer.name %>さん</span>
+                            </div>
+                          </div>
+
+                          <!-- リプライ本文 -->
+                          <div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
+                            <span><%= simple_format(reply.comment, {}, wrapper_tag: "span") %></span>
+                            <% if reply.customer == current_customer %>
+                              <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
+                            <% end %>
+                          </div>
+
+                          <!-- リプライ投稿日 -->
+                          <div class="d-flex justify-content-end align-items-center mt-2">
+                            <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <p class="text-center">リプライはありません</p>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <p class="text-center">コメントはありません</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col text-right">
-    <h6>
-      <i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i>
-      <%= l @post.created_at, format: :custom_long %>
-    </h6>
-  </div>
 </div>
 
-<!--会員名とフォローボタン-->
-<div class="row align-items-center my-2">
-  <div class="col">
-    <h3><%= @post.customer.name %></h3>
-  </div>
-</div>
-
-<!--釣り方-->
-<div class="row">
-  <div class="col">
-    <p class="mb-0">
-      <% @post.rigs.each do |rig| %>
-      <span class="mr-2" style="color: #4d992f;" >＃<%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %></span>
-      <% end %>
-    </p>
-  </div>
-</div>
-
-<!--18行目のヘッダー閉じタグ-->
-</div>
-  
-<!--カードボディ-->
-<div class="card-body">        
-<!-- 画像 -->
-<div class="my-3">
-  <% if @post.image.attached? %>
-    <%= image_tag @post.image, class: "img-fluid", style: "width: 100%; height: auto; object-fit: cover;" %>
-  <% else %>
-    <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: auto; object-fit: cover;" %>
-  <% end %>
-</div>
-
-<!--魚と釣り場-->
-<div class="row align-items-center my-2">
-  <!--魚種-->
-  <div class="col">
-    <h5>魚種</h5>
-    <% if @post.genre_name.present? %>
-      <h2 class="mb-0"><%= @post.genre_name %></h2>
-    <% else %>
-      <!-- もし魚が未記入で投稿が通ってしまった場合、このメッセージを表示して魚の登録を促す -->
-      <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
-    <% end %>
-  </div>
-  <!--釣り場-->
-  <div class="col">
-   <h5>釣り場</h5>
-    <h3 class="mb-0">＠ <%= link_to @post.location, posts_path(location: @post.location), class: "text-dark" %></h3>
-    </h5>
-  </div>
-</div>
-          
-<!--感想-->
-<div class="mb-3">
-  <h5>感想</h5>
-  <%= simple_format(@post.body, class: "m-0") %>
-</div>
-
-<hr>
-
-<!--コメントとリプライ一覧-->
-<h4>コメント件数 (<%= @post.post_comments.count %>)</h4>
-<div id="comments">
-<!--コメントの有無の条件分岐-->
-<% if @post.post_comments.where(parent_id: nil).order(created_at: :desc).exists? %>
-  <% @post.post_comments.where(parent_id: nil).order(created_at: :desc).each do |comment| %>
-    <div class="comment mb-3">
-    <!--プロフィール画像-->
-    <div class="d-flex align-items-center">
-  <% if comment.customer.image.attached? %>
-  <%= link_to customer_path(comment.customer) do %>
-    <%= image_tag comment.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-  <% end %>
-  <% else %>
-  <%= link_to customer_path(comment.customer) do %>
-    <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-  <% end %>
-<% end %>
-<div>
-<span><%= comment.customer.name %>さん</span>
-</div>
-</div>
-
-<!--コメント本文-->
-<div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
-<span><%= simple_format(comment.comment, {}, wrapper_tag: "span") %></span>
-<% if comment.customer == current_customer %>
-  <%= link_to '削除', post_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
-<% end %>
-</div>
-
-<!--コメント日時と返信-->
-<div class="d-flex justify-content-between align-items-center mt-2">
-  <p><%= link_to "返信", "#", class: "btn btn-primary btn-sm reply-link", data: { comment_id: comment.id } %></p>
-  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
-</div>
-
-<!--174行目のcomments閉じタグ-->
-</div>
-
-<!--リプライ一覧-->
-<!--リプライの有無の条件分岐-->
-<% if comment.replies.order(created_at: :desc).exists? %>
-<% comment.replies.order(created_at: :desc).each do |reply| %>
-<div class="reply ml-4 pl-3 mt-2">
-<div class="comment mb-3">
-  
-<!--リプライの投稿者-->
-<div class="d-flex align-items-center">
-  <!--プロフィール画像-->
-  <% if reply.customer.image.attached? %>
-      <%= link_to customer_path(reply.customer) do %>
-      <%= image_tag reply.customer.image, class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-    <% end %>
-    <% else %>
-      <%= link_to customer_path(reply.customer) do %>
-      <%= image_tag 'no_image.jpg', class: "mr-2 rounded-circle", style: "height: 30px; width: 30px; object-fit: cover;" %>
-    <% end %>
-  <% end %>
-  <!--会員名-->
-  <div>
-    <span><%= reply.customer.name %>さん</span>
-  </div>
-</div>
-  
-<!--リプライ本文-->
-<div class="d-flex justify-content-between align-items-center mt-2" style="border: 1px solid #dee2e6; border-radius: 10px; background-color: #ffffff; padding: 15px;">
-<span><%= simple_format(reply.comment, {}, wrapper_tag: "span") %></span>
-<% if reply.customer == current_customer %>
-  <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
-<% end %>
-</div>
-  
-<!--リプライ投稿日-->
-<div class="d-flex justify-content-end align-items-center mt-2">
-  <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
-</div>
-
-</div>
-<!--230行目の閉じタグ-->
-</div>
-
-<!--229行目の閉じタグ-->
-<% end %>
-<!--リプライがない場合-->
-<% else %>
-<p class="text-center">リプライはありません</p>
-<!--228行目の閉じタグ-->
-<% end %>
-
-<!--172行目の閉じタグ-->
-<% end %>
-<!--コメントがない場合-->
-<% else %>
-<p class="text-center">コメントはありません</p>
-<!--173行目の閉じタグ-->
-<% end %>
-</div>
-
-<!--69行目のボディ閉じタグ-->
-</div>
-
-</div>
-</div>
-</div>
-
-<!--javascript/packs-->
+<!-- javascript/packs -->
 <%= javascript_pack_tag 'reply' %>
