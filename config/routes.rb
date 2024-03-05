@@ -78,6 +78,5 @@ scope module: :public do
   get 'tides/get_port_name', to: 'tides#get_port_name'
   resources :tides, only: [:index]
   
-  
 end
 end
