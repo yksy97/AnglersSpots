@@ -50,7 +50,7 @@ class Public::TacklesController < ApplicationController
   private
 
   def tackle_params
-    params.require(:tackle).permit(:name, :rod, :reel, :line, :bait)
+    params.require(:tackle).permit(:name, tackle_lists_attributes: [:id, :tackle_item_id, :item_name, :_destroy])
   end
 
   def set_tackle

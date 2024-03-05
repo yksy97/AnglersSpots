@@ -52,11 +52,9 @@ class Public::TidesController < ApplicationController
     
     # 干潮と満潮
     
-    # @eddと@floodはそれぞれの値をそのままビューに表示＝mapメゾットは不要？
+    # @eddと@floodはそれぞれの値をそのままビューに表示＝mapメゾットは不要
     @edd = response_body['tide']['chart'][params[:date]]['edd']
     @flood = response_body['tide']['chart'][params[:date]]['flood']
-    # @edd = response_body['tide']['chart'][params[:date]]['edd'].map{ |edd| edd }
-    # @flood = response_body['tide']['chart'][params[:date]]['flood'].map{ |flood| flood }
     
     render 'index'
   end

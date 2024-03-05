@@ -37,24 +37,16 @@
                       <div class="card-header" style="background-color: white;">
                         <strong><%= truncate(tackle.name, length: 16, omission: '...') %></strong>
                       </div>
-                      <div class="card-body">
-                        <div class="card-text mb-2">
-                          <strong>ロッド</strong>
-                          <div><%= truncate(tackle.rod, length: 16, omission: '...') %></div>
+                         <% tackle.tackle_lists.order(order: :asc).each do |tl| %>
+                        <div class="row mb-3">
+                          <div class="col-md-4 text-center">
+                            <%= tl.tackle_item.name %>
+                          </div>
+                          <div class="col-md-8 text-left">
+                            <%= tl.item_name %>
+                          </div>
                         </div>
-                        <div class="card-text mb-2">
-                          <strong>リール</strong>
-                          <div><%= truncate(tackle.reel, length: 16, omission: '...') %></div>
-                        </div>
-                        <div class="card-text mb-2">
-                          <strong>ライン</strong>
-                          <div><%= truncate(tackle.line, length: 16, omission: '...') %></div>
-                        </div>
-                        <div class="card-text mb-2">
-                          <strong>ベイト</strong>
-                          <div><%= truncate(tackle.bait, length: 16, omission: '...') %></div>
-                        </div>
-                      </div>
+                      <% end %>
                     </div>
                   </div>
                 <% end %>
