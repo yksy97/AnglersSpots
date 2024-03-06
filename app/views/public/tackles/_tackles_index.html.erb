@@ -1,42 +1,41 @@
 <% if tackles.exists? %>
   <% tackles.each do |tackle| %>
-<div class="col-md-6">
-  <div class="card mb-4 shadow" style="background-color: white;">
-    <!--カードボディ-->
-    <div class="card-body d-flex flex-column justify-content-between" style="background-color: white;">
-
-      <!--タックル情報-->
-      <div>
-        <div class="mb-4" style="text-align: center;">
-          <h4 class="card-title"><%= tackle.name %></h4>
-          <% tackle.tackle_lists.order(order: :asc).each do |tl| %>
-            <div class="row mb-3">
-              <div class="col-md-4 text-center">
-                <%= tl.tackle_item.name %>
-              </div>
-              <div class="col-md-8 text-left">
-                <%= tl.item_name %>
-              </div>
+    <div class="col-md-6">
+      <div class="card mb-4 shadow" style="background-color: white;">
+        <!--カードボディ-->
+        <div class="card-body d-flex flex-column justify-content-between" style="background-color: white;">
+          
+          <!--タックル情報-->
+          <div>
+            <div class="mb-4" style="text-align: center;">
+              <h4 class="card-title"><%= tackle.name %></h4>
+              <% tackle.tackle_lists.order(order: :asc).each do |tl| %>
+                <div class="row mb-3">
+                  <div class="col-md-4 text-center">
+                    <%= tl.tackle_item.name %>
+                  </div>
+                  <div class="col-md-8 text-left">
+                    <%= tl.item_name %>
+                  </div>
+                </div>
+              <% end %>
             </div>
-          <% end %>
+          </div>
+          
+          <!--編集・削除ボタン-->
+          <div class="d-flex justify-content-between">
+            <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
+            <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+          </div>
         </div>
       </div>
-
-      <!--編集・削除ボタン-->
-      <div class="d-flex justify-content-between">
-        <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
-        <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-      </div>
     </div>
-  </div>
-</div>
-
-<!--タックルが偶数個の場合、行を区切るために使用する-->
-<% if tackles.index(tackle).odd? && !tackle.equal?(tackles.last) %>
-  <div class="w-100"></div> <!--このdivは新しい行を開始するために使用する-->
-<% end %>
-
-<% end %>
+    
+    <!--タックルが偶数個の場合、行を区切るために使用する-->
+    <% if tackles.index(tackle).odd? && !tackle.equal?(tackles.last) %>
+      <div class="w-100"></div> <!--このdivは新しい行を開始するために使用する-->
+    <% end %>
+  <% end %>
 <% else %>
   <div class="col-12">
     <p class="text-center">登録されたタックルはありません</p>
