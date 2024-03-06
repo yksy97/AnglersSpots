@@ -11,57 +11,54 @@
       </div>
     </div>
   </div>
-
-<!-- タックル編集 -->
-<div class="col-md-8 mx-auto">
-<div class="card">
-
-<!--カードヘッダー-->
-<div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-  <h3>タックル編集</h3>
-</div>
-
-<!--カードボディ-->
-<div class="card-body" style="background-color: #f0f9fa;">
-  <%= form_with model: @tackle, local: true do |f| %>
-  <div class="form-group">
-  <%= f.label :name, "タックル名" %>
-  <%= f.text_field :name, class: "form-control", value: @tackle.name, required: true %>
+  <!-- タックル編集 -->
+  <div class="col-md-8 mx-auto">
+    <div class="card">
+    
+      <!--カードヘッダー-->
+      <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
+        <h3>タックル編集</h3>
+      </div>
+      
+      <!--カードボディ-->
+      <div class="card-body" style="background-color: #f0f9fa;">
+        <%= form_with model: @tackle, local: true do |f| %>
+        <div class="form-group">
+        <%= f.label :name, "タックル名" %>
+        <%= f.text_field :name, class: "form-control", value: @tackle.name, required: true %>
+        </div>
+        
+        <div class="form-group">
+          <%= link_to_add_association 'アイテム追加',
+                                      # form_withのformタグ変数
+                                      f,
+                                      # フォームのデータを追加するモデル名
+                                      :tackle_lists,
+                                      # 追加するフォームの部分テンプレート
+                                      partial: "public/tackles/tackle_list_fields",
+                                      # オプション
+                                      data: {
+                                      # フォームを追加する場所の指定
+                                      association_insertion_node: '#tackle_list_forms'},
+                                      
+                                      class: 'btn btn-success btn-sm'  
+          %>
+        </div>
+        
+        <div id="tackle_list_edit_forms">
+          <%= f.fields_for :tackle_lists do |f| %>
+            <% render 'public/tackles/tackle_list_fields', f: f %>
+          <% end %>
+        </div>
+        
+        <%= f.submit "更新する", class: "btn btn-primary" %>
+        <% end %>
+        
+        <div class="mt-3">
+          <h5><%= link_to 'タックル一覧はこちら', tackles_path, class: "text-dark" %></h5>
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <div class="form-group">
-    <%= link_to_add_association 'アイテム追加',
-                                # form_withのformタグ変数
-                                f,
-                                # フォームのデータを追加するモデル名
-                                :tackle_lists,
-                                # 追加するフォームの部分テンプレート
-                                partial: "public/tackles/tackle_list_fields",
-                                # オプション
-                                data: {
-                                  # フォームを追加する場所の指定
-                                  association_insertion_node: '#tackle_list_edit_forms',
-                                }
-    %>
-  </div>
-  
-  <div id="tackle_list_edit_forms">
-    <%= f.fields_for :tackle_lists do |f| %>
-      <% render 'public/tackles/tackle_list_fields', f: f %>
-    <% end %>
-  </div>
-  
-  <%= f.submit "更新する", class: "btn btn-primary" %>
-  <% end %>
-  
-  <div class="mt-3">
-  <h5><%= link_to 'タックル一覧はこちら', tackles_path, class: "text-dark" %></h5>
-  </div>
-</div>
-
-</div>
-</div>
-
-
 </div>
 

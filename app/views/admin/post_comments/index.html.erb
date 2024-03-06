@@ -10,10 +10,15 @@
   <% end %>
   <h1 class="mb-4 text-center">コメント一覧</h1>
   <table class="table table-striped table-bordered">
+    <colgroup>
+        <col style="width: 20%;">
+        <col style="width: 40%;">
+        <col style="width: 20%;">
+      </colgroup>
     <thead class="thead-dark">
       <tr>
-        <th scope="col" class="text-center">コメント内容</th>
         <th scope="col" class="text-center">投稿者</th>
+        <th scope="col" class="text-center">コメント内容</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -25,8 +30,8 @@
         <% else %>
           <% @comments.each do |comment| %>
             <tr>
-              <td class="break-word"><%= comment.comment %></td>
               <td class="break-word"><%= link_to comment.customer.name, admin_customer_posts_path(customer_id: comment.customer.id) %></td>
+              <td class="break-word"><%= comment.comment %></td>
               <td class="text-center">
                 <%= link_to '管理者権限で削除', admin_post_comment_path(comment), method: :delete, data: { confirm: 'このコメントを削除しますか？' }, class: 'btn btn-danger btn-sm' %>
               </td>

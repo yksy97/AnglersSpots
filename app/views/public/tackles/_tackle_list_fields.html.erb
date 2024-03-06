@@ -1,6 +1,5 @@
 <div class="nested-fields">
   <div class="field form-group">
-    <%# link_to_add_associationのform_nameで指定した名前。(初期値 : f)  %>
     <div class="row">
       <div class="col-md-4">
         <%= f.collection_select(:tackle_item_id, TackleItem.order(order: :asc), :id, :name, {include_blank: '選択してください'}, {class: 'form-control', required: :true}) %>
