@@ -1,9 +1,8 @@
 class Notification < ApplicationRecord
   belongs_to :customer
   belongs_to :notifiable, polymorphic: true
-  
   include Rails.application.routes.url_helpers
- 
+
   def message
     if notifiable_type === "Post"
       "フォローしている#{notifiable.customer.name}さんが#{notifiable.title}を投稿しました"

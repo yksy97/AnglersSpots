@@ -10,7 +10,7 @@ class Public::RelationshipsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @customer = Customer.find(params[:customer_id])
     current_customer.unfollow(@customer)
@@ -18,7 +18,7 @@ class Public::RelationshipsController < ApplicationController
       format.js
     end
   end
-  
+
   def followings
     customer = Customer.find(params[:customer_id])
     @customers = customer.followings

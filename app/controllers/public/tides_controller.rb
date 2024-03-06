@@ -8,14 +8,14 @@ class Public::TidesController < ApplicationController
     # 「Tide」モデルから都道府県名と都道府県コードの一意的なリストを取得し、@areaに格納する
     @areas = Tide.all.pluck(:prefecture_name, :prefecture_code).uniq!
   end
-  
+
   def graf
     # パラメーターがない場合、indexにリダイレクト
     redirect_to tides_path and return if params[:prefecture_code].blank? || params[:port_code].blank? || params[:date].blank?
-    
+
     # 再び、都道府県名と都道府県コードの一意的なリストを取得
     @areas = Tide.all.pluck(:prefecture_name, :prefecture_code).uniq! # エリアの一覧
-    
+
     # APIのURL
     api_url = "https://tide736.net/api/get_tide.php"
 
@@ -41,17 +41,15 @@ class Public::TidesController < ApplicationController
     if response_body['status'] != 1
       raise response_body['message']
     end
-    
+
     # 潮汐、潮の状態、日出日没、港の位置情報をインスタンス変数に格納
-    
     # ＠tideからtimeとcmの値を取り出して、チャートに表示するためにデータを加工＝mapメゾットが必要
     @tides = response_body['tide']['chart'][params[:date]]['tide'].map{|data| [data['time'], data['cm']]} # 潮位
     @tide = response_body['tide']['chart'][params[:date]]['moon']['title'] # 潮汐
     @astro_twilight = response_body['tide']['chart'][params[:date]]['sun']['astro_twilight'] # 日の出・日の入
     @location = [response_body['tide']['port']['latitude'], response_body['tide']['port']['longitude']]
-    
+
     # 干潮と満潮
-    
     # @eddと@floodはそれぞれの値をそのままビューに表示＝mapメゾットは不要
     @edd = response_body['tide']['chart'][params[:date]]['edd']
     @flood = response_body['tide']['chart'][params[:date]]['flood']
@@ -64,7 +62,6 @@ class Public::TidesController < ApplicationController
     render json: Tide.where(prefecture_code: params[:prefecture_code]).pluck(:port_name, :port_code)
   end
 end
-
 
 # eachメゾットは、各要素に繰り返し処理を行い、その結果を返さず元の配列をそのまま扱う。
 # mapメゾットは、各要素に繰り返し処理をした結果を、新しい配列として返す。

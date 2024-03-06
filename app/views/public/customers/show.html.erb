@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-md-4">
       <!--会員詳細-->
@@ -25,7 +25,7 @@
         <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
           <h3>タックル新着</h3>
         </div>
-      
+
         <!--カードボディ-->
         <div class="card-body">
           <% if @customer.tackles.exists? %>
@@ -60,7 +60,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- 投稿一覧 -->
       <div class="card">
         <!--カードヘッダー-->
@@ -78,10 +78,12 @@
                     <div class="card-header mt-0 mb-0" style="background-color: white;">
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
+
                           <!--タイトル、10文字まで表示-->
                           <h5>
                             <%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %>
                           </h5>
+
                           <!--魚の名前、10文字まで表示-->
                           <% if post.genre_name.present? %>
                             <h6 class="mb-0" style="font-size: 1rem;">
@@ -91,6 +93,7 @@
                             <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
                           <% end %>
                         </div>
+
                         <!-- 投稿日と釣り場 -->
                         <div class="d-flex flex-column align-items-end">
                           <div class="text-right" style="font-size: 0.9rem;">
@@ -102,6 +105,7 @@
                         </div>
                       </div>
                     </div>
+
                     <!--カードボディ-->
                     <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
                       <!-- 釣り方 -->
@@ -119,6 +123,7 @@
                         <div style="min-height: 22px;"></div>
                       <% end %>
                     </div>
+
                     <!--魚の画像-->
                     <div class="my-3">
                       <% if post.image.attached? %>
@@ -131,6 +136,7 @@
                         <% end %>
                       <% end %>
                     </div>
+
                     <!--投稿者とフォローボタン-->
                     <div class="card-body pt-0 pb-0">
                       <div class="d-flex justify-content-between align-items-center">
@@ -142,11 +148,13 @@
                           <% else %>
                             <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
                           <% end %>
+
                           <!-- 会員名 -->
                           <strong class="ml-2">
                             <%= link_to post.customer.name, customer_path(post.customer), class: "text-dark" %>
                           </strong>
                         </div>
+
                         <!--フォローボタン-->
                         <% if customer_signed_in? && current_customer != post.customer %>
                           <div id="relationship-btn<%= post.customer.id %>">
@@ -159,16 +167,19 @@
                           </div>
                         <% end %>
                       </div>
+
                       <!--本文-->
                       <p class="card-text mt-2">
                         <%= truncate(post.body, length: 15) %>
                       </p>
+
                       <!--いいねとコメント-->
                       <div class="d-flex justify-content-between align-items-center mt-2">
                         <!--いいね-->
                         <h6 style="padding-right: 0.5rem;">
                           <%= render 'public/favorites/btn', post: post %>
                         </h6>
+
                         <!--コメント数-->
                         <h6 style="padding-left: 0.5rem;">
                           <% if post.post_comments.count > 0 %>

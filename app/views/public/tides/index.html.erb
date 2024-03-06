@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    
+
   <%= form_tag(tides_graf_path, method: :get) do %>
     <div class="row">
       <div class="col-md-4">
@@ -51,7 +51,7 @@
         width: 100%;
     }
   </style>
-  
+
   <div class="container">
     <div class="row">
       <div class="col-md-4 mb-3 mb-md-0">
@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row mt-3">
       <div class="col-md-4 mb-3 mb-md-0">
         <div class="card">
@@ -102,16 +102,16 @@
         </div>
       </div>
     </div>
-  
+
     <!--GoogleMap-->
     <div id="map" class="my-3"></div>
   </div>
-  
+
   <!--チャート-->
   <div class="container mt-2 mb-4">
     <canvas id="myLineChart"></canvas>
   </div>
-  
+
   <script>
     function initMap(){
       // geocoderを初期化
@@ -129,7 +129,7 @@
         
       });
     }
-  
+
     var ctx = document.getElementById("myLineChart");
     var myLineChart = new Chart(ctx, {
       type: 'line',
@@ -159,11 +159,11 @@
   $(document).ready(function () {
     makeSelectBox();
   });
-  
+
   $('#prefecture_code').change(function () {
     makeSelectBox();
   })
-    
+
   function makeSelectBox () {
     if ($('#prefecture_code').val() != '') {
         
@@ -186,17 +186,16 @@
             $("#port_code").append($("<option>").val(port[1]).text(port[0]));
           }
         })
-        
+
       })
       .fail(function () {
         // 取得失敗時のメッセージ
         alert('港情報の取得に失敗しました');
       })
-        
+
     } else {
       $('#port_code_area').removeClass('d-block').addClass('d-none'); // 港の入力欄非表示
       $('#date_area').removeClass('d-block').addClass('d-none'); // 日付の入力欄非表示
     }
   }
 </script>
-

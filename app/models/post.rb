@@ -121,18 +121,12 @@ class Post < ApplicationRecord
       self.rigs << new_post_rig
     end
   end
-  
+
   def self.ransackable_attributes(auth_object = nil)
     ["body", "genre_name"]
   end
-  
+
   def self.ransackable_associations(auth_object = nil)
     ["post_comments", "rig_posts", "rigs", "tackle"]
   end
-
-
 end
-
-  
-
-

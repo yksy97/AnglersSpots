@@ -9,7 +9,6 @@
 
 <!--「create.js.erb」では、$(".relationship-btn<%#= @customer.id %>").html("<%#= escape_javascript(render 'public/relationships/customer_follow_btn', customer: @customer) %>");として記述-->
 
-
 <td id="relationship-btn<%= customer.id %>">
   <% if current_customer.following?(customer) %>
     <%= link_to 'フォロー中', customer_relationships_path(customer), method: :delete, data: { confirm: '本当に解除しますか？' }, remote: true, class: 'btn btn-primary btn-sm' %>
@@ -17,4 +16,3 @@
     <%= link_to 'フォローする', customer_relationships_path(customer), method: :post, remote: true, class: 'btn btn-primary btn-sm' %>
   <% end %>
 </td>
-

@@ -44,6 +44,7 @@
       <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
         <%= simple_format(customer.introduction) %>
       </div>
+
       <!-- 編集モーダルボタン -->
       <% if !@customer.guest_customer? && current_customer == @customer %>
       <div class="text-center">
