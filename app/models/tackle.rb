@@ -1,8 +1,8 @@
 class Tackle < ApplicationRecord
   belongs_to :customer
   has_many :posts
-  has_many :tackle_items # 項目
-  has_many :tackle_lists, dependent: :destroy # 記録
+  has_many :tackle_items # アイテム
+  has_many :tackle_lists, dependent: :destroy # リスト
   
   accepts_nested_attributes_for :tackle_lists, reject_if: :all_blank, allow_destroy: true
   
