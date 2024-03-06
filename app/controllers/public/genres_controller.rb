@@ -6,7 +6,7 @@ class Public::GenresController < ApplicationController
     @genres = current_customer.genres.order(created_at: :desc).page(params[:page]).per(20)
     @genre = current_customer.genres.new
   end
-    
+
   def create
     @genre = current_customer.genres.new(genre_params)
     if @genre.save
