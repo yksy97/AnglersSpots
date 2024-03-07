@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- 投稿詳細 -->
   <div class="col-md-8 mx-auto">
     <div class="card">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- カードボディ -->
       <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
         <!-- 釣り方 -->
@@ -72,7 +72,7 @@
           <!-- rigsがない場合、同じサイズの余白を表示 -->
           <div style="min-height: 22px;"></div>
         <% end %>
-      
+
         <!-- 画像 -->
         <div class="my-3">
           <% if @post.image.attached? %>
@@ -149,7 +149,7 @@
           <% end %>
         <% end %>
       </div>
-                  
+
         <!-- 感想 -->
         <div class="mb-3">
           <h5>感想</h5>
@@ -267,12 +267,12 @@
                           <%= link_to '削除', post_post_comment_path(@post, reply), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger btn-sm" %>
                         <% end %>
                       </div>
-  
+
                       <!--リプライ投稿日-->
                       <div class="d-flex justify-content-end align-items-center mt-2">
                         <small><p class="text-muted"><i class="fas fa-calendar-alt mr-2" style="color: #e32d2d;"></i><%= l comment.created_at, format: :custom_long %></p></small>
                       </div>
-          
+
                       </div>
                       </div>
                       <% end %>

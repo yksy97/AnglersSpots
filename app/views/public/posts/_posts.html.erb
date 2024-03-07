@@ -4,14 +4,13 @@
     <% @posts.each do |post| %>
       <div class="col-12 col-md-6 col-lg-4 mb-2">
         <div class="card mb-4 shadow">
+
           <!--カードヘッダー-->
           <div class="card-header mt-0 mb-0" style="background-color: white;">
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <!--タイトル、10文字まで表示-->
-                <h5>
-                  <%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %>
-                </h5>
+                  <h5><%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %></h5>
                 <!--魚の名前、10文字まで表示-->
                 <% if post.genre_name.present? %>
                   <h6 class="mb-0" style="font-size: 1rem;">
@@ -21,11 +20,14 @@
                   <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
                 <% end %>
               </div>
+
               <!-- 投稿日と釣り場 -->
               <div class="d-flex flex-column align-items-end">
+                <!--投稿日-->
                 <div class="text-right" style="font-size: 0.9rem;">
                   <%= time_ago_in_words(post.created_at) %>前
                 </div>
+                <!--釣り場-->
                 <div class="text-right" style="font-size: 0.9rem;">
                   ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
                 </div>
@@ -36,7 +38,6 @@
           <!--カードボディ-->
           <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
             <!-- 釣り方 -->
-            <!--釣り方の有無の条件分岐-->
             <% if post.rigs.present? %>
               <p class="card-text" style="font-size: 0.9rem;">
                 <% post.rigs.first(3).each do |rig| %>
@@ -82,7 +83,7 @@
                   <%= link_to post.customer.name, customer_path(post.customer), class: "text-dark" %>
                 </strong>
               </div>
-              
+
               <!--フォローボタン-->
               <% if customer_signed_in? && current_customer != post.customer %>
                 <div class="relationship-btn<%= post.customer.id %>">
@@ -95,10 +96,10 @@
                 </div>
               <% end %>
             </div>
+
             <!--感想-->
-            <p class="card-text mt-2">
-              <%= truncate(post.body, length: 15) %>
-            </p>
+            <p class="card-text mt-2"><%= truncate(post.body, length: 15) %></p>
+
             <!--いいねとコメント-->
             <div class="d-flex justify-content-between align-items-center mt-2">
               <!--いいね-->
@@ -114,6 +115,7 @@
                 <% end %>
                 <%= post.post_comments.count %>
               </h6>
+
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@
           </div>
           <div id="existingGenreSelect" class="mb-3" style="display: none;">
             <%= f.label :genre_name, "魚を選択" %>
-            <%= f.collection_select :genre_name, current_customer.genres.order(:name), :name, :name, {include_blank: true}, class: "custom-select" %>
+            <%= f.collection_select :genre_name, current_customer.genres.order(:name), :name, :name, {include_blank: '選択してください'}, class: "custom-select" %>
           </div>
 
           <!--タイトルフォーム-->

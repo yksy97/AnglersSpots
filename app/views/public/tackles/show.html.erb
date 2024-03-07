@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <div class="row">
+            <!-- 会員情報 -->
+            <%= render 'public/customers/customer_section', customer: current_customer %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mb-4">
+    <div class="d-flex justify-content-end align-items-center">
+      <%= link_to '編集', edit_tackle_path(@tackle), class: 'btn btn-success' %>
+      <%= link_to '削除', @tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger ml-3' %>
+    </div>
+    <h1 class="mt-2 text-center"><%= @tackle.name %></h1>
+  </div>
+  <table class="table table-striped table-bordered">
+    <colgroup>
+      <col style="width: 30%;">
+      <col style="width: 70%;">
+    </colgroup>
+    <thead style="background-color: #AFDFE4;">
+      <tr>
+        <th scope="col" class="text-center">アイテム</th>
+        <th scope="col" class="text-center">詳細</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tackle.tackle_lists.order(order: :asc).each do |tl| %>
+      <tr>
+        <td class="break-word"><strong><%= tl.tackle_item.name %></strong></td>
+        <td class="break-word"><%= tl.item_name %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

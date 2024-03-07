@@ -4,7 +4,7 @@ class Admin::TacklesController < ApplicationController
   def index
     @tackles = Tackle.order(created_at: :desc).page(params[:page]).per(6)
   end
-  
+
   def show
     @tackle = Tackle.find(params[:id])
   end

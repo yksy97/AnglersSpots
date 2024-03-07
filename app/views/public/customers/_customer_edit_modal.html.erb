@@ -1,6 +1,6 @@
 <!-- 会員詳細の編集モーダル -->
 <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditCustomerModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #AFDFE4">
         <h5 class="modal-title" id="EditCustomerModalLabel">会員情報編集</h5>
@@ -20,7 +20,7 @@
             <%= f.label :email, "メールアドレス" %>
             <%= f.email_field :email, class: "form-control" %>
           </div>
-          
+
           <!-- 画像 -->
           <div class="form-group">
             <label for="inputCustomerFile">プロフィール画像</label>
@@ -31,25 +31,25 @@
               </div>
             </div>
           </div>
-          
+
           <!-- 魚 -->
           <div class="form-group">
             <%= f.label :favorite_fish, "好きな魚" %>
             <%= f.text_field :favorite_fish, class: "form-control" %>
           </div>
-          
+
           <!-- 釣り方 -->
           <div class="form-group">
             <%= f.label :favorite_rig, "好きな釣り方" %>
             <%= f.text_field :favorite_rig, class: "form-control" %>
           </div>
-          
+
           <!-- 場所 -->
           <div class="form-group">
             <%= f.label :favorite_location, "好きな場所" %>
             <%= f.text_field :favorite_location, class: "form-control" %>
           </div>
-          
+
           <!-- 自己紹介 -->
           <div class="form-group">
             <%= f.label :introduction, "自己紹介" %>

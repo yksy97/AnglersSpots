@@ -3,25 +3,25 @@ class Post < ApplicationRecord
   # 「optional: true」は、PostとGenreの関連付け）を任意で行えるようにするオプション
   # 会員が新しい魚で投稿したとき、Genreの指定がない状態でもPostの作成が可能になる
   # ＝ 全てのPostがGenreに属する必要はないので、魚（ジャンル）が未分類のPostも許容される
-  # 「optional: true」にした場合は、nill guardとして<% if @post.tackle %><% end %>の記述をする
+  # 「optional: true」にした場合は、nil guardとして<% if @post.tackle %><% end %>の記述をする
   belongs_to :tackle, optional: true
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_one_attached :image
-  
+
   # dependent: :destroyでPostが削除されると同時にPostとRigの関係が削除される
   has_many :rig_posts, dependent: :destroy
 
   # throughを利用して、rig_postsを通してtagsとの関連付け(中間テーブル)
   #   Post.riggsとすれば、Postに紐付けられたTagの取得が可能
   has_many :rigs, through: :rig_posts
-  
+
   # rigの編集に必要なコールバック
   # 投稿詳細の編集画面において、フォームヘルパーの中でリグの編集を行うには工夫が必要
   # 何もしてないとrig自体がテキストにもならない
   # attr_accessorとattributeは大体同じ働きだが、attributeの方がメンテナンスが高い（けど難しい）
   attr_accessor :rig_list
-  
+
   after_find :rigs_to_rig_list
   def rigs_to_rig_list
     # rails c とbeybug使って、self.rigs.map{|o| o.name }.join(" ")の動作を確認
@@ -33,21 +33,21 @@ class Post < ApplicationRecord
   def update_rigs
     save_rigs(self.rig_list)
   end
-  
+
   # 通知
   has_many :notifications, as: :notifiable, dependent: :destroy
-  
+
   after_create do
     customer.followers.each do |follower|
       notifications.create(customer_id: follower.id)
     end
   end  
-  
+
   validate :validate_genre_presence
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 500 }
   validates :location, presence: true
-  
+
   # 「attr_accessor」
   # 仮想的な属性（フォームで一時的に使用するための属性）
   # データベースやActiveRecordとは関連がない
@@ -71,13 +71,13 @@ class Post < ApplicationRecord
       self.genre_name = new_genre.name 
     end
   end
-  
+
   # いいね
   def favorited_by?(customer)
     favorites.where(customer_id: customer.id).exists?
   end
-    
-    # no_image画像 
+
+  # no_image画像 
   def get_image
     if image.attached?
       image
@@ -85,7 +85,7 @@ class Post < ApplicationRecord
       'no_image.jpg'
     end
   end
-  
+
   def save_rigs(rigs)
     # リグをスペース区切りで分割し配列にする
     #   連続した空白も対応するので、最後の“+”がポイント
@@ -121,18 +121,12 @@ class Post < ApplicationRecord
       self.rigs << new_post_rig
     end
   end
-  
+
   def self.ransackable_attributes(auth_object = nil)
     ["body", "genre_name"]
   end
-  
+
   def self.ransackable_associations(auth_object = nil)
     ["post_comments", "rig_posts", "rigs", "tackle"]
   end
-
-
 end
-
-  
-
-

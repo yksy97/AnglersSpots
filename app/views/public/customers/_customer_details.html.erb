@@ -1,4 +1,4 @@
-<div class="card mb-4">
+<div class="card">
   <div class="card-header" style="background-color: #AFDFE4; min-height: 50px;">
     <div class="text-center">
       <h4>会員情報</h4>
@@ -16,7 +16,7 @@
       </div>
     <% end %>
 
-    <div class="mt-4">
+    <div class="mt-3">
       <!-- 名前 -->
       <div class="email mb-2" style="word-break: break-all;">
         <h3><%= customer.name %></h3>
@@ -44,6 +44,7 @@
       <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
         <%= simple_format(customer.introduction) %>
       </div>
+
       <!-- 編集モーダルボタン -->
       <% if !@customer.guest_customer? && current_customer == @customer %>
       <div class="text-center">

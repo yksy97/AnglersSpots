@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-12">
-    
+
     <!-- 管理者専用アラート -->
     <% if admin_signed_in? %>
       <div class="alert alert-warning" role="alert">
@@ -38,7 +38,7 @@
             <%= link_to '退会する', retire_admin_customer_path(customer), method: :patch, data: { confirm: '本当に退会させますか？' }, class: 'btn btn-danger btn-sm' %>
             <% end %>
           </td>
-          
+
           <td class="text-center">
             <% if customer.is_deleted %>
             <i class="fas fa-times-circle text-danger"></i> 退会済み

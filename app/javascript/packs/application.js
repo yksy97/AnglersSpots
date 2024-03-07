@@ -20,6 +20,3 @@ Rails.start()
 // JSとの競合を考慮した結果、TurbolinksをONにするメリットより、OFFにするメリットが上回っているのでOFFにしました。
 // Turbolinks.start()
 ActiveStorage.start()
-
-
-
