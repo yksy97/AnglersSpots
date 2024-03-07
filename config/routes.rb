@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'maps/index'
   # ゲストログイン用のルーティングを追加
   devise_scope :customer do
     post 'customers/guest_sign_in', to: 'public/sessions#guest_sign_in', as: :guest_customer_session
@@ -8,7 +7,7 @@ Rails.application.routes.draw do
     # ブラウザのリロードは、基本的に[GET]になるので上記の画面で更新すると[GET]のルーティングがないのでエラー発生してしまう
     get 'customers', to: 'public/registrations#new'
   end
-  
+
   # 管理者用ゲストログイン用のルーティングを追加
   devise_scope :admin do
     post 'admins/guest_sign_in', to: 'admin/sessions#guest_sign_in', as: :guest_admin_session
@@ -19,70 +18,68 @@ Rails.application.routes.draw do
     sessions: 'admin/sessions'
   }
 
- namespace :admin do
-  resources :customers, only: [:index] do
-    member do
-      patch :retire
-      patch :revive
+  namespace :admin do
+    resources :customers, only: [:index] do
+      member do
+        patch :retire
+        patch :revive
+      end
+      resources :posts, only: [:index, :show, :destroy] do
+        resources :post_comments, only: [:index, :destroy]
+      end
     end
-    resources :posts, only: [:index, :show, :destroy] do
-      resources :post_comments, only: [:index, :destroy]
-    end
+
+    # 魚種管理
+    resources :genres, only: [:index, :destroy]
+    
+    # タックル管理
+    resources :tackles, only: [:index, :show, :destroy]
+    
+    # 全てのコメントを一覧表示
+    resources :post_comments, only: [:index, :destroy]
   end
-  
-  # 魚種管理
-  resources :genres, only: [:index, :destroy]
-  
-  # タックル管理
-  resources :tackles, only: [:index, :show, :destroy]
 
-  # 全てのコメントを一覧表示
-  resources :post_comments, only: [:index, :destroy]
-end
-
-
-# 顧客用Deviseルーティング
+  # 顧客用Deviseルーティング
   devise_for :customers, skip: [:passwords], controllers: {
-    registrations: 'public/registrations',
-    sessions: 'public/sessions'
+  registrations: 'public/registrations',
+  sessions: 'public/sessions'
   }
 
-scope module: :public do
-  root to: 'homes#top'
-  get 'about', to: 'homes#about'
+  scope module: :public do
+    root to: 'homes#top'
+    get 'about', to: 'homes#about'
 
-  # confirmとwithdrawはcustomerブロックの外側に。退会処理に特定のIDは必要ないため。
-  get "customers/confirm" => "customers#confirm"
-  patch "customers/withdraw" => "customers#withdraw"
-  
-  resources :customers, only: [:show, :edit, :update] do
-    resource :relationships, only: [:create, :destroy]
-    get 'followings' => 'relationships#followings', as: 'followings'
-    get 'followers' => 'relationships#followers', as: 'followers'
-  end
+    # confirmとwithdrawはcustomerブロックの外側に。退会処理に特定のIDは必要ないため。
+    get "customers/confirm" => "customers#confirm"
+    patch "customers/withdraw" => "customers#withdraw"
 
-  resources :posts, only: [:new, :index, :show, :edit, :create, :destroy, :update] do
-    resources :post_comments, only: [:create, :edit, :destroy, :update]
-    resource :favorites, only: [:create, :destroy]
-    member do
-      patch 'tackle_selection', to: 'posts#tackle_selection'
+    resources :customers, only: [:show, :edit, :update] do
+      resource :relationships, only: [:create, :destroy]
+      get 'followings' => 'relationships#followings', as: 'followings'
+      get 'followers' => 'relationships#followers', as: 'followers'
     end
-  end
 
-  resources :favorites, only: [:index]
-  
-  resources :notifications, only: [:index]
+    resources :posts, only: [:new, :index, :show, :edit, :create, :destroy, :update] do
+      resources :post_comments, only: [:create, :edit, :destroy, :update]
+      resource :favorites, only: [:create, :destroy]
+      member do
+       patch 'tackle_selection', to: 'posts#tackle_selection'
+      end
+    end
 
-  resources :genres, only: [:index, :create, :edit, :update, :destroy] do
-    get 'posts', to: 'posts#genre', as: 'posts', on: :member
+    resources :favorites, only: [:index]
+    
+    resources :notifications, only: [:index]
+    
+    resources :genres, only: [:index, :create, :edit, :update, :destroy] do
+      get 'posts', to: 'posts#genre', as: 'posts', on: :member
+    end
+
+    resources :tackles, only: [:new, :create, :index, :show, :edit, :update, :destroy]
+      get '/searches', to: 'searches#search'
+      
+      get 'tides/graf', to: 'tides#graf'
+      get 'tides/get_port_name', to: 'tides#get_port_name'
+    resources :tides, only: [:index]
   end
-  
-  resources :tackles, only: [:new, :create, :index, :show, :edit, :update, :destroy]
-  get '/searches', to: 'searches#search'
-  
-  get 'tides/graf', to: 'tides#graf'
-  get 'tides/get_port_name', to: 'tides#get_port_name'
-  resources :tides, only: [:index]
-  
-end
 end
