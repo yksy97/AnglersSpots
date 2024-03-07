@@ -1,15 +1,17 @@
-<% if tackles.exists? %>
+<% if tackles.any? %>
   <% tackles.each do |tackle| %>
     <div class="col-md-6">
       <div class="card mb-4 shadow" style="background-color: white;">
         <!--カードボディ-->
         <div class="card-body d-flex flex-column justify-content-between" style="background-color: white;">
-
           <!--タックル情報-->
           <div>
-            <div class="mb-4" style="text-align: center;">
-              <h4 class="card-title"><%= tackle.name %></h4>
-              <% tackle.tackle_lists.order(order: :asc).each do |tl| %>
+            <div class="mb-0" style="text-align: center;">
+              <!--タックル名-->
+              <h4 class="card-title">
+                <%= link_to tackle.name, tackle_path(tackle), class: 'text-dark' %>
+              </h4>
+              <% tackle.tackle_lists.order(order: :asc).limit(4).each do |tl| %>
                 <div class="row mb-3">
                   <div class="col-md-4 text-center">
                     <%= tl.tackle_item.name %>
@@ -19,21 +21,32 @@
                   </div>
                 </div>
               <% end %>
+              <!--アイテム数によるカードサイズの差異を調節-->
+              <% additional_rows = [0, 4 - tackle.tackle_lists.count].max %>
+              <% if tackle.tackle_lists.count <= 4 %>
+                <% additional_rows.times do %>
+                  <div class="row mb-3">
+                    <div class="col-md-4 text-center">&nbsp;</div>
+                    <div class="col-md-8 text-left">&nbsp;</div>
+                  </div>
+                <% end %>
+              <% end %>
+              <% if tackle.tackle_lists.count > 4 %>
+                <div class="text-center">
+                  <%= link_to '詳細はこちら', tackle_path(tackle), class: 'btn btn-primary btn-sm' %>
+                </div>
+              <% else %>
+                <!-- '詳細はこちら'ボタン分の余白でカードサイズを統一 -->
+                <div class="mb-2">&nbsp;</div>
+              <% end %>
             </div>
-          </div>
-
-          <!--編集・削除ボタン-->
-          <div class="d-flex justify-content-between">
-            <%= link_to '編集', edit_tackle_path(tackle), class: 'btn btn-success btn-sm' %>
-            <%= link_to '削除', tackle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
           </div>
         </div>
       </div>
     </div>
-
     <!--タックルが偶数個の場合、行を区切るために使用する-->
     <% if tackles.index(tackle).odd? && !tackle.equal?(tackles.last) %>
-      <div class="w-100"></div> <!--このdivは新しい行を開始するために使用する-->
+    <div class="w-100"></div> <!--このdivは新しい行を開始するために使用する-->
     <% end %>
   <% end %>
 <% else %>

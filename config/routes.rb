@@ -77,7 +77,7 @@ scope module: :public do
     get 'posts', to: 'posts#genre', as: 'posts', on: :member
   end
   
-  resources :tackles, only: [:new, :create, :index, :edit, :update, :destroy]
+  resources :tackles, only: [:new, :create, :index, :show, :edit, :update, :destroy]
   get '/searches', to: 'searches#search'
   
   get 'tides/graf', to: 'tides#graf'

@@ -11,6 +11,10 @@ class Public::TacklesController < ApplicationController
     @tackle = Tackle.new
   end
 
+  def show
+    @tackle = Tackle.find(params[:id])
+  end
+
   def create
     @tackle = current_customer.tackles.build(tackle_params)
     respond_to do |format|

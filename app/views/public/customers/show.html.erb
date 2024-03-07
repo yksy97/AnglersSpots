@@ -23,40 +23,59 @@
       <div class="card mb-4">
         <!--カードヘッダー-->
         <div class="card-header d-flex justify-content-center" style="background-color: #AFDFE4;">
-          <h3>タックル新着</h3>
+        <h3>タックル新着</h3>
         </div>
 
         <!--カードボディ-->
         <div class="card-body">
-          <% if @customer.tackles.exists? %>
+          <% if @customer.tackles.any? %>
             <div class="row">
-              <% @customer.tackles.order(created_at: :desc).limit(4).each_slice(2) do |tackles_slice| %>
-                <% tackles_slice.each do |tackle| %>
-                  <div class="col-md-6">
-                   <div class="card mb-3">
-                      <div class="card-header" style="background-color: white;">
-                        <strong><%= truncate(tackle.name, length: 16, omission: '...') %></strong>
-                      </div>
-                         <% tackle.tackle_lists.order(order: :asc).each do |tl| %>
-                        <div class="row mt-3 mb-3">
-                          <div class="col-md-4 text-center">
-                            <%= truncate(tl.tackle_item.name, length: 16, omission: '...') %>
-                          </div>
-                          <div class="col-md-8 text-left">
-                            <%= truncate(tl.item_name, length: 16, omission: '...') %>
-                          </div>
+              <% @customer.tackles.order(created_at: :desc).limit(4).each do |tackle| %>
+              <div class="col-md-6">
+                <div class="card mb-3 shadow" style="background-color: white;">
+                  <!--タックル情報-->
+                  <div class="card-body d-flex flex-column justify-content-between" style="background-color: white;">
+                    <div class="mb-0 text-center">
+                      <!--タックル名はtackles/showに続くリンク-->
+                      <h4 class="card-title">
+                        <%= link_to truncate(tackle.name, length: 16, omission: '...'), tackle_path(tackle), class: 'text-dark' %>
+                      </h4>
+                      <% tackle.tackle_lists.order(order: :asc).limit(2).each do |tl| %>
+                      <div class="row mb-3">
+                        <div class="col-md-4 text-center">
+                          <%= truncate(tl.tackle_item.name, length: 16, omission: '...') %>
                         </div>
+                        <div class="col-md-8 text-left">
+                          <%= truncate(tl.item_name, length: 16, omission: '...') %>
+                        </div>
+                      </div>
+                      <% end %>
+                      <% additional_rows = [0, 2 - tackle.tackle_lists.count].max %>
+                      <% additional_rows.times do %>
+                      <div class="row mb-3">
+                        <div class="col-md-4 text-center">&nbsp;</div>
+                        <div class="col-md-8 text-left">&nbsp;</div>
+                      </div>
+                      <% end %>
+                      <% if tackle.tackle_lists.count > 2 %>
+                      <div class="text-center mt-2">
+                        <%= link_to '詳細はこちら', tackle_path(tackle), class: 'btn btn-primary btn-sm' %>
+                      </div>
+                      <% else %>
+                      <!-- アイテムが2つ以下の場合、詳細リンクの代わりに余白を挿入 -->
+                      <div class="text-center mt-2">&nbsp;</div>
                       <% end %>
                     </div>
                   </div>
-                <% end %>
+                </div>
+              </div>
               <% end %>
             </div>
           <% else %>
             <p class="text-center">登録されたタックルはありません</p>
           <% end %>
           <div class="text-center mt-2">
-            <a href="<%= tackles_path %>" class="btn btn-primary">タックル一覧はこちらから</a>
+            <%= link_to 'タックル一覧はこちらから', tackles_path, class: 'text-dark' %>
           </div>
         </div>
       </div>
@@ -72,134 +91,134 @@
           <div class="row">
             <% if @my_posts.any? %>
               <% @my_posts.each do |post| %>
-                <div class="col-12 col-md-6 col-lg-6 mb-2">
-                  <div class="card mb-4 shadow-sm">
-                    <!--カードヘッダー-->
-                    <div class="card-header mt-0 mb-0" style="background-color: white;">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
+              <div class="col-12 col-md-6 col-lg-6 mb-2">
+                <div class="card mb-4 shadow-sm">
+                  <!--カードヘッダー-->
+                  <div class="card-header mt-0 mb-0" style="background-color: white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
 
-                          <!--タイトル、10文字まで表示-->
-                          <h5>
-                            <%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %>
-                          </h5>
+                      <!--タイトル、10文字まで表示-->
+                      <h5>
+                        <%= link_to truncate(post.title, length: 10), post_path(post), class: "text-dark" %>
+                      </h5>
 
-                          <!--魚の名前、10文字まで表示-->
-                          <% if post.genre_name.present? %>
-                            <h6 class="mb-0" style="font-size: 1rem;">
-                              <%= link_to truncate(post.genre_name, length: 10), posts_path(genre_name: post.genre_name), class: "text-dark"%>
-                            </h6>
-                          <% else %>
-                            <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
-                          <% end %>
-                        </div>
-
-                        <!-- 投稿日と釣り場 -->
-                        <div class="d-flex flex-column align-items-end">
-                          <div class="text-right" style="font-size: 0.9rem;">
-                            <%= time_ago_in_words(post.created_at) %>前
-                          </div>
-                          <div class="text-right" style="font-size: 0.9rem;">
-                            ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--カードボディ-->
-                    <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
-                      <!-- 釣り方 -->
-                      <% if post.rigs.present? %>
-                        <p class="card-text" style="font-size: 0.9rem;">
-                          <% post.rigs.first(3).each do |rig| %>
-                            <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
-                          <% end %>
-                          <% if post.rigs.count > 4 %>
-                            <span>...</span>
-                          <% end %>
-                        </p>
+                      <!--魚の名前、10文字まで表示-->
+                      <% if post.genre_name.present? %>
+                        <h6 class="mb-0" style="font-size: 1rem;">
+                          <%= link_to truncate(post.genre_name, length: 10), posts_path(genre_name: post.genre_name), class: "text-dark"%>
+                        </h6>
                       <% else %>
-                        <!-- rigsがない場合、同じサイズの余白を表示 -->
-                        <div style="min-height: 22px;"></div>
+                        <%= link_to '魚種登録はこちらから', genres_path, class: 'text-dark' %>
                       <% end %>
-                    </div>
-
-                    <!--魚の画像-->
-                    <div class="my-3">
-                      <% if post.image.attached? %>
-                        <%= link_to post_path(post) do %>
-                          <%= image_tag post.image, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
-                        <% end %>
-                      <% else %>
-                        <%= link_to post_path(post) do %>
-                          <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
-                        <% end %>
-                      <% end %>
-                    </div>
-
-                    <!--投稿者とフォローボタン-->
-                    <div class="card-body pt-0 pb-0">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <!-- 画像と会員名 -->
-                        <div class="d-flex align-items-center">
-                          <!-- プロフィール画像 -->
-                          <% if post.customer.image.attached? %>
-                            <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
-                          <% else %>
-                            <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
-                          <% end %>
-
-                          <!-- 会員名 -->
-                          <strong class="ml-2">
-                            <%= link_to post.customer.name, customer_path(post.customer), class: "text-dark" %>
-                          </strong>
-                        </div>
-
-                        <!--フォローボタン-->
-                        <% if customer_signed_in? && current_customer != post.customer %>
-                          <div id="relationship-btn<%= post.customer.id %>">
-                            <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
-                          </div>
-                        <% else %>
-                          <!--自分の投稿に「フォローするボタン」と同じサイズの余白を入れることでボタンによる段差を解消-->
-                          <div style="height: 31px; width: 76px;">
-                            <!--「btn-sm」相当の余白-->
-                          </div>
-                        <% end %>
                       </div>
 
-                      <!--本文-->
-                      <p class="card-text mt-2">
-                        <%= truncate(post.body, length: 15) %>
-                      </p>
-
-                      <!--いいねとコメント-->
-                      <div class="d-flex justify-content-between align-items-center mt-2">
-                        <!--いいね-->
-                        <h6 style="padding-right: 0.5rem;">
-                          <%= render 'public/favorites/btn', post: post %>
-                        </h6>
-
-                        <!--コメント数-->
-                        <h6 style="padding-left: 0.5rem;">
-                          <% if post.post_comments.count > 0 %>
-                            <i class="fas fa-comments text-warning" style="margin-right: 0.3rem;"></i>
-                          <% else %>
-                            <i class="fas fa-comments text-secondary" style="margin-right: 0.3rem;"></i>
-                          <% end %>
-                          <%= post.post_comments.count %>
-                        </h6>
+                      <!-- 投稿日と釣り場 -->
+                      <div class="d-flex flex-column align-items-end">
+                        <div class="text-right" style="font-size: 0.9rem;">
+                          <%= time_ago_in_words(post.created_at) %>前
+                        </div>
+                        <div class="text-right" style="font-size: 0.9rem;">
+                          ＠<%= link_to post.location, posts_path(location: post.location), class: "text-dark" %>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  <!--カードボディ-->
+                  <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
+                    <!-- 釣り方 -->
+                    <% if post.rigs.present? %>
+                      <p class="card-text" style="font-size: 0.9rem;">
+                        <% post.rigs.first(3).each do |rig| %>
+                          <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
+                        <% end %>
+                        <% if post.rigs.count > 4 %>
+                          <span>...</span>
+                        <% end %>
+                      </p>
+                    <% else %>
+                      <!-- rigsがない場合、同じサイズの余白を表示 -->
+                      <div style="min-height: 22px;"></div>
+                    <% end %>
+                  </div>
+
+                  <!--魚の画像-->
+                  <div class="my-3">
+                    <% if post.image.attached? %>
+                      <%= link_to post_path(post) do %>
+                        <%= image_tag post.image, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
+                        <% end %>
+                      <% else %>
+                        <%= link_to post_path(post) do %>
+                        <%= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
+                      <% end %>
+                    <% end %>
+                  </div>
+
+                  <!--投稿者とフォローボタン-->
+                  <div class="card-body pt-0 pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <!-- 画像と会員名 -->
+                      <div class="d-flex align-items-center">
+                        <!-- プロフィール画像 -->
+                        <% if post.customer.image.attached? %>
+                          <%= image_tag post.customer.image, class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
+                        <% else %>
+                          <%= image_tag 'no_image.jpg', class: "rounded-circle", style: "width: 25px; height: 25px; object-fit: cover;" %>
+                        <% end %>
+                        
+                        <!-- 会員名 -->
+                        <strong class="ml-2">
+                          <%= link_to post.customer.name, customer_path(post.customer), class: "text-dark" %>
+                        </strong>
+                      </div>
+
+                      <!--フォローボタン-->
+                      <% if customer_signed_in? && current_customer != post.customer %>
+                      <div id="relationship-btn<%= post.customer.id %>">
+                        <%= render 'public/relationships/customer_follow_btn', customer: post.customer %>
+                      </div>
+                      <% else %>
+                      <!--自分の投稿に「フォローするボタン」と同じサイズの余白を入れることでボタンによる段差を解消-->
+                      <div style="height: 31px; width: 76px;">
+                      <!--「btn-sm」相当の余白-->
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <!--本文-->
+                  <p class="card-text mt-2">
+                    <%= truncate(post.body, length: 15) %>
+                  </p>
+
+                  <!--いいねとコメント-->
+                  <div class="d-flex justify-content-between align-items-center mt-2">
+                    <!--いいね-->
+                    <h6 style="padding-right: 0.5rem;">
+                      <%= render 'public/favorites/btn', post: post %>
+                    </h6>
+                    
+                    <!--コメント数-->
+                    <h6 style="padding-left: 0.5rem;">
+                      <% if post.post_comments.count > 0 %>
+                        <i class="fas fa-comments text-warning" style="margin-right: 0.3rem;"></i>
+                      <% else %>
+                        <i class="fas fa-comments text-secondary" style="margin-right: 0.3rem;"></i>
+                      <% end %>
+                      <%= post.post_comments.count %>
+                    </h6>
+                  </div>
                 </div>
-              <% end %>
-            <% else %>
-              <p class="mx-auto">投稿はありません</p>
+              </div>
+            </div>
             <% end %>
+          <% else %>
+            <p class="mx-auto">投稿はありません</p>
+          <% end %>
           </div>
         </div>
-        <%= paginate @my_posts %>
+      <%= paginate @my_posts %>
       </div>
     </div>
   </div>
