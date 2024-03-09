@@ -7,40 +7,18 @@ class Post < ApplicationRecord
   has_many :post_comments, dependent: :destroy
   # いいね
   has_many :favorites, dependent: :destroy
-  # 画像
-  has_one_attached :image
+  # 通知
+  has_many :notifications, as: :notifiable, dependent: :destroy
   # 釣り方
   has_many :rig_posts, dependent: :destroy
   has_many :rigs, through: :rig_posts
   attr_accessor :rig_list
-
-  after_find :rigs_to_rig_list
-  def rigs_to_rig_list
-    # rails c とbeybug使って、self.rigs.map{|o| o.name }.join(" ")の動作を確認
-    if self.rigs && self.rigs.any?
-      self.rig_list = self.rigs.map{|o| o.name }.join(" ")
-    end
-  end
-  before_update :update_rigs
-  def update_rigs
-    save_rigs(self.rig_list)
-  end
-
-  # 通知
-  has_many :notifications, as: :notifiable, dependent: :destroy
-
-  after_create do
-    customer.followers.each do |follower|
-      notifications.create(customer_id: follower.id)
-    end
-  end  
 
   validate :validate_genre_presence
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true, length: { maximum: 500 }
   validates :location, presence: true
 
-  attr_accessor :new_genre_name
 
   # 投稿のバリデーション
   def validate_genre_presence
@@ -56,11 +34,17 @@ class Post < ApplicationRecord
       self.genre_name = new_genre.name 
     end
   end
+  
+  # 新規の魚種
+  attr_accessor :new_genre_name
 
   # いいね
   def favorited_by?(customer)
     favorites.where(customer_id: customer.id).exists?
   end
+
+  # 画像
+  has_one_attached :image
 
   # no_image画像 
   def get_image
@@ -71,6 +55,7 @@ class Post < ApplicationRecord
     end
   end
 
+  # 釣り方
   def save_rigs(rigs)
     rig_list = rigs.split(/[[:blank:]]+/)
     current_rigs = self.rigs.pluck(:name)
@@ -86,6 +71,23 @@ class Post < ApplicationRecord
       self.rigs << new_post_rig
     end
   end
+
+  after_find :rigs_to_rig_list
+  def rigs_to_rig_list
+    if self.rigs && self.rigs.any?
+      self.rig_list = self.rigs.map{|o| o.name }.join(" ")
+    end
+  end
+  before_update :update_rigs
+  def update_rigs
+    save_rigs(self.rig_list)
+  end
+
+  after_create do
+    customer.followers.each do |follower|
+      notifications.create(customer_id: follower.id)
+    end
+  end  
 
   # 検索機能
   def self.ransackable_attributes(auth_object = nil)

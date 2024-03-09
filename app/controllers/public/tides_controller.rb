@@ -62,17 +62,3 @@ class Public::TidesController < ApplicationController
     render json: Tide.where(prefecture_code: params[:prefecture_code]).pluck(:port_name, :port_code)
   end
 end
-
-# eachメゾットは、各要素に繰り返し処理を行い、その結果を返さず元の配列をそのまま扱う。
-# mapメゾットは、各要素に繰り返し処理をした結果を、新しい配列として返す。
-
-# 「結果を返さず」とは、例えば以下のrubyのコード
-# numbers = [1, 2, 3]
-# result = numbers.〇〇〇 { |number| number * 10 }
-
-# eachメゾットだと〇〇〇は、 [1, 2, 3]
-# mapメゾットだと 〇〇〇は、[10, 20, 30]
-
-# 今回の場合
-# @tidesは、元のデータ（timeとcm）をチャートで表示するために、mapメゾットを使用する。
-# 対して、@eddと@floodは元のデータ(eddとflood)を、そのまま表示するだけなので、eachメゾットを使用する。
