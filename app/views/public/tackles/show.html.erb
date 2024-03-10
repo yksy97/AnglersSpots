@@ -22,7 +22,7 @@
 
   <div class="card mb-3">
     <div class="card-body mt-2">
-      <% @tackle.tackle_lists.order(created_at: :asc).each do |tl| %>
+      <% @tackle.tackle_lists.joins(:tackle_item).order(order: :asc).each do |tl| %>
         <div class="row my-2">
           <div class="col-3 mb-4 text-break">
             <strong><%= tl.tackle_item.name %></strong>

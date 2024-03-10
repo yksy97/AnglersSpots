@@ -11,7 +11,7 @@
               <h4 class="card-title">
                 <%= link_to tackle.name, tackle_path(tackle), class: 'text-dark' %>
               </h4>
-              <% tackle.tackle_lists.order(created_at: :asc).limit(4).each do |tl| %>
+              <% tackle.tackle_lists.joins(:tackle_item).order(order: :asc).limit(4).each do |tl| %>
                 <div class="row mb-3">
                   <div class="col-md-4 text-center">
                     <%= tl.tackle_item.name %>
