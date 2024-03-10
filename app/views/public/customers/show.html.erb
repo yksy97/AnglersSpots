@@ -42,7 +42,7 @@
                       <h4 class="card-title">
                         <%= link_to truncate(tackle.name, length: 16, omission: '...'), tackle_path(tackle), class: 'text-dark' %>
                       </h4>
-                      <% tackle.tackle_lists.order(order: :asc).limit(2).each do |tl| %>
+                      <% tackle.tackle_lists.order(created_at: :asc).limit(2).each do |tl| %>
                       <div class="row mb-3">
                         <div class="col-md-4 text-center">
                           <%= truncate(tl.tackle_item.name, length: 16, omission: '...') %>
