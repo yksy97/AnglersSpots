@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      genre:
+        name: 魚種
+    models:
+      genre: 魚種

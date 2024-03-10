@@ -6,7 +6,7 @@ class Tackle < ApplicationRecord
 
   accepts_nested_attributes_for :tackle_lists, reject_if: :all_blank, allow_destroy: true
 
-  validates :name, presence: true, uniqueness: { scope: :customer_id, message: "このタックル名はすでに存在します" }
+  validates :name, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
     ["name"]
