@@ -1,6 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&libraries=places&callback=initMap"></script>
-
 <div class="container mt-5">
     <!-- 会員情報 -->
     <div class="row">
@@ -113,6 +110,7 @@
   </div>
 
   <script>
+  // Google MAP
     function initMap(){
       // geocoderを初期化
       geocoder = new google.maps.Geocoder()
@@ -129,7 +127,8 @@
         
       });
     }
-
+    
+    // Chart.jsの表示 
     var ctx = document.getElementById("myLineChart");
     var myLineChart = new Chart(ctx, {
       type: 'line',
@@ -153,9 +152,11 @@
       }
     });
   </script>
+  <!--47行目の閉じタグ-->
 <% end %>
 
 <script>
+  // 都道府県と港の選択
   $(document).ready(function () {
     makeSelectBox();
   });
@@ -199,3 +200,7 @@
     }
   }
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&libraries=places&callback=initMap"></script>
