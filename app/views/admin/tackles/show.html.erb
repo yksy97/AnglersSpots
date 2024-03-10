@@ -20,7 +20,7 @@
             </tr>
           </thead>
         <tbody>
-          <% @tackle.tackle_lists.order(order: :asc).each do |tl| %>
+          <% @tackle.tackle_lists.order(created_at: :asc).each do |tl| %>
             <tr>
               <td class="break-word"><%= tl.tackle_item.name %></td>
               <td class="break-word"><%= tl.item_name %></td>
