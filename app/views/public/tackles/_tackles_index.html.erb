@@ -44,9 +44,8 @@
         </div>
       </div>
     </div>
-    <!--タックルが偶数個の場合、行を区切るために使用する-->
     <% if tackles.index(tackle).odd? && !tackle.equal?(tackles.last) %>
-    <div class="w-100"></div> <!--このdivは新しい行を開始するために使用する-->
+    <div class="w-100"></div>
     <% end %>
   <% end %>
 <% else %>

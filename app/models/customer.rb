@@ -2,21 +2,15 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # ゲストカスタマー用のメールアドレスを定数として設定
   GUEST_CUSTOMER_EMAIL = "guest@example.com"
 
-  # ゲストカスタマーを見つけるか作成するメソッド
   def self.guest
     find_or_create_by!(email: GUEST_CUSTOMER_EMAIL) do |customer|
-      # セキュアなランダムパスワードを生成
       customer.password = SecureRandom.urlsafe_base64
-      # 任意の名前を設定（必要に応じて変更可能）
       customer.name = "ゲスト"
-      # その他の必要な初期設定があればここに記述
     end
   end
 
-  # ゲストカスタマーかどうかを判定するメソッド
   def guest_customer?
     email == GUEST_CUSTOMER_EMAIL
   end
@@ -35,7 +29,7 @@ class Customer < ApplicationRecord
   has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :reverse_of_relationships, source: :follower
 
-  # タックルプリセット
+  # タックル
   has_many :tackles
 
   # 通知
