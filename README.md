@@ -24,12 +24,15 @@ AnglersSpotは、魚釣りが好きな人に向けたコミュニティサイト
 - タックル情報を管理したいとき
 - 特定の魚や場所の状況を知りたいとき
 ​
+## ER図
+![ER図](README/ER.png)
+
 ## 開発環境
 - OS：Linux(CentOS)
 - 言語：HTML,CSS,JavaScript,Ruby,SQL
 - フレームワーク：Ruby on Rails
 - JSライブラリ：jQuery
+- Gem : devise, kaminari, pry-byebug, ransack, cocoon
+- 外部API : Google Maps API, Tide736.net API
 - IDE：Cloud9
 ​
-## ER図
-![ER図](README/ER.png)
