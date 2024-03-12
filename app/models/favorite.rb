@@ -4,7 +4,6 @@ class Favorite < ApplicationRecord
   validates_uniqueness_of :post_id, scope: :customer_id
   has_one :notification, as: :notifiable, dependent: :destroy
 
-  # モデルでは、current_customerは使えないので、このメゾットをターミナルで呼び出す
   def create_notification
     Notification.create(
     customer_id: post.customer_id,

@@ -43,7 +43,6 @@ class Public::TidesController < ApplicationController
     end
 
     # 潮汐、潮の状態、日出日没、港の位置情報をインスタンス変数に格納
-    # ＠tideからtimeとcmの値を取り出して、チャートに表示するためにデータを加工＝mapメゾットが必要
     @tides = response_body['tide']['chart'][params[:date]]['tide'].map{|data| [data['time'], data['cm']]} # 潮位
     @tide = response_body['tide']['chart'][params[:date]]['moon']['title'] # 潮汐
     @astro_twilight = response_body['tide']['chart'][params[:date]]['sun']['astro_twilight'] # 日の出・日の入
