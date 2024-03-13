@@ -60,17 +60,10 @@
         <!--釣り方の有無の条件分岐-->
         <% if @post.rigs.present? %>
           <p class="card-text" style="font-size: 1.0rem;">
-            <% @post.rigs.first(3).each do |rig| %>
+            <% @post.rigs.each do |rig| %>
               <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
             <% end %>
-            <!--釣り方の表示数の指定-->
-            <% if @post.rigs.count > 4 %>
-              <span>...</span>
-            <% end %>
           </p>
-        <% else %>
-          <!-- rigsがない場合、同じサイズの余白を表示 -->
-          <div style="min-height: 22px;"></div>
         <% end %>
 
         <!-- 画像 -->

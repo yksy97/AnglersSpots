@@ -37,22 +37,19 @@
 
           <!--カードボディ-->
           <div class="card-body pb-0 pt-1" style="padding-left: 0.5rem;">
-            <!-- 釣り方 -->
-            <% if post.rigs.present? %>
-              <p class="card-text" style="font-size: 0.9rem;">
-                <% post.rigs.first(3).each do |rig| %>
-                  <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
-                <% end %>
-                <!--釣り方の表示数の指定-->
-                <% if post.rigs.count > 4 %>
-                  <span>...</span>
-                <% end %>
-              </p>
-            <% else %>
-              <!-- rigsがない場合、同じサイズの余白を表示 -->
-              <div style="min-height: 22px;"></div>
-            <% end %>
-          </div>
+  <!-- 釣り方 -->
+  <% if post.rigs.present? %>
+    <p class="card-text" style="font-size: 0.9rem;">
+      <% post.rigs.each do |rig| %>
+        <span style="color: #4d992f;">＃</span><%= link_to rig.name, posts_path(rig_id: rig), class: "text-dark" %>
+      <% end %>
+    </p>
+  <% else %>
+    <!-- rigsがない場合、同じサイズの余白を表示 -->
+    <div style="min-height: 22px;"></div>
+  <% end %>
+</div>
+
 
           <!--魚の画像-->
           <div class="my-3">
