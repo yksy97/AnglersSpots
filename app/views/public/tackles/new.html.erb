@@ -32,17 +32,11 @@
         
         <div class="form-group">
           <%= link_to_add_association 'アイテム追加',
-                                      # form_withのformタグ変数
                                       f,
-                                      # フォームのデータを追加するモデル名
                                       :tackle_lists,
-                                      # 追加するフォームの部分テンプレート
                                       partial: "public/tackles/tackle_list_fields",
-                                      # オプション
                                       data: {
-                                      # フォームを追加する場所の指定
                                       association_insertion_node: '#tackle_list_new_forms'},
-                                      
                                       class: 'btn btn-success'  
           %>
         </div>
