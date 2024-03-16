@@ -169,8 +169,8 @@
   function makeSelectBox () {
     if ($('#prefecture_code').val() != '') {
         
-      $('#port_code_area').removeClass('d-none').addClass('d-block'); // 港の入力欄表示
-      $('#date_area').removeClass('d-none').addClass('d-block'); // 日付の入力欄表示
+      $('#port_code_area').removeClass('d-none').addClass('d-block');
+      $('#date_area').removeClass('d-none').addClass('d-block');
       
       $.ajax('/tides/get_port_name',
         {
@@ -180,8 +180,8 @@
       )
       .done(function (data) {
         // 取得に成功した場合
-        $("#port_code > option").remove(); // optionを空にする
-        data.forEach(function(port) { // optionの生成
+        $("#port_code > option").remove();
+        data.forEach(function(port) {
           if (port[1] === <%= params[:port_code] || 0 %>) {
             $("#port_code").append($("<option>").val(port[1]).text(port[0]).prop("selected", true));
           } else {
@@ -196,8 +196,8 @@
       })
 
     } else {
-      $('#port_code_area').removeClass('d-block').addClass('d-none'); // 港の入力欄非表示
-      $('#date_area').removeClass('d-block').addClass('d-none'); // 日付の入力欄非表示
+      $('#port_code_area').removeClass('d-block').addClass('d-none');
+      $('#date_area').removeClass('d-block').addClass('d-none');
     }
   }
 </script>
