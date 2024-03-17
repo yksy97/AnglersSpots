@@ -12,6 +12,6 @@ import "../stylesheets/application";
 require("@nathanvda/cocoon")
 
 Rails.start()
-// JSとの競合を考慮してOFFにしました。
+// JSとの競合を考慮してTurbolinksをきりました。
 // Turbolinks.start()
 ActiveStorage.start()
