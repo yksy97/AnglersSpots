@@ -52,12 +52,6 @@
 
           <!--魚の画像-->
           <div class="my-3">
-            
-            <!--<div class="my-3">-->
-            <!--  <%#= image_tag post.image.variant(resize_to_limit: [500, 250]).processed, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" if post.image.attached? %>-->
-            <!--  <%#= image_tag 'no_image.jpg', class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" unless post.image.attached? %>-->
-            <!--</div>-->
-            
             <% if post.image.attached? %>
               <%= link_to post_path(post) do %>
                 <%= image_tag post.image, class: "img-fluid", style: "width: 100%; height: 250px; object-fit: cover;" %>
