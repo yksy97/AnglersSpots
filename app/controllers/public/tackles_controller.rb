@@ -61,12 +61,12 @@ class Public::TacklesController < ApplicationController
   def set_tackle
     @tackle = current_customer.tackles.find(params[:id])
   end
-  
+
   def ensure_correct_customer
     @tackle = Tackle.find(params[:id])
     unless @tackle.customer == current_customer
       redirect_to posts_path, alert: '権限がありません'
     end
   end
-  
+
 end
