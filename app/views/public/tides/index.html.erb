@@ -203,3 +203,18 @@
 </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&libraries=places&callback=initMap"></script>
+
+
+
+<!--勉強メモ
+- 目標：コントローラーで定義したインスタンス変数を使って、フォームでユーザーの入力に基づいて潮汐情報を表示する。
+
+- AJAXを用いて都道府県選択に応じて港の選択肢を動的に更新し、ユーザーフレンドリーなレイアウトにする。
+
+- Google Maps APIを活用して選択された港の位置情報を地図上に表示し、視覚的に情報を提供する。
+
+- Chart.jsを使用して潮位データをグラフとして描画し、時間による潮位の変動を視覚的に表示する
+  （https://qiita.com/Haruka-Ogawa/items/59facd24f2a8bdb6d369）
+
+- フォームの入力と選択に基づいて潮汐データを動的に表示し、ユーザーに具体的な情報を提供する。
+-->
