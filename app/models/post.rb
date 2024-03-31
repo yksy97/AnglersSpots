@@ -142,7 +142,7 @@ end
 
 
 
-# 39行目の「attr_accessor :new_genre_name」はRubyのメソッドであり、仮想属性を定義するために使用される。
+# 39行目の「attr_accessor :new_genre_name」はRubyのメソッドであり、仮想属性を定義するために使用される。＝アトリビュート・アクセサー
 # -「仮想属性」は、ゲッター（読み取りメソッド）とセッター（書き込みメソッド）を自動的に定義し、インスタンス変数に対して読み書きを可能にする。
 
 # ゲッターとセッターとは、オブジェクト指向プログラミングにおいて、オブジェクトのプロパティ（属性）へのアクセス方法を提供するメソッド
@@ -157,10 +157,25 @@ end
 # -一方で、Genreモデルに新規魚種を保存する場合は、直接name属性に魚種名を設定し、モデルをデータベースに保存する。この場合、attr_accessorを使用する必要はない。
 # したがって、フォームから受け取ったデータをモデルの属性として一時的に扱いたいが、そのデータをデータベースに保存する必要がない場合に便利。
 
-# 注意したいことは、new_genre = Genre.find_or_create_by(name: new_genre_name)における(name: new_genre_name)とattr_accessor :new_genre_nameにおけるnew_genre_nameは、同じnew_genre_nameを参照していますが、使われ方に違いがある。
+# 注意したいことは、new_genre = Genre.find_or_create_by(name: new_genre_name)における(name: new_genre_name)とattr_accessor :new_genre_nameにおけるnew_genre_nameは、同じnew_genre_nameを参照しているが、使い方に違いがある。
 # -attr_accessor :new_genre_nameで定義されたnew_genre_name仮想属性は、ユーザーからの入力を一時的にモデル内で保持するために使用され、
 # -new_genre = Genre.find_or_create_by(name: new_genre_name)の行でその値が使用されて、新規のジャンルがデータベースに存在するかどうかをチェック（または新しいものを作成）するという流れになる。
 # つまり、前者のnew_genre_nameは仮想属性として、投稿フォームにユーザーが入力した新規の魚種を一時的に保持するためにPostモデルで使用され、後者のnew_genre_nameはGenreモデルのデータベース内で同じ魚種が存在するか確認して、存在しない場合には新しい魚種として保存する。
+
+
+
+# 43行目「favorites.where(customer_id: customer.id).exists?」
+# -あるCustomerが特定のPostに対して「いいね（Favorite）」をしているかどうかを確認する。
+# -「where」メソッドで「customer_id」が現在の「customer」のIDと一致する「いいね」が存在するかを確認し、「exists?」メソッドでそのようなレコードがFavoriteモデルのデータベースに存在するか探す。
+
+# -注意したいことは、存在を確認するのはPostモデルではなく、Favoriteモデル。Favoriteモデルは、今回のPFでいうCustomerとPostモデルの「いいね」関係を表現するために使用される中間テーブルのようなもの。
+# -つまり、任意のCustomerが特定のPostに対して「いいね」をした記録がFavoriteモデルに保存される。
+
+# 「customer_id」が現在の「customer」のIDと一致する「いいね」が存在するかを確認とは
+# --特定のCustomerが、特定のPostに対して『いいね』をすでにしているかどうか」を確認。もしexists?がtrueを返せば、そのCustomerは既にその投稿に「いいね」をしているということになる。
+
+# -ここでの「customer_id: customer.id」というハッシュ構文は、「customer_id」カラムの値が「customer.id」と一致するレコードを検索する条件（customer_id: customer.idは、customer_idがcustomer.idに等しい）を指定している。
+# -これにより、指定された条件に基づいてFavoriteモデルのデータベースからレコードの存在を確認することができる。
 
 
 
