@@ -98,3 +98,25 @@ class Post < ApplicationRecord
     ["post_comments", "rig_posts", "rigs", "tackle"]
   end
 end
+
+
+#勉強メモ
+# ５行目の「optional:ture」は、投稿時にタックルの記載が必須ではないことを意味する
+
+
+
+# １１行目の「as: :notifiable」は、ポリモーフィック関連。
+# -ポリモーフィック関連とは、あるモデルが複数の異なるモデルと関連付けされるような関係（多様性）。
+# -Railsでは、asオプションを使ってポリモーフィック関連を実装する。
+
+# -ポリモーフィック関連によって、「Notification」モデルは、「Post」モデルだけではなく、通知が可能な他の任意のモデル（ex: 「Comment」モデルや「Favorite」モデルなど）とも関連付けることができる。
+# -「Notification」モデルと通知されるモデル（「Post」モデル）は１：多の関係になり、通知対象が削除された場合は通知自体が削除される。＝１つの通知は１つの投稿に関連づけられるが、投稿は複数の通知を持つことができる。
+# -１つの通知は１つの投稿に関連づけられるが、投稿は複数の通知を持つことができる。
+
+# -上記をコードにすると、
+# --「Notification」モデル　：　belongs_to :notifiable, polymorphic: true
+# --「Post」モデル　：　has_many :notifications, as: :notifiable, dependent: :destroy
+
+# 補足として、ポリモーフィック関連はデータモデルの設計において、非常に柔軟であるが、データベースのクエリが複雑になり、アプリのパフォーマンスに影響するので注意が必要。
+
+
