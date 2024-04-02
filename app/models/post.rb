@@ -105,20 +105,18 @@ end
 # ５行目の「optional:ture」は、投稿時にタックルの記載が必須ではないことを意味する
 
 
-
 # １１行目の「as: :notifiable」は、ポリモーフィック関連。
 # -ポリモーフィック関連とは、あるモデルが複数の異なるモデルと関連付けされるような関係（多様性）。
-# -Railsでは、asオプションを使ってポリモーフィック関連を実装する。
 
-# -ポリモーフィック関連によって、「Notification」モデルは、「Post」モデルだけではなく、通知が可能な他の任意のモデル（ex: 「Comment」モデルや「Favorite」モデルなど）とも関連付けることができる。
-# -「Notification」モデルと通知されるモデル（「Post」モデル）は１：多の関係になり、通知対象が削除された場合は通知自体が削除される。＝１つの通知は１つの投稿に関連づけられるが、投稿は複数の通知を持つことができる。
-# -１つの通知は１つの投稿に関連づけられるが、投稿は複数の通知を持つことができる。
+# Postモデル内のransack検索機能のカスタマイズ
+# 「ransackable_attributes」メソッド: 検索に使用可能なPostモデルの属性を制限する。ここでは「body」と「genre_name」のみを検索対象として指定。
+# -これにより、Postの内容（body）や魚種（genre_name）に基づいて検索を行うことが可能になる。
 
-# -上記をコードにすると、
-# --「Notification」モデル　：　belongs_to :notifiable, polymorphic: true
-# --「Post」モデル　：　has_many :notifications, as: :notifiable, dependent: :destroy
+# 「ransackable_associations」メソッド: Postモデルが関連付けることができる他のモデルを検索に含める設定。「post_comments」, 「rig_posts」, 「rigs」, 「tackle」を検索に含めることが指定されている。
+# -この設定により、Postに関連付けられたコメント（post_comments）、リグ（rigs）、タックル（tackle）などを通じた検索が可能になる。
 
-# 補足として、ポリモーフィック関連はデータモデルの設計に柔軟であるが、クエリが複雑になり、アプリのパフォーマンスに影響するので注意する。
+# Ransack4を用いた検索設定は、アプリケーションの検索機能を強化し、ユーザーが望む情報をより効率的に見つけられるようにするためのもの。
+# -特に、検索可能な属性や関連を明示的に指定することで、セキュリティの強化に寄与し、不正な検索クエリによるデータ漏洩リスクを低減する。
 
 
 
@@ -175,6 +173,7 @@ end
 # -いいねの存在を確認するのは「Post」モデルではなく、「Favorite」モデル。この「Favorite」モデルは、CustomerとPostの間の「いいね」関係を管理するための中間テーブルとして機能している。
 # -「customer_id: customer.id」というハッシュ構文は、検索条件として「customer_id」カラムの値が「customer.id」と一致するレコードを指定しています。
 # これにより、指定された条件（customer_id: customer.idは、customer_idがcustomer.idに等しい）に基づいて「Favorite」モデルのデータベースから関連するレコードの存在を確認することが可能になります。
+
 
 
 # 15行目「attr_accessor :rig_list」＝仮想属性
