@@ -78,6 +78,7 @@ class Post < ApplicationRecord
       self.rig_list = self.rigs.map{|o| o.name }.join(" ")
     end
   end
+  
   before_update :update_rigs
   def update_rigs
     save_rigs(self.rig_list)
@@ -157,7 +158,8 @@ end
 # -一方で、Genreモデルに新規魚種を保存する場合は、直接name属性に魚種名を設定し、モデルをデータベースに保存する。この場合、attr_accessorを使用する必要はない。
 # したがって、フォームから受け取ったデータをモデルの属性として一時的に扱いたいが、そのデータをデータベースに保存する必要がない場合に便利。
 
-# 注意したいことは、new_genre = Genre.find_or_create_by(name: new_genre_name)における(name: new_genre_name)とattr_accessor :new_genre_nameにおけるnew_genre_nameは、同じnew_genre_nameを参照しているが、使い方に違いがある。
+# 注意点
+# new_genre = Genre.find_or_create_by(name: new_genre_name)における(name: new_genre_name)とattr_accessor :new_genre_nameにおけるnew_genre_nameは、同じnew_genre_nameを参照しているが、使い方に違いがある。
 # -attr_accessor :new_genre_nameで定義されたnew_genre_name仮想属性は、ユーザーからの入力を一時的にモデル内で保持するために使用され、
 # -new_genre = Genre.find_or_create_by(name: new_genre_name)の行でその値が使用されて、新規のジャンルがデータベースに存在するかどうかをチェック（または新しいものを作成）するという流れになる。
 # つまり、前者のnew_genre_nameは仮想属性として、投稿フォームにユーザーが入力した新規の魚種を一時的に保持するためにPostモデルで使用され、後者のnew_genre_nameはGenreモデルのデータベース内で同じ魚種が存在するか確認して、存在しない場合には新しい魚種として保存する。
@@ -165,17 +167,46 @@ end
 
 
 # 43行目「favorites.where(customer_id: customer.id).exists?」
-# -あるCustomerが特定のPostに対して「いいね（Favorite）」をしているかどうかを確認する。
-# -「where」メソッドで「customer_id」が現在の「customer」のIDと一致する「いいね」が存在するかを確認し、「exists?」メソッドでそのようなレコードがFavoriteモデルのデータベースに存在するか探す。
+# -このコードは、特定のCustomerが特定のPostに対して「いいね（Favorite）」を行っているかどうかを確認するために使用する。
+# -「Favorite」モデルのデータベースを「where」メソッドで検索し、「customer_id」が現在のCustomerのIDと一致する「いいね」の存在を確認する。「exists?」メソッドを使って、検索条件に合致するレコードがデータベースに１つでも存在するかを調べる。
+# --もし「exists?」メソッドがtrueを返せば、そのCustomerは既にそのPostに「いいね」をしているということになる。
 
-# -注意したいことは、存在を確認するのはPostモデルではなく、Favoriteモデル。Favoriteモデルは、今回のPFでいうCustomerとPostモデルの「いいね」関係を表現するために使用される中間テーブルのようなもの。
-# -つまり、任意のCustomerが特定のPostに対して「いいね」をした記録がFavoriteモデルに保存される。
-
-# 「customer_id」が現在の「customer」のIDと一致する「いいね」が存在するかを確認とは
-# --特定のCustomerが、特定のPostに対して『いいね』をすでにしているかどうか」を確認。もしexists?がtrueを返せば、そのCustomerは既にその投稿に「いいね」をしているということになる。
-
-# -ここでの「customer_id: customer.id」というハッシュ構文は、「customer_id」カラムの値が「customer.id」と一致するレコードを検索する条件（customer_id: customer.idは、customer_idがcustomer.idに等しい）を指定している。
-# -これにより、指定された条件に基づいてFavoriteモデルのデータベースからレコードの存在を確認することができる。
+# 注意点
+# -いいねの存在を確認するのは「Post」モデルではなく、「Favorite」モデル。この「Favorite」モデルは、CustomerとPostの間の「いいね」関係を管理するための中間テーブルとして機能している。
+# -「customer_id: customer.id」というハッシュ構文は、検索条件として「customer_id」カラムの値が「customer.id」と一致するレコードを指定しています。
+# これにより、指定された条件（customer_id: customer.idは、customer_idがcustomer.idに等しい）に基づいて「Favorite」モデルのデータベースから関連するレコードの存在を確認することが可能になります。
 
 
+# 15行目「attr_accessor :rig_list」＝仮想属性
+# -「Post」モデルのデータベースには保存されず、フォームから送信された釣り方のリストを一時的に保持するために使われる。
+
+# 59行目「save_rigs(rigs)」メソッド
+# -rig_list に格納されたデータ（フォームから送信されたリグのリスト）を処理し、新しいリグを Rig モデルのデータベースに追加したり、更新したり、不要になったRigを削除したりする。
+# -「rigs.split(/[[:blank:]]+/)」で、Rigsを空白文字で区切る。
+
+# 61行目「self.rigs.pluck(:name)」で、「current_rigs」（現在投稿に紐つけられているリグのリスト）を取得する。＝投稿に対してリグの更新機能（63〜65行目）を正確に行うために必要。
+# -「old_rigs = current_rigs - rig_list」で、既存のリグから削除するリグを特定する。
+# -「new_rigs = rig_list - current_rigs」で、新たに追加するリグを特定する。
+# -「old_rigs.each」で、削除するリグを１つずつ取り出して、
+# -「self.rigs.delete Rig.find_by(name: old)」によって、それぞれのリグを投稿から削除する。
+
+# 69行目「new_rigs.each do |new|」で、Customerが新しく追加したリグのリスト（new_rigs）から１つずつリグ（new）を取り出す。
+# -「Rig.find_or_create_by(name: new) 」で、new（新しいリグの名前）に一致するリグが「Rig」モデルに存在するか確認して、存在しない場合は新しいリグとして、データベースに保存する。
+# -「self.rigs << new_post_rig」で、Findされたリグ（または新しく作成されたリグ）を現在の投稿（Postモデルでselfが指すのはPostオブジェクト）に関連付けたリグのリストに追加する。
+
+# selfの使用
+# -RubyやRailsでは、特にモデル内で属性への代入を行う際にselfキーワードの使用が推奨されている。複数のオブジェクト間でデータが受け渡される場合、selfを使用することで、そのメソッド内で操作しているのがインスタンス自身の属性やメソッドであることを明示できる。
+# -例えば、attr_accessorで定義された仮想属性や、データベースのカラムに直接対応する属性に値を設定する際には、self.attribute_name = valueの形式で記述すると、ローカル変数への代入とインスタンスの属性への代入を区別でき、コードの意図が明確になる。
+# -selfの省略は、読み手がコードの意図を誤解する原因となったり、意図しない不具合を引き起こす可能性（特に属性への代入では使用を推奨）がある。コードの可読性とメンテナンス性を高めるために重要。
+
+# 75行目「after_find :rigs_to_rig_list」
+# -このコールバックは、Postオブジェクトがデータベースから取得された後に自動的に実行される。
+# -実行時、self.rigsに関連付けられている全てのリグの名前を空白で区切って１つの文字列に結合し、この結合された文字列をself.rig_list（仮想属性）に設定する。
+# -結果として、投稿に紐付いたリグが「リグ1 リグ2 リグ3」という形式の単一の文字列としてself.rig_listに保持されることになり、
+#  フォーム等でユーザーがリグの編集を行う際にこの文字列を直接編集することで、リグの追加や削除を簡単に行うことができる。
+
+# インスタンスとオブジェクトの違い
+# オブジェクトは、データ（属性）とそれを操作するためのメソッド（関数）をカプセル化したもの
+# インスタンスは、クラス（設計図）に基づいて作成されたオブジェクトの具体的な実体
+# 差異：オブジェクトはプログラム上でデータと機能が一体となった構造のことを指し、インスタンスはそのオブジェクトが具体的にどのクラスから生成されたもの
 
