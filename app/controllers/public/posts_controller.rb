@@ -42,11 +42,7 @@ class Public::PostsController < ApplicationController
         format.html { redirect_to posts_path, notice: "投稿が完了しました" }
         format.js
       else
-        @posts = Post.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(6)
-        @my_posts = current_customer.posts.order(created_at: :desc).page(params[:page]).per(6)
-        @genres = Genre.order(:name)
-        @tackles = Tackle.all
-        format.html { render :index }
+        format.html { redirect_to posts_path, alert: "投稿が失敗しました" }
         format.js
       end
     end
@@ -134,3 +130,25 @@ end
 # 35行目「 if params[:post][:new_genre_name].present?」は、新規の魚種（new_genre_name）が入力されて何らかの値を所持しているか確認する。
 # genre = Genre.find_or_create_by(name: params[:post][:new_genre_name], customer_id: current_customer.id )で、送信された新規の魚種がすでにGenreモデルのデータベースに存在するか確認して、存在しなければ、新しい魚種としてデータベースに保存する。
 # @post.genre_name = genre.nameは、投稿フォームから送信された新規か既存の魚種を、現在作成している投稿（＠post）の「genre_name」属性に設定する。これで、特定の魚種が投稿に関連付けられる。
+
+#  if @post.save
+#　@post.save_rigs(params[:post][:rig_list])
+# ここで、作成されたPostをデータベースに保存し、成功すれば追加でRigsのデータも保存する。
+
+# 44行目以降のelseブロック
+#  else
+      #   @posts = Post.includes(:customer, :genre).order(created_at: :desc).page(params[:page]).per(6)
+      #   @my_posts = current_customer.posts.order(created_at: :desc).page(params[:page]).per(6)
+      #   @genres = Genre.order(:name)
+      #   @tackles = Tackle.all
+      #   format.html { render :index }
+      #   format.js
+      # end
+      
+# 保存が失敗したとき、変数を使って再描画する処理になってるけど、ただ「format.html { redirect_to posts_path, alert: "投稿が失敗しました" }」でもよさそう。
+#   else
+  #   format.html { redirect_to posts_path, alert: "投稿が失敗しました" }
+  #   format.js
+  # end
+  
+  
