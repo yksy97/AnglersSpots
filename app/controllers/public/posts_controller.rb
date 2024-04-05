@@ -150,5 +150,3 @@ end
   #   format.html { redirect_to posts_path, alert: "投稿が失敗しました" }
   #   format.js
   # end
-  
-  
