@@ -27,4 +27,31 @@ end
 # 「notifiable: self,」は、ポリモーフィック関連を使用して、どのいいね（Favoriteオブジェクト）が、この通知の原因であるかを指定している。
 # -「self」は、create_notificationメソッドを呼び出している現在のFavoriteオブジェクトを指定する。
 
-# 「read: false」は通知がまだ読まれていないこと（未読状態）を示す。これをCustomerが通知を確認後にこのフラグをtureに更新すると、既読状態に
+# 「read: false」は通知がまだ読まれていないこと（未読状態）を示す。これをCustomerが通知を確認後にこのフラグをtureに更新すると、既読状態になる。
+# 既読状態の実装
+
+# １：routes.rbに通知を「既読」にするためのアクションに対応するルーティングを設定
+# resources :notifications, only: [] do
+#   member do
+#     patch 'read'
+#   end
+# end
+
+# ２：notifications_controller.rbにアクションを定義
+#   def read
+#     notification = Notification.find(params[:id])
+#     notification.update(read: true)
+#     redirect_to notification_redirect_path(notification)
+#   end
+
+# private
+#  def notification_redirect_path(notification)
+# -各通知に対応する適切なリダイレクト先を設定
+# -例えば、いいね通知なら、その投稿ページへのパスを返す。
+# root_path
+# end
+
+# ３：ビューでリンク設定
+# <% @notifications.each do |notification| %>
+#   <%= link_to '既読にする', read_notification_path(notification), method: :patch %>
+# <% end %>
