@@ -24,8 +24,11 @@ end
 # Genreモデルの「validates :name, uniqueness: { scope: :customer_id, case_sensitive: false },」について、
 # ここでの「scope: :customer_id」は、各Customerが自分のジャンルを個別に管理するための記述。Genreモデルの重複を禁止する処理を、各Cutomerごとに行うので、AとBのCustomerが同じジャンル名をGenreモデルのデータベースに登録できる。
 
-# 「notifiable: self,」は、ポリモーフィック関連を使用して、どのいいね（Favoriteオブジェクト）が、この通知の原因であるかを指定している。
-# -「self」は、create_notificationメソッドを呼び出している現在のFavoriteオブジェクトを指定する。
+
+
+# 「create_notification」メソッドは、Favoriteインスタンス（いいね）が生成された場合に、それに関連する通知（Notificationオブジェクト）を生成するためのメソッド。
+
+# customer_idには、いいねされた投稿の所有者（post.customer_id）のIDを指定することで、通知の対象者が投稿の所有者であることを明示する。
 
 # 「read: false」は通知がまだ読まれていないこと（未読状態）を示す。これをCustomerが通知を確認後にこのフラグをtureに更新すると、既読状態になる。
 # 既読状態の実装
@@ -55,3 +58,5 @@ end
 # <% @notifications.each do |notification| %>
 #   <%= link_to '既読にする', read_notification_path(notification), method: :patch %>
 # <% end %>
+
+

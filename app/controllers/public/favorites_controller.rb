@@ -16,9 +16,7 @@ class Public::FavoritesController < ApplicationController
     @favorites = current_customer.favorites.includes(:post).order(created_at: :desc)
 
     respond_to do |format|
-      # 同期リクエスト
       format.html { redirect_to post_path(post) }
-      # Ajaxリクエスト
       format.js
     end
   end
@@ -34,3 +32,10 @@ class Public::FavoritesController < ApplicationController
     end
   end
 end
+
+
+
+# Favoriteモデルで、定義した「create_notification」メソッドを、14行目で条件を付けて呼び出している。
+# createアクション＝いいねボタンを押した際に走る処理の中で、現在のログインユーザー（current_customer_id）が、
+# -いいねをした投稿の所有者（post.customer_id）ではない場合（！＝）に、「create_notification」メソッドを呼び出す。
+# これにより、他のユーザーが自分の投稿にいいねをした際にのみ通知が作成され、自分自身の投稿に対する自分のいいねでは通知は作成されない。
